@@ -11,4 +11,5 @@
 | Not OR | NOR, nor, !v, ¬∨ |
 
 | Unary logical operators | Supported alternatives |
+|----------|----------|
 | Negation | NOT, not, !, ~, ¬ |
