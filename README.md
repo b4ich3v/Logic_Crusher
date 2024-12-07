@@ -43,4 +43,4 @@ minification and rendering visualization through carno maps and Abstract Syntax 
 * Checking for equality between two Boolean expressions.
 
 <br><br> 
-![Logic Crusher GUI](screenshots/screenshot1.png)
+
