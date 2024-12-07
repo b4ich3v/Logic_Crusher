@@ -18,6 +18,7 @@ minification and rendering visualization through carno maps and Abstract Syntax 
 | Not AND | NAND, nand, !&, ¬&, ↑ |
 | Not OR | NOR, nor, !v, ¬∨, ↓ |
 
+
 | Unary logical operators  | Supported alternatives |
 |----------|----------|
 | Negation | NOT, not, !, ~, ¬ |
