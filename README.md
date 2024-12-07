@@ -22,6 +22,11 @@ minification and rendering visualization through carno maps and Abstract Syntax 
 |----------|----------|
 | Negation | NOT, not, !, ~, ¬ |
 
+| Constants  | Supported alternatives |
+|----------|----------|
+| True | true, 1 |
+| False | false, 0 |
+
 ## **Functionalities:**
 
 * Entering one or two Boolean expressions through the user interface, with an option to set the status to "active", prioritizing one of the two to perform subsequent functionality.
