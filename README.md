@@ -21,3 +21,8 @@ minification and rendering visualization through carno maps and Abstract Syntax 
 | Unary logical operators  | Supported alternatives |
 |----------|----------|
 | Negation | NOT, not, !, ~, ¬ |
+
+## Functionalities
+
+* Entering a boolean expression through the user interface: 
+   -Users can easily enter the desired Boolean expressions through an intuitive graphical interface.
