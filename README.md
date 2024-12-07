@@ -1,6 +1,10 @@
 # **Logic crusher**
 
-| Operators | Header 2 | Header 3 |
+| Binary logical operators | Supported alternatives |
 |----------|----------|----------|
-| Row 1    | Data     | More Data|
-| Row 2    | Data     | More Data|
+| Disjunction |      |
+| conjunction |      |
+| Row 2    |      |
+| Row 2    |     |
+| Row 2    |     |
+| Row 2    |     |
