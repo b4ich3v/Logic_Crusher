@@ -5,6 +5,6 @@
 | Disjunction | OR, or, v, |, || |
 | Conjunction |  AND, and, &, ∧ |
 | Exclusive or |  XOR, xor, ^, ⊕ |
-| Row 2    |     |
+| Equivalence | EQV, eqv, <=>, ↔ |
 | Row 2    |     |
 | Row 2    |     |
