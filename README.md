@@ -1,57 +1,77 @@
-# **Logic crusher**
+# **Logic Crusher**
 
-## **Description:**
+## **Description**
 
-Logic Crusher is a graphical application that allows users to type, 
-simplify and minimize Boolean expressions. The application uses the Quine–McCluskey algorithm to 
-minification and rendering visualization through carno maps and Abstract Syntax Tree (AST). The main goal is to reduce the complexity of logic formulas for better comprehensibility and efficiency, and to facilitate the analysis and optimization of logical expressions for educational and professional purposes.
+Logic Crusher is a graphical application that allows users to type, simplify, and minimize Boolean expressions. The application uses the Quine–McCluskey algorithm for minimization and offers visual tools like Karnaugh maps and Abstract Syntax Tree (AST) rendering. 
 
-## **Supported operators:**
+The goal is to simplify logical formulas for better comprehension and efficiency, making the tool useful for both educational and professional purposes.
 
-| Binary logical operators | Supported alternatives |
-|----------|----------|
-| Disjunction | OR, or, ∨, \|, \|\| |
-| Conjunction |  AND, and, &, ∧, && |
-| Exclusive or |  XOR, xor, ^, ⊕ |
-| Equivalence | EQV, eqv, <=>, ↔, ==|
-| Implication | IMP, imp, =>, →, ⇒|
-| Not AND | NAND, nand, !&, ¬&, ↑ |
-| Not OR | NOR, nor, !v, ¬∨, ↓ |
+---
 
-| Unary logical operators  | Supported alternatives |
-|----------|----------|
-| Negation | NOT, not, !, ~, ¬ |
+## **Supported Operators**
 
-| Constants  | Supported alternatives |
-|----------|----------|
-| True | true, 1 |
-| False | false, 0 |
+| Binary Logical Operators | Supported Alternatives |
+|---------------------------|------------------------|
+| Disjunction              | OR, or, ∨, \|, \|\|    |
+| Conjunction              | AND, and, &, ∧, &&     |
+| Exclusive OR             | XOR, xor, ^, ⊕         |
+| Equivalence              | EQV, eqv, <=>, ↔, ==   |
+| Implication              | IMP, imp, =>, →, ⇒     |
+| Not AND                  | NAND, nand, !&, ¬&, ↑  |
+| Not OR                   | NOR, nor, !v, ¬∨, ↓    |
 
-## **Functionalities:**
+| Unary Logical Operators | Supported Alternatives |
+|--------------------------|------------------------|
+| Negation                | NOT, not, !, ~, ¬      |
 
-* Entering one or two Boolean expressions through the user interface, with an option to set the status to "active", prioritizing one of the two to perform subsequent functionality.
-* Expression syntax validation.
-* Simplify the expression.
-* Checking logical properties: monotonicity, linearity, self-duality, preservation of zero and one.
-* Minimizing Boolean expressions with the Quine–McCluskey algorithm.
-* Generating a Zhegalkin polynomial.
-* Generate and visualize Carnot maps for 2 to 4 variables.
-* Abstract Syntax Tree (AST) Visualization with Graphviz.
-* Display results and minimized expressions in the GUI.
-* Factoring in a variable.
-* Option to save a specific expression as a file.
-* Checking for equality between two Boolean expressions.
+| Constants  | Supported Alternatives |
+|------------|-------------------------|
+| True       | true, 1                 |
+| False      | false, 0                |
 
-<br><br> 
-![Logic Crusher GUI](screenshots/screenshot.png)
-<br><br> 
+---
 
-## **Rules:**
+## **Functionalities**
 
-* Enter Boolean Expressions: Variables should consist of letters (a-z, A-Z), do not use reserved keywords like true, false as variable names. Expressions are evaluated from left to right if no parentheses are included to separate precedence. The user should be familiar with how logical operators work in advance.
-* Choose Active Expression: Ensure the selected expression is entered correctly before proceeding.
-* Variable to Decompose: Enter a valid variable name present in the active expression. Case-sensitive (e.g., A is different from a).
-* Factoring in a Variable: Specify a valid variable in the "Variable to Decompose" field.
-* Generate a Karnaugh Map: The expression must contain 2 to 4 variables.
-* Save to File: Saves all stored Boolean functions and their properties to a JSON file.
-* Equivalence Check: Both Expression 1 and Expression 2 must be valid Boolean expressions.
+- Enter and prioritize one or two Boolean expressions for further operations.
+- Validate the syntax of Boolean expressions.
+- Simplify expressions to their most concise form.
+- Check logical properties:
+  - Monotonicity
+  - Linearity
+  - Self-duality
+  - Preservation of zero
+  - Preservation of one
+- Minimize expressions using the Quine–McCluskey algorithm.
+- Generate Zhegalkin polynomials.
+- Visualize Karnaugh maps (2–4 variables).
+- Render Abstract Syntax Trees (AST) using Graphviz.
+- Save expressions and properties to JSON files.
+- Check equivalence between two Boolean expressions.
+
+---
+
+## **Rules**
+
+1. **Enter Boolean Expressions:**
+   - Variables must consist of letters (a-z, A-Z).
+   - Reserved keywords (`true`, `false`) cannot be used as variable names.
+   - Expressions without parentheses are evaluated left-to-right based on operator precedence.
+
+2. **Choose Active Expression:**
+   - Select which expression (1 or 2) to use for operations.
+
+3. **Variable to Decompose:**
+   - Specify a variable from the active expression. Case-sensitive (e.g., `A` ≠ `a`).
+
+4. **Factoring in a Variable:**
+   - Decomposes the active expression with respect to the specified variable.
+
+5. **Generate a Karnaugh Map:**
+   - Only supported for 2–4 variables.
+
+6. **Save to File:**
+   - Saves all stored expressions and properties as a JSON file.
+
+7. **Equivalence Check:**
+   - Both expressions must be valid and entered in their respective fields.
