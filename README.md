@@ -18,14 +18,13 @@ minification and rendering visualization through carno maps and Abstract Syntax 
 | Not AND | NAND, nand, !&, ¬&, ↑ |
 | Not OR | NOR, nor, !v, ¬∨, ↓ |
 
-
 | Unary logical operators  | Supported alternatives |
 |----------|----------|
 | Negation | NOT, not, !, ~, ¬ |
 
 ## **Functionalities:**
 
-* Entering a boolean expression through the user interface.
+* Entering one or two boolean expressions through the user interface, with an option to set the status to "active", prioritizing one of the two to perform subsequent functionality.
 * Expression syntax validation.
 * Simplify the expression.
 * Checking logical properties: monotonicity, linearity, self-duality, preservation of zero and one.
