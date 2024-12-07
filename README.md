@@ -37,7 +37,5 @@ minification and rendering visualization through carno maps and Abstract Syntax 
 * Option to save a specific expression as a file.
 * Checking for equality between two Boolean expressions.
 
-
-
-
+<br><br> 
 ![Logic Crusher GUI](screenshots/screenshot1.png)
