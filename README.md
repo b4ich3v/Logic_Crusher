@@ -53,6 +53,7 @@ The goal is to simplify logical formulas for better comprehension and efficiency
 <br><br> 
 ![Logic Crusher GUI](screenshots/screenshot.png)
 <br><br> 
+
 ---
 
 ## **Rules**
