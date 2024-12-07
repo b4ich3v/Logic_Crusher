@@ -6,6 +6,8 @@ Logic Crusher is a graphical application that allows users to type,
 simplify and minimize boolean expressions. The application uses the Quine–McCluskey algorithm to 
 minification and rendering visualization through carno maps and Abstract Syntax Tree (AST). The main goal is to reduce the complexity of logic formulas for better comprehensibility and efficiency, and to facilitate the analysis and optimization of logical expressions for educational and professional purposes.
 
+## Supported operators
+
 | Binary logical operators | Supported alternatives |
 |----------|----------|
 | Disjunction | OR, or, ∨, \|, \|\| |
