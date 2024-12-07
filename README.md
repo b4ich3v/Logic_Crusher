@@ -3,7 +3,7 @@
 ## **Description:**
 
 Logic Crusher is a graphical application that allows users to type, 
-simplify and minimize boolean expressions. The application uses the Quine–McCluskey algorithm to 
+simplify and minimize Boolean expressions. The application uses the Quine–McCluskey algorithm to 
 minification and rendering visualization through carno maps and Abstract Syntax Tree (AST). The main goal is to reduce the complexity of logic formulas for better comprehensibility and efficiency, and to facilitate the analysis and optimization of logical expressions for educational and professional purposes.
 
 ## **Supported operators:**
@@ -24,7 +24,7 @@ minification and rendering visualization through carno maps and Abstract Syntax 
 
 ## **Functionalities:**
 
-* Entering one or two boolean expressions through the user interface, with an option to set the status to "active", prioritizing one of the two to perform subsequent functionality.
+* Entering one or two Boolean expressions through the user interface, with an option to set the status to "active", prioritizing one of the two to perform subsequent functionality.
 * Expression syntax validation.
 * Simplify the expression.
 * Checking logical properties: monotonicity, linearity, self-duality, preservation of zero and one.
@@ -35,3 +35,4 @@ minification and rendering visualization through carno maps and Abstract Syntax 
 * Display results and minimized expressions in the GUI.
 * Factoring in a variable.
 * Option to save a specific expression as a file.
+* Checking for equality between two Boolean expressions.
