@@ -24,7 +24,14 @@ minification and rendering visualization through carno maps and Abstract Syntax 
 
 ## Functionalities
 
-* Entering a boolean expression through the user interface
-* Expression syntax validation
-* Simplify the expression
-* Checking logical properties: monotonicity, linearity, self-duality, preservation of zero and one
+* Entering a boolean expression through the user interface.
+* Expression syntax validation.
+* Simplify the expression.
+* Checking logical properties: monotonicity, linearity, self-duality, preservation of zero and one.
+* Minimizing Boolean expressions with the Quine–McCluskey algorithm.
+* Generating a Zhegalkin polynomial.
+* Generate and visualize Carnot maps for 2 to 4 variables.
+* Abstract Syntax Tree (AST) Visualization with Graphviz.
+* Display results and minimized expressions in the GUI.
+* Factoring in a variable.
+* Option to save a specific expression as a file.
