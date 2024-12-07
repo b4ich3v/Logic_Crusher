@@ -7,4 +7,5 @@
 | Exclusive or |  XOR, xor, ^, ⊕ |
 | Equivalence | EQV, eqv, <=>, ↔ |
 | Implication | IMP, imp, =>, → |
-| Row 2    |     |
+| Not AND | NAND, nand, !&, ¬& |
+| Not OR | NOR, nor, !v, ¬∨ |
