@@ -9,12 +9,12 @@ minification and rendering visualization through carno maps and Abstract Syntax 
 | Binary logical operators | Supported alternatives |
 |----------|----------|
 | Disjunction | OR, or, ∨, \|, \|\| |
-| Conjunction |  AND, and, &, ∧ |
+| Conjunction |  AND, and, &, ∧, && |
 | Exclusive or |  XOR, xor, ^, ⊕ |
-| Equivalence | EQV, eqv, <=>, ↔ |
-| Implication | IMP, imp, =>, → |
-| Not AND | NAND, nand, !&, ¬& |
-| Not OR | NOR, nor, !v, ¬∨ |
+| Equivalence | EQV, eqv, <=>, ↔, ==|
+| Implication | IMP, imp, =>, →, ⇒|
+| Not AND | NAND, nand, !&, ¬&, ↑ |
+| Not OR | NOR, nor, !v, ¬∨, ↓ |
 
 | Unary logical operators  | Supported alternatives |
 |----------|----------|
