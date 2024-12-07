@@ -10,6 +10,6 @@
 | Not AND | NAND, nand, !&, ¬& |
 | Not OR | NOR, nor, !v, ¬∨ |
 
-| Unary logical operators | Supported alternatives |
+| Unary logical operators  | Supported alternatives |
 |----------|----------|
 | Negation | NOT, not, !, ~, ¬ |
