@@ -24,4 +24,7 @@ minification and rendering visualization through carno maps and Abstract Syntax 
 
 ## Functionalities
 
-* Entering a boolean expression through the user interface: Users can easily enter the desired Boolean expressions through an intuitive graphical interface.
+* Entering a boolean expression through the user interface
+* Expression syntax validation
+* Simplify the expression
+* Checking logical properties: monotonicity, linearity, self-duality, preservation of zero and one
