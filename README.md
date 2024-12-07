@@ -44,6 +44,7 @@ minification and rendering visualization through carno maps and Abstract Syntax 
 
 <br><br> 
 ![Logic Crusher GUI](screenshots/screenshot.png)
+<br><br> 
 
 ## **Rules:**
 
