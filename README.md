@@ -45,4 +45,12 @@ minification and rendering visualization through carno maps and Abstract Syntax 
 <br><br> 
 ![Logic Crusher GUI](screenshots/screenshot.png)
 
-## **Rules**
+## **Rules:**
+
+* Enter Boolean Expressions: Variables should consist of letters (a-z, A-Z), do not use reserved keywords like true, false as variable names. Expressions are evaluated from left to right if no parentheses are included to separate precedence. The user should be familiar with how logical operators work in advance.
+* Choose Active Expression: Ensure the selected expression is entered correctly before proceeding.
+* Variable to Decompose: Enter a valid variable name present in the active expression. Case-sensitive (e.g., A is different from a).
+* Factoring in a Variable: Specify a valid variable in the "Variable to Decompose" field.
+* Generate a Karnaugh Map: The expression must contain 2 to 4 variables.
+* Save to File: Saves all stored Boolean functions and their properties to a JSON file.
+* Equivalence Check: Both Expression 1 and Expression 2 must be valid Boolean expressions.
