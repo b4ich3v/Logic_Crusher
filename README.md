@@ -2,7 +2,7 @@
 
 | Binary logical operators | Supported alternatives |
 |----------|----------|
-| Disjunction | OR, or, ∨, |, || |
+| Disjunction | OR, or, ∨, \|, \|\| |
 | Conjunction |  AND, and, &, ∧ |
 | Exclusive or |  XOR, xor, ^, ⊕ |
 | Equivalence | EQV, eqv, <=>, ↔ |
