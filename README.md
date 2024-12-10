@@ -57,7 +57,7 @@ The goal is to simplify logical formulas for better comprehension and efficiency
 <br><br>
 <br><br>
 <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-    <img src="screenshots/screenshot7.png" alt="Image 7" width="450" height = "300"/>
+    <img src="screenshots/screenshot7.png" alt="Image 7" width="525" height = "300"/>
     <img src="screenshots/screenshot10.png" alt="Image 8" width="450" height = "300"/>
 </div>
 <br><br>
