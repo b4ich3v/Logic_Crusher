@@ -55,14 +55,12 @@ The goal is to simplify logical formulas for better comprehension and efficiency
     <img src="screenshots/screenshot5.png" alt="Image 5" width="1000"/>
 </div>
 <br><br>
-
 <br><br>
 <div style="display: flex; flex-wrap: wrap; gap: 10px;">
     <img src="screenshots/screenshot1.png" alt="Image 1" width="500"/>
     <img src="screenshots/screenshot2.png" alt="Image 2" width="500"/>
 </div>
 <br><br>
-
 <br><br>
 <div style="display: flex; flex-wrap: wrap; gap: 10px;">
     <img src="screenshots/screenshot3.png" alt="Image 3" width="500"/>
