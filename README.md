@@ -57,14 +57,8 @@ The goal is to simplify logical formulas for better comprehension and efficiency
 </div>
 <br><br>
 <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-    <figure>
-        <img src="screenshots/screenshot7.png" alt="Image 7" width="525" height="300"/>
-        <figcaption>Figure 2: Description of Image 7</figcaption>
-    </figure>
-    <figure>
-        <img src="screenshots/screenshot10.png" alt="Image 8" width="475" height="300"/>
-        <figcaption>Figure 3: Description of Image 8</figcaption>
-    </figure>
+    <img src="screenshots/screenshot7.png" alt="Image 7" width="525" height = "300"/>
+    <img src="screenshots/screenshot10.png" alt="Image 8" width="475" height = "300"/>
 </div>
 <br><br>
 
