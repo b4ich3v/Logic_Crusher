@@ -50,7 +50,16 @@ The goal is to simplify logical formulas for better comprehension and efficiency
 - Check equivalence between two Boolean expressions.
 
 ---
-
+<br><br> ![Logic Crusher GUI](screenshots/screenshot1.png) 
+<br><br> ![Logic Crusher GUI](screenshots/screenshot2.png) 
+<br><br> ![Logic Crusher GUI](screenshots/screenshot3.png) 
+<br><br> ![Logic Crusher GUI](screenshots/screenshot4.png) 
+<br><br> ![Logic Crusher GUI](screenshots/screenshot5.png) 
+<br><br> ![Logic Crusher GUI](screenshots/screenshot6.png) 
+<br><br> ![Logic Crusher GUI](screenshots/screenshot7.png)
+<br><br> ![Logic Crusher GUI](screenshots/screenshot8.png) 
+<br><br> ![Logic Crusher GUI](screenshots/screenshot9.png) 
+<br><br>
 
 ---
 
