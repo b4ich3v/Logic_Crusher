@@ -50,15 +50,14 @@ The goal is to simplify logical formulas for better comprehension and efficiency
 - Check equivalence between two Boolean expressions.
 
 ---
-<br><br> ![Logic Crusher GUI](screenshots/screenshot1.png) 
-![Logic Crusher GUI](screenshots/screenshot2.png) 
-<br><br> ![Logic Crusher GUI](screenshots/screenshot3.png) 
-<br><br> ![Logic Crusher GUI](screenshots/screenshot4.png) 
-<br><br> ![Logic Crusher GUI](screenshots/screenshot5.png) 
-<br><br> ![Logic Crusher GUI](screenshots/screenshot6.png) 
-<br><br> ![Logic Crusher GUI](screenshots/screenshot7.png)
-<br><br> ![Logic Crusher GUI](screenshots/screenshot8.png) 
-<br><br> ![Logic Crusher GUI](screenshots/screenshot9.png) 
+<br><br>
+<div style="display: flex; flex-wrap: wrap; gap: 10px;">
+    <img src="screenshots/screenshot1.png" alt="Image 1" width="150"/>
+    <img src="screenshots/screenshot2.png" alt="Image 2" width="150"/>
+    <img src="screenshots/screenshot3.png" alt="Image 3" width="150"/>
+    <img src="screenshots/screenshot4.png" alt="Image 4" width="150"/>
+    <img src="screenshots/screenshot5.png" alt="Image 5" width="150"/>
+</div>
 <br><br>
 
 ---
