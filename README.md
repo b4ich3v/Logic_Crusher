@@ -46,6 +46,7 @@ The goal is to simplify logical formulas for better comprehension and efficiency
 - Generate Zhegalkin polynomials.
 - Visualize Karnaugh maps (2–4 variables).
 - Render Abstract Syntax Trees (AST) using Graphviz.
+- Generate Circuit Representation.
 - Save expressions and properties to JSON files.
 - Check equivalence between two Boolean expressions.
 
