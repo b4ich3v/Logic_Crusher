@@ -70,25 +70,19 @@ The goal is to simplify logical formulas for better comprehension and efficiency
 
 ## **Rules**
 
-1. **Enter Boolean Expressions:**
+- Enter Boolean Expressions:
    - Variables must consist of letters (a-z, A-Z).
    - Reserved keywords (`true`, `false`) cannot be used as variable names.
    - Expressions without parentheses are evaluated left-to-right based on operator precedence.
-
-2. **Choose Active Expression:**
+- Choose Active Expression:
    - Select which expression (1 or 2) to use for operations.
-
-3. **Variable to Decompose:**
+- Variable to Decompose:
    - Specify a variable from the active expression. Case-sensitive (e.g., `A` ≠ `a`).
-
-4. **Factoring in a Variable:**
+- Factoring in a Variable:
    - Decomposes the active expression with respect to the specified variable.
-
-5. **Generate a Karnaugh Map:**
+- Generate a Karnaugh Map:
    - Only supported for 2–4 variables.
-
-6. **Save to File:**
+- Save to File:**
    - Saves all stored expressions and properties as a JSON file.
-
-7. **Equivalence Check:**
+- Equivalence Check:
    - Both expressions must be valid and entered in their respective fields.
