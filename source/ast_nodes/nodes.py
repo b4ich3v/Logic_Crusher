@@ -149,7 +149,7 @@ class AndNode(Node):
 
     def to_graphviz(self, dot, counter):
         node_id = str(id(self))
-        dot.node(node_id, 'AND')
+        dot.node(node_id, "AND")
         left_id = self.left.to_graphviz(dot, counter)
         right_id = self.right.to_graphviz(dot, counter)
         dot.edge(node_id, left_id)
