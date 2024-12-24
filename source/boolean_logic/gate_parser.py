@@ -34,11 +34,11 @@ def parse_minimized_expression(expr):
                 if count == 0:
                     if expression[i:].startswith("AND"):
                         next_index = i + 3
-                        if next_index >= len(expression) or expression[next_index] in (' ', '('):
+                        if next_index >= len(expression) or expression[next_index] in (" ", "("):
                             return "AND", i
                     if expression[i:].startswith("OR"):
                         next_index = i + 2
-                        if next_index >= len(expression) or expression[next_index] in (' ', '('):
+                        if next_index >= len(expression) or expression[next_index] in (" ", "("):
                             return "OR", i
         return None, None
 
