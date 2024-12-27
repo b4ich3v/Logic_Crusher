@@ -217,27 +217,27 @@
 ### **Примери:**
 
 **Пример 1: "`A AND B`"**
-Токени: `[Token(IDENTIFIER, 'A'), Token(AND, 'AND'), Token(IDENTIFIER, 'B'), Token(EOF, None)]`
-AST: `And(Var(A), Var(B))`
+   - Токени: `[Token(IDENTIFIER, 'A'), Token(AND, 'AND'), Token(IDENTIFIER, 'B'), Token(EOF, None)]`
+   - AST: `And(Var(A), Var(B))`
 
 **Пример 2: "`NOT (A OR B)`"**
-Токени: `[Token(NOT, 'NOT'), Token(LPAREN, '('), Token(IDENTIFIER, 'A'), Token(OR, 'OR'), Token(IDENTIFIER, 'B'), Token(RPAREN, ')'), Token(EOF, None)]`
-AST: `Not(Or(Var(A), Var(B)))`
+   - Токени: `[Token(NOT, 'NOT'), Token(LPAREN, '('), Token(IDENTIFIER, 'A'), Token(OR, 'OR'), Token(IDENTIFIER, 'B'), Token(RPAREN, ')'), Token(EOF, None)]`
+   - AST: `Not(Or(Var(A), Var(B)))`
 
 **Пример 3: "`A NAND B NOR C`"**
-Токени: `[Token(IDENTIFIER, 'A'), Token(NAND, 'NAND'), Token(IDENTIFIER, 'B'), Token(NOR, 'NOR'), Token(IDENTIFIER, 'C'), Token(EOF, None)]`
-AST: `Nor(Nand(Var(A), Var(B)), Var(C))`
+   - Токени: `[Token(IDENTIFIER, 'A'), Token(NAND, 'NAND'), Token(IDENTIFIER, 'B'), Token(NOR, 'NOR'), Token(IDENTIFIER, 'C'), Token(EOF, None)]`
+   - AST: `Nor(Nand(Var(A), Var(B)), Var(C))`
 
 **Пример 4: "`A => B <=> C`"**
-Токени: `[Token(IDENTIFIER, 'A'), Token(IMP, '=>'), Token(IDENTIFIER, 'B'), Token(EQV, '<=>'), Token(IDENTIFIER, 'C'), Token(EOF, None)]`
-AST: `Eqv(Imp(Var(A), Var(B)), Var(C))`
+   - Токени: `[Token(IDENTIFIER, 'A'), Token(IMP, '=>'), Token(IDENTIFIER, 'B'), Token(EQV, '<=>'), Token(IDENTIFIER, 'C'), Token(EOF, None)]`
+   - AST: `Eqv(Imp(Var(A), Var(B)), Var(C))`
 
 **Пример 5: "`true XOR false`"**
-Токени: `[Token(CONST, 'true'), Token(XOR, 'XOR'), Token(CONST, 'false'), Token(EOF, None)]`
-AST: `Xor(Const(True), Const(False))`
+   - Токени: `[Token(CONST, 'true'), Token(XOR, 'XOR'), Token(CONST, 'false'), Token(EOF, None)]`
+   - AST: `Xor(Const(True), Const(False))`
 
 **Пример 6: "`!(A ∧ B) → (C ∨ D)`"**
-Токени: `[Token(NOT, '!'), Token(LPAREN, '('), Token(AND, '∧'), Token(IDENTIFIER, 'B'), Token(RPAREN, ')'), Token(IMP, '→'), Token(LPAREN, '('), Token(OR, '∨'), Token(IDENTIFIER, 'D'), Token(RPAREN, ')'), Token(EOF, None)]`
-AST: `Imp(Not(And(Var(A), Var(B))), Or(Var(C), Var(D)))`
+   - Токени: `[Token(NOT, '!'), Token(LPAREN, '('), Token(AND, '∧'), Token(IDENTIFIER, 'B'), Token(RPAREN, ')'), Token(IMP, '→'), Token(LPAREN, '('), Token(OR, '∨'), Token(IDENTIFIER, 'D'), Token(RPAREN, ')'), Token(EOF, None)]`
+   - AST: `Imp(Not(And(Var(A), Var(B))), Or(Var(C), Var(D)))`
 
 ---
