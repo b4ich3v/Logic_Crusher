@@ -1,1 +1,1 @@
-## **Information about the Quine-McCluskey algorithm and variations of its implementations in C and C++**
+## **Информация за алгоритъма Quine-McCluskey и вариациите на неговите реализации в C и C++**
