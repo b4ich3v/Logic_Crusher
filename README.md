@@ -1,78 +1,136 @@
 # **Logic Crusher**
 
-## **Description**
+## **Описание**
 
-Logic Crusher is a graphical application that allows users to type, simplify, and minimize Boolean expressions. The application uses the Quine–McCluskey algorithm for minimization and offers visual tools like Karnaugh maps and Abstract Syntax Tree (AST) rendering. 
+**Logic Crusher** е графично приложение, разработено с помощта на **Tkinter**, което позволява на потребителите да въвеждат, опростяват и минимизират Булеви изрази. Приложението използва алгоритъма на Quine–McCluskey за минимизация и предлага визуални инструменти като Карно карти и визуализация на Абстрактно Синтактично Дърво (AST).
 
-The goal is to simplify logical formulas for better comprehension and efficiency, making the tool useful for both educational and professional purposes.
-
----
-
-## **Supported Operators**
-
-| Binary Logical Operators | Supported Alternatives |
-|---------------------------|------------------------|
-| Disjunction              | OR, or, ∨, \|, \|\|    |
-| Conjunction              | AND, and, &, ∧, &&     |
-| Exclusive OR             | XOR, xor, ^, ⊕         |
-| Equivalence              | EQV, eqv, <=>, ↔, ==   |
-| Implication              | IMP, imp, =>, →, ⇒     |
-| Not AND                  | NAND, nand, !&, ¬&, ↑  |
-| Not OR                   | NOR, nor, !v, ¬∨, ↓    |
-
-| Unary Logical Operators | Supported Alternatives |
-|--------------------------|------------------------|
-| Negation                | NOT, not, !, ~, ¬      |
-
-| Constants  | Supported Alternatives |
-|------------|-------------------------|
-| True       | true, 1                 |
-| False      | false, 0                |
+Целта е да се опрости логическите формули за по-добро разбиране и ефективност, като инструментът е полезен както за образователни, така и за професионални цели.
 
 ---
 
-## **Functionalities**
+## **Поддържани Оператори**
 
-- Enter and prioritize one or two Boolean expressions for further operations.
-- Validate the syntax of Boolean expressions.
-- Simplify expressions to their most concise form.
-- Check logical properties:
-  - Monotonicity
-  - Linearity
-  - Self-duality
-  - Preservation of zero
-  - Preservation of one
-- Minimize expressions using the Quine–McCluskey algorithm.
-- Generate Zhegalkin polynomials.
-- Visualize Karnaugh maps (2–4 variables).
-- Render Abstract Syntax Trees (AST) using Graphviz.
-- Generate Circuit Representation.
-- Save expressions and properties to JSON files.
-- Check equivalence between two Boolean expressions.
+### **Двоични Логически Оператори**
+
+| Оператор                   | Поддържани Алтернативи       |
+|----------------------------|------------------------------|
+| Дизюнкция (OR)             | OR, or, ∨, \|, \|\|          |
+| Конюнкция (AND)            | AND, and, &, ∧, &&           |
+| Изключващо ИЛИ (XOR)       | XOR, xor, ^, ⊕              |
+| Еквивалентност (EQV)       | EQV, eqv, <=>, ↔, ==         |
+| Импликация (IMP)           | IMP, imp, =>, →, ⇒           |
+| НЕ И (NAND)                | NAND, nand, !&, ¬&, ↑        |
+| НЕ ИЛИ (NOR)               | NOR, nor, !v, ¬∨, ↓         |
+
+### **Унарни Логически Оператори**
+
+| Оператор   | Поддържани Алтернативи |
+|------------|------------------------|
+| Отрицание (NOT) | NOT, not, !, ~, ¬ |
+
+### **Константи**
+
+| Константа | Поддържани Алтернативи |
+|-----------|-------------------------|
+| True      | true, 1                 |
+| False     | false, 0                |
 
 ---
+
+## **Функционалности**
+
+- **Въвеждане и приоритизиране на Булеви изрази:**
+  - Въвеждайте и изберете един или два Булеви израза за по-нататъшни операции.
+  
+- **Валидиране на синтаксис:**
+  - Проверява правилността на синтаксиса на въведените Булеви изрази.
+  
+- **Опростяване на изрази:**
+  - Опростява изразите до най-кратката им форма.
+  
+- **Проверка на логически свойства:**
+  - **Монотонност:** Проверява дали функцията е монотонна.
+  - **Линейност:** Проверява дали функцията е линейна.
+  - **Самодуелност:** Проверява дали функцията е самодуелна.
+  - **Запазване на нула:** Проверява дали функцията запазва нула.
+  - **Запазване на единица:** Проверява дали функцията запазва единица.
+  
+- **Минимизиране на изрази:**
+  - Минимизира изразите с помощта на алгоритъма на Quine–McCluskey.
+  
+- **Генериране на полином на Жегалкин:**
+  - Генерира полиномите на Жегалкин за избраните Булеви изрази.
+  
+- **Визуализация на Карно карти:**
+  - Генерира и визуализира Карно карти за Булеви функции с 2-4 променливи.
+  
+- **Визуализация на Абстрактно Синтактично Дърво (AST):**
+  - Визуализира AST на избраните Булеви изрази с помощта на Graphviz.
+  
+- **Генериране на логическа схема (Circuit Diagram):**
+  - Генерира и визуализира логически схеми на минимизираните изрази.
+  
+- **Запазване на изрази и свойства:**
+  - Запазва всички съхранени изрази и техните свойства във файлове във формат JSON.
+  
+- **Проверка на еквивалентност между два израза:**
+  - Проверява дали два Булеви израза са еквивалентни и показва разликите в броя на входните комбинации.
+
+- **Операции със множества:**
+  - **Обединение (Union):** Обединява два множества.
+  - **Пресичане (Intersection):** Намира общите елементи между два множества.
+  - **Разлика (Difference):** Намира елементите, които са в едно множество, но не и в другото.
+  - **Симетрична разлика (Symmetric Difference):** Намира елементите, които са в едно от двете множества, но не в двете.
+  - **Вен диаграми:** Визуализира Вен диаграми за две множества.
+  - **Декартово произведение (Cartesian Product):** Изчислява декартовото произведение на две множества.
+  - **Кардиналност:** Изчислява броя на елементите в двете множества.
+  - **Под множества (Power Sets):** Генерира Под множествата на двете множества.
+  - **Проверка на отношения:** Проверява различни отношения между множествата като подмножество, супермножество, равенство и дискретност.
+
+---
+
+## **Правила**
+
+- **Въвеждане на Булеви Изрази:**
+  - Променливите трябва да се състоят от букви (a-z, A-Z).
+  - Резервираните ключови думи (`true`, `false`) не могат да се използват като имена на променливи.
+  - Изразите без скоби се оценяват отляво надясно според приоритета на операторите.
+  - Изразите трябва да са коректно синтактично оформени със скоби при необходимост.
+  - Използвайте поддържаните логически оператори и константи.
+
+- **Въвеждане на Множества:**
+  - Въвеждайте елементите на множествата, разделени със запетайки (например A, B, C).
+  - Използвайте алтернативните наименования за операциите според нуждите ви.
+
+- **Избор на Активен Израз:**
+  - Изберете кой израз (1 или 2) да се използва за операции.
+
+- **Променлива за Декомпозиция:**
+  - Специфицирайте променлива от активния израз за декомпозиция. Чувствителна към големи и малки букви (напр. `A` ≠ `a`).
+
+- **Факторизиране по Променлива:**
+  - Декомпозира активния израз спрямо зададената променлива.
+
+- **Генериране на Карно Карта:**
+  - Поддържа се само за Булеви функции с 2-4 променливи.
+
+- **Запазване във Файл:**
+  - Запазва всички съхранени изрази и техните свойства като JSON файл.
+
+- **Проверка на Еквивалентност:**
+  - И двата израза трябва да са валидни и въведени в съответните полета.
+
+---
+
 <br><br>
 <div style="display: flex; flex-wrap: wrap; gap: 10px;">
     <img src="screenshots/screenshot4.png" alt="Image 1" width="1000"/>
 </div>
 <br><br>
 <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-    <img src="screenshots/screenshot7.png" alt="Image 7" width="525" height = "300"/>
-    <img src="screenshots/screenshot10.png" alt="Image 8" width="475" height = "300"/>
+    <img src="screenshots/screenshot7.png" alt="Image 7" width="525" height="300"/>
+    <img src="screenshots/screenshot10.png" alt="Image 8" width="475" height="300"/>
 </div>
 <br><br>
 
 ---
-
-## **Rules**
-
-- Enter Boolean Expressions:
-   - Variables must consist of letters (a-z, A-Z).
-   - Reserved keywords (`true`, `false`) cannot be used as variable names.
-   - Expressions without parentheses are evaluated left-to-right based on operator precedence.
-- Choose Active Expression: Select which expression (1 or 2) to use for operations.
-- Variable to Decompose: Specify a variable from the active expression. Case-sensitive (e.g., `A` ≠ `a`).
-- Factoring in a Variable: Decomposes the active expression with respect to the specified variable.
-- Generate a Karnaugh Map: Only supported for 2–4 variables.
-- Save to File: Saves all stored expressions and properties as a JSON file. 
-- Equivalence Check: Both expressions must be valid and entered in their respective fields.
