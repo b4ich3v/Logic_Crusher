@@ -1,1 +1,1 @@
-## **This theory underlies my logic for processing and evaluating logical expressions**
+## **Тази теория е в основата на моята логика за обработка и оценка на логически изрази**
