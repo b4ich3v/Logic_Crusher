@@ -121,7 +121,6 @@
   - И двата израза трябва да са валидни и въведени в съответните полета.
 
 ---
-
 <br><br>
 <div style="display: flex; flex-wrap: wrap; gap: 10px;">
     <img src="screenshots/screenshot1.png" alt="Image 1" width="1000"/>
