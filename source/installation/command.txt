@@ -1,0 +1,9 @@
+pyinstaller ^
+  --onefile ^
+  --noconsole ^
+  --icon="C:\Users\User\Desktop\Logic_Crusher-main\source\icons\combined_icon.ico" ^
+  --hidden-import matplotlib.backends.backend_tkagg ^
+  --hidden-import "matplotlib_venn._venn2" ^
+  --add-data "C:\Users\User\Desktop\Logic_Crusher-main\source\images\main_background.gif;." ^
+  --add-data "C:\Users\User\Desktop\Logic_Crusher-main\source\images\secondary_background.jpg;." ^
+  main.py
