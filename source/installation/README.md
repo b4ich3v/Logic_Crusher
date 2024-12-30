@@ -1,6 +1,6 @@
 ## **Как да инсталираме Logic Crusher?**
 1. **Сваляме съдържанието от конкретното `repository`.**
-2. **Отваряме папката `source`, след което отваряме команден прозорец в тази директория.**
+2. **Отваряме папката `source`, след което стартираме команден прозорец в тази директория.**
 <br><br>
 <div style="display: flex; flex-wrap: wrap; gap: 10px;">
     <img src="screenshots/screenshot1.png" alt="Image 1" width="1000"/>
