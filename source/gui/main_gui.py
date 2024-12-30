@@ -1,5 +1,7 @@
 import webbrowser
 import json
+import os
+import sys
 import graphviz
 import ctypes
 import platform
@@ -283,6 +285,10 @@ def generate_circuit():
     except Exception as e:
         messagebox.showerror("Error.", str(e))
 
+def resource_path(relative_path):
+    base_path = getattr(sys, "_MEIPASS", os.path.dirname(__file__))
+    return os.path.join(base_path, relative_path)
+
 def open_sets_window():
     global root
 
@@ -292,7 +298,7 @@ def open_sets_window():
     sets_window.resizable(False, False)
     
     try:
-        bg_image = Image.open(r"C:\Users\User\Desktop\Project\images\secondary_background.jpg")
+        bg_image = Image.open(resource_path("secondary_background.jpg"))
         bg_image = bg_image.resize((900, 600), Image.LANCZOS)  
         bg_photo = ImageTk.PhotoImage(bg_image)
     except Exception as e:
@@ -693,7 +699,7 @@ def run():
     canvas.pack(fill="both", expand=True)
     
     try:
-        bg_image = Image.open(r"C:\Users\User\Desktop\Project\images\main_background.gif")  
+        bg_image = Image.open(resource_path("main_background.gif"))
     except Exception as e:
         messagebox.showerror("Error", f"Failed to load background image: {e}")
         bg_image = None
