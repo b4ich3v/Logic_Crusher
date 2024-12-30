@@ -21,9 +21,19 @@
 3. **Копираме и поставяме командата от `command.txt` в командния прозорец.**
     - **Забележка:** командата в `command.txt` е примерна, спрямо конкретизирана директория на цялата папка с всички файлове, тоест пътят до             папката `source`, трябва да бъде актуализиран ръчно от потребителя спрямо местоположението й.
 
-4. **След известно време на командния прозорец трябва изпише следното, ако всичко е протекло нормално.**
+4. **След известно време на командния прозорец трябва изпише следното, ако всичко е протекло нормално. Появяват се `build`, `dist` i `main.spec`, като приложението се намира в `dist`.**
 <br><br>
 <div style="display: flex; flex-wrap: wrap; gap: 10px;">
     <img src="screenshots/screenshot4.png" alt="Image 1" width="1000"/>
+</div>
+<br><br>
+<br><br>
+<div style="display: flex; flex-wrap: wrap; gap: 10px;">
+    <img src="screenshots/screenshot5.png" alt="Image 1" width="1000"/>
+</div>
+<br><br>
+<br><br>
+<div style="display: flex; flex-wrap: wrap; gap: 10px;">
+    <img src="screenshots/screenshot6.png" alt="Image 1" width="1000"/>
 </div>
 <br><br>
