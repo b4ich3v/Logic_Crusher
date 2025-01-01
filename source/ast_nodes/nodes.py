@@ -1,10 +1,10 @@
-from boolean_logic.helpers import *
+from boolean_logic.helpers import add_polynomials, multiply_polynomials
 
 class Node:
     def simplify(self):
         return self
 
-    def evaluate(self, env):
+    def evaluate(self, variables):
         pass
 
     def to_zhegalkin(self, variables):
@@ -13,10 +13,10 @@ class Node:
     def __eq__(self, other):
         return isinstance(other, Node) and self.__dict__ == other.__dict__
 
-    def substitute(self, env):
+    def substitute(self, variables):
         return self
 
-    def to_graphviz(self, dot, counter):
+    def to_graphviz(self, graph, counter):
         pass
 
 
@@ -27,26 +27,26 @@ class VariableNode(Node):
     def simplify(self):
         return self
 
-    def evaluate(self, env):
-        return env[self.name]
+    def evaluate(self, variables):
+        return variables[self.name]
 
     def to_zhegalkin(self, variables):
         index = variables.index(self.name)
         monomial = 1 << index
         return {monomial}
 
-    def substitute(self, env):
-        if self.name in env and env[self.name] is not None:
-            return ConstNode(env[self.name])
+    def substitute(self, variables):
+        if self.name in variables and variables[self.name] is not None:
+            return ConstNode(variables[self.name])
         else:
             return self
 
     def __str__(self):
         return self.name
 
-    def to_graphviz(self, dot, counter):
+    def to_graphviz(self, graph, counter):
         node_id = str(id(self))
-        dot.node(node_id, self.name)
+        graph.node(node_id, self.name)
 
         return node_id
 
@@ -58,22 +58,23 @@ class ConstNode(Node):
     def simplify(self):
         return self
 
-    def evaluate(self, env):
+    def evaluate(self, variables):
         return self.value
 
     def to_zhegalkin(self, variables):
         return {0} if self.value else set()
 
-    def substitute(self, env):
+    def substitute(self, variables):
         return self
 
     def __str__(self):
         return "1" if self.value else "0"
 
-    def to_graphviz(self, dot, counter):
+    def to_graphviz(self, graph, counter):
         node_id = str(id(self))
         label = "1" if self.value else "0"
-        dot.node(node_id, label)
+        graph.node(node_id, label)
+
         return node_id
 
 
@@ -89,26 +90,29 @@ class NotNode(Node):
             return ConstNode(not operand.value)
         return NotNode(operand)
 
-    def evaluate(self, env):
-        return not self.operand.evaluate(env)
+    def evaluate(self, variables):
+        return not self.operand.evaluate(variables)
 
     def to_zhegalkin(self, variables):
-        operand_poly = self.operand.to_zhegalkin(variables)
-        one_poly = {0} 
-        return add_polynomials(one_poly, operand_poly)
+        operand_polynomial = self.operand.to_zhegalkin(variables)
+        one_polynomial = {0} 
 
-    def substitute(self, env):
-        new_operand = self.operand.substitute(env)
+        return add_polynomials(one_polynomial, operand_polynomial)
+
+    def substitute(self, variables):
+        new_operand = self.operand.substitute(variables)
+
         return NotNode(new_operand).simplify()
 
     def __str__(self):
         return f"NOT {self.operand}"
 
-    def to_graphviz(self, dot, counter):
+    def to_graphviz(self, graph, counter):
         node_id = str(id(self))
-        dot.node(node_id, "NOT")
-        child_id = self.operand.to_graphviz(dot, counter)
-        dot.edge(node_id, child_id)
+        graph.node(node_id, "NOT")
+        child_id = self.operand.to_graphviz(graph, counter)
+        graph.edge(node_id, child_id)
+
         return node_id
 
 
@@ -131,29 +135,32 @@ class AndNode(Node):
 
         return AndNode(left, right)
 
-    def evaluate(self, env):
-        return self.left.evaluate(env) and self.right.evaluate(env)
+    def evaluate(self, variables):
+        return self.left.evaluate(variables) and self.right.evaluate(variables)
 
     def to_zhegalkin(self, variables):
-        left_poly = self.left.to_zhegalkin(variables)
-        right_poly = self.right.to_zhegalkin(variables)
-        return multiply_polynomials(left_poly, right_poly)
+        left_polynomial = self.left.to_zhegalkin(variables)
+        right_polynomial = self.right.to_zhegalkin(variables)
 
-    def substitute(self, env):
-        new_left = self.left.substitute(env)
-        new_right = self.right.substitute(env)
+        return multiply_polynomials(left_polynomial, right_polynomial)
+
+    def substitute(self, variables):
+        new_left = self.left.substitute(variables)
+        new_right = self.right.substitute(variables)
+
         return AndNode(new_left, new_right).simplify()
 
     def __str__(self):
         return f'({self.left} AND {self.right})'
 
-    def to_graphviz(self, dot, counter):
+    def to_graphviz(self, graph, counter):
         node_id = str(id(self))
-        dot.node(node_id, "AND")
-        left_id = self.left.to_graphviz(dot, counter)
-        right_id = self.right.to_graphviz(dot, counter)
-        dot.edge(node_id, left_id)
-        dot.edge(node_id, right_id)
+        graph.node(node_id, "AND")
+        left_id = self.left.to_graphviz(graph, counter)
+        right_id = self.right.to_graphviz(graph, counter)
+        graph.edge(node_id, left_id)
+        graph.edge(node_id, right_id)
+
         return node_id
 
 
@@ -176,30 +183,33 @@ class OrNode(Node):
 
         return OrNode(left, right)
 
-    def evaluate(self, env):
-        return self.left.evaluate(env) or self.right.evaluate(env)
+    def evaluate(self, variables):
+        return self.left.evaluate(variables) or self.right.evaluate(variables)
 
     def to_zhegalkin(self, variables):
-        left_poly = self.left.to_zhegalkin(variables)
-        right_poly = self.right.to_zhegalkin(variables)
-        product = multiply_polynomials(left_poly, right_poly)
-        return add_polynomials(add_polynomials(left_poly, right_poly), product)
+        left_polynomial = self.left.to_zhegalkin(variables)
+        right_polynomial = self.right.to_zhegalkin(variables)
+        product = multiply_polynomials(left_polynomial, right_polynomial)
 
-    def substitute(self, env):
-        new_left = self.left.substitute(env)
-        new_right = self.right.substitute(env)
+        return add_polynomials(add_polynomials(left_polynomial, right_polynomial), product)
+
+    def substitute(self, variables):
+        new_left = self.left.substitute(variables)
+        new_right = self.right.substitute(variables)
+
         return OrNode(new_left, new_right).simplify()
 
     def __str__(self):
         return f"({self.left} OR {self.right})"
 
-    def to_graphviz(self, dot, counter):
+    def to_graphviz(self, graph, counter):
         node_id = str(id(self))
-        dot.node(node_id, "OR")
-        left_id = self.left.to_graphviz(dot, counter)
-        right_id = self.right.to_graphviz(dot, counter)
-        dot.edge(node_id, left_id)
-        dot.edge(node_id, right_id)
+        graph.node(node_id, "OR")
+        left_id = self.left.to_graphviz(graph, counter)
+        right_id = self.right.to_graphviz(graph, counter)
+        graph.edge(node_id, left_id)
+        graph.edge(node_id, right_id)
+
         return node_id
 
 
@@ -231,29 +241,32 @@ class XorNode(Node):
 
         return XorNode(left, right)
 
-    def evaluate(self, env):
-        return self.left.evaluate(env) != self.right.evaluate(env)
+    def evaluate(self, variables):
+        return self.left.evaluate(variables) != self.right.evaluate(variables)
 
     def to_zhegalkin(self, variables):
-        left_poly = self.left.to_zhegalkin(variables)
-        right_poly = self.right.to_zhegalkin(variables)
-        return add_polynomials(left_poly, right_poly)
+        left_polynomial = self.left.to_zhegalkin(variables)
+        right_polynomial = self.right.to_zhegalkin(variables)
 
-    def substitute(self, env):
-        new_left = self.left.substitute(env)
-        new_right = self.right.substitute(env)
+        return add_polynomials(left_polynomial, right_polynomial)
+
+    def substitute(self, variables):
+        new_left = self.left.substitute(variables)
+        new_right = self.right.substitute(variables)
+
         return XorNode(new_left, new_right).simplify()
 
     def __str__(self):
         return f"({self.left} XOR {self.right})"
 
-    def to_graphviz(self, dot, counter):
+    def to_graphviz(self, graph, counter):
         node_id = str(id(self))
-        dot.node(node_id, "XOR")
-        left_id = self.left.to_graphviz(dot, counter)
-        right_id = self.right.to_graphviz(dot, counter)
-        dot.edge(node_id, left_id)
-        dot.edge(node_id, right_id)
+        graph.node(node_id, "XOR")
+        left_id = self.left.to_graphviz(graph, counter)
+        right_id = self.right.to_graphviz(graph, counter)
+        graph.edge(node_id, left_id)
+        graph.edge(node_id, right_id)
+
         return node_id
 
 
@@ -265,33 +278,36 @@ class ImpNode(Node):
     def simplify(self):
         return OrNode(NotNode(self.left), self.right).simplify()
 
-    def evaluate(self, env):
-        return (not self.left.evaluate(env)) or self.right.evaluate(env)
+    def evaluate(self, variables):
+        return (not self.left.evaluate(variables)) or self.right.evaluate(variables)
 
     def to_zhegalkin(self, variables):
-        one_poly = {0}
-        A_poly = self.left.to_zhegalkin(variables)
-        B_poly = self.right.to_zhegalkin(variables)
-        AB_poly = multiply_polynomials(A_poly, B_poly)
-        result_poly = add_polynomials(one_poly, A_poly)
-        result_poly = add_polynomials(result_poly, AB_poly)
-        return result_poly
+        one_polynomial = {0}
+        A_polynomial = self.left.to_zhegalkin(variables)
+        B_polynomial = self.right.to_zhegalkin(variables)
+        AB_polynomial = multiply_polynomials(A_polynomial, B_polynomial)
+        result_polynomial = add_polynomials(one_polynomial, A_polynomial)
+        result_polynomial = add_polynomials(result_polynomial, AB_polynomial)
 
-    def substitute(self, env):
-        new_left = self.left.substitute(env)
-        new_right = self.right.substitute(env)
+        return result_polynomial
+
+    def substitute(self, variables):
+        new_left = self.left.substitute(variables)
+        new_right = self.right.substitute(variables)
+
         return ImpNode(new_left, new_right).simplify()
 
     def __str__(self):
         return f"({self.left} IMP {self.right})"
 
-    def to_graphviz(self, dot, counter):
+    def to_graphviz(self, graph, counter):
         node_id = str(id(self))
-        dot.node(node_id, "IMP")
-        left_id = self.left.to_graphviz(dot, counter)
-        right_id = self.right.to_graphviz(dot, counter)
-        dot.edge(node_id, left_id)
-        dot.edge(node_id, right_id)
+        graph.node(node_id, "IMP")
+        left_id = self.left.to_graphviz(graph, counter)
+        right_id = self.right.to_graphviz(graph, counter)
+        graph.edge(node_id, left_id)
+        graph.edge(node_id, right_id)
+
         return node_id
 
 
@@ -303,30 +319,33 @@ class EqvNode(Node):
     def simplify(self):
         return NotNode(XorNode(self.left, self.right)).simplify()
 
-    def evaluate(self, env):
-        return self.left.evaluate(env) == self.right.evaluate(env)
+    def evaluate(self, variables):
+        return self.left.evaluate(variables) == self.right.evaluate(variables)
 
     def to_zhegalkin(self, variables):
-        left_poly = self.left.to_zhegalkin(variables)
-        right_poly = self.right.to_zhegalkin(variables)
-        xor_poly = add_polynomials(left_poly, right_poly)
-        return add_polynomials({0}, xor_poly)
+        left_polynomial = self.left.to_zhegalkin(variables)
+        right_polynomial = self.right.to_zhegalkin(variables)
+        xor_polynomial = add_polynomials(left_polynomial, right_polynomial)
 
-    def substitute(self, env):
-        new_left = self.left.substitute(env)
-        new_right = self.right.substitute(env)
+        return add_polynomials({0}, xor_polynomial)
+
+    def substitute(self, variables):
+        new_left = self.left.substitute(variables)
+        new_right = self.right.substitute(variables)
+
         return EqvNode(new_left, new_right).simplify()
 
     def __str__(self):
         return f"({self.left} EQV {self.right})"
 
-    def to_graphviz(self, dot, counter):
+    def to_graphviz(self, graph, counter):
         node_id = str(id(self))
-        dot.node(node_id, "EQV")
-        left_id = self.left.to_graphviz(dot, counter)
-        right_id = self.right.to_graphviz(dot, counter)
-        dot.edge(node_id, left_id)
-        dot.edge(node_id, right_id)
+        graph.node(node_id, "EQV")
+        left_id = self.left.to_graphviz(graph, counter)
+        right_id = self.right.to_graphviz(graph, counter)
+        graph.edge(node_id, left_id)
+        graph.edge(node_id, right_id)
+
         return node_id
 
 
@@ -338,29 +357,30 @@ class NandNode(Node):
     def simplify(self):
         return NotNode(AndNode(self.left, self.right)).simplify()
 
-    def evaluate(self, env):
-        return not (self.left.evaluate(env) and self.right.evaluate(env))
+    def evaluate(self, variables):
+        return not (self.left.evaluate(variables) and self.right.evaluate(variables))
 
     def to_zhegalkin(self, variables):
-        and_poly = AndNode(self.left, self.right).to_zhegalkin(variables)
-        return add_polynomials({0}, and_poly)
+        and_polynomial = AndNode(self.left, self.right).to_zhegalkin(variables)
 
-    def substitute(self, env):
-        new_left = self.left.substitute(env)
-        new_right = self.right.substitute(env)
+        return add_polynomials({0}, and_polynomial)
+
+    def substitute(self, variables):
+        new_left = self.left.substitute(variables)
+        new_right = self.right.substitute(variables)
 
         return NandNode(new_left, new_right).simplify()
 
     def __str__(self):
         return f"({self.left} NAND {self.right})"
 
-    def to_graphviz(self, dot, counter):
+    def to_graphviz(self, graph, counter):
         node_id = str(id(self))
-        dot.node(node_id, "NAND")
-        left_id = self.left.to_graphviz(dot, counter)
-        right_id = self.right.to_graphviz(dot, counter)
-        dot.edge(node_id, left_id)
-        dot.edge(node_id, right_id)
+        graph.node(node_id, "NAND")
+        left_id = self.left.to_graphviz(graph, counter)
+        right_id = self.right.to_graphviz(graph, counter)
+        graph.edge(node_id, left_id)
+        graph.edge(node_id, right_id)
 
         return node_id
 
@@ -373,30 +393,32 @@ class NorNode(Node):
     def simplify(self):
         return NotNode(OrNode(self.left, self.right)).simplify()
 
-    def evaluate(self, env):
-        return not (self.left.evaluate(env) or self.right.evaluate(env))
+    def evaluate(self, variables):
+        return not (self.left.evaluate(variables) or self.right.evaluate(variables))
 
     def to_zhegalkin(self, variables):
-        left_poly = self.left.to_zhegalkin(variables)
-        right_poly = self.right.to_zhegalkin(variables)
-        product = multiply_polynomials(left_poly, right_poly)
-        or_poly = add_polynomials(add_polynomials(left_poly, right_poly), product)
-        return add_polynomials({0}, or_poly)
+        left_polynomial = self.left.to_zhegalkin(variables)
+        right_polynomial = self.right.to_zhegalkin(variables)
+        product = multiply_polynomials(left_polynomial, right_polynomial)
+        or_polynomial = add_polynomials(add_polynomials(left_polynomial, right_polynomial), product)
 
-    def substitute(self, env):
-        new_left = self.left.substitute(env)
-        new_right = self.right.substitute(env)
+        return add_polynomials({0}, or_polynomial)
+
+    def substitute(self, variables):
+        new_left = self.left.substitute(variables)
+        new_right = self.right.substitute(variables)
+
         return NorNode(new_left, new_right).simplify()
 
     def __str__(self):
         return f"({self.left} NOR {self.right})"
 
-    def to_graphviz(self, dot, counter):
+    def to_graphviz(self, graph, counter):
         node_id = str(id(self))
-        dot.node(node_id, "NOR")
-        left_id = self.left.to_graphviz(dot, counter)
-        right_id = self.right.to_graphviz(dot, counter)
-        dot.edge(node_id, left_id)
-        dot.edge(node_id, right_id)
+        graph.node(node_id, "NOR")
+        left_id = self.left.to_graphviz(graph, counter)
+        right_id = self.right.to_graphviz(graph, counter)
+        graph.edge(node_id, left_id)
+        graph.edge(node_id, right_id)
 
         return node_id
