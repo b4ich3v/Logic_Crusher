@@ -1,4 +1,4 @@
-from gui.main_gui import *
+from gui.gui import *
 
 def main():
     run()
