@@ -25,7 +25,7 @@ def monomial_to_str(monomial, variables):
         return "1"
     return "*".join(terms)
 
-def zhegalkin_poly_to_str(polynomial, variables):
+def zhegalkin_polynomial_to_str(polynomial, variables):
     if not polynomial:
         return "0"
     terms = [monomial_to_str(m, variables) for m in polynomial]
