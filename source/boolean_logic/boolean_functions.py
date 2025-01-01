@@ -1,9 +1,11 @@
-from parser_lexer.lexer import *
-from parser_lexer.parser import *
-from boolean_logic.helpers import *
 from functools import lru_cache
 from itertools import product
-from boolean_logic.quine_mccluskey import * 
+
+from ast_nodes.nodes import *
+from boolean_logic.helpers import zhegalkin_polynomial_to_str
+from boolean_logic.quine_mccluskey import quine_mccluskey
+from parser_lexer.lexer import Lexer
+from parser_lexer.parser import Parser
 
 def get_variables(node):
     variables = set()
@@ -68,7 +70,7 @@ class BooleanFunction:
             return self._zhegalkin_cache
         
         polynomial = self.ast.to_zhegalkin(self.variables)
-        self._zhegalkin_cache = zhegalkin_poly_to_str(polynomial, self.variables)
+        self._zhegalkin_cache = zhegalkin_polynomial_to_str(polynomial, self.variables)
 
         return self._zhegalkin_cache
 
