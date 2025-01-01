@@ -34,9 +34,11 @@ class Lexer:
 
     def tokenize(self):
         tokens = []
-        for mo in re.finditer(self.token_regex, self.text):
-            kind = mo.lastgroup
-            value = mo.group(kind)
+
+        for token_match in re.finditer(self.token_regex, self.text):
+            kind = token_match.lastgroup
+            value = token_match.group(kind)
+
             if kind == "IDENTIFIER" or kind == "CONST":
                 tokens.append(Token(kind, value))
             elif kind in ("NOT", "AND", "OR", "XOR", "NAND", "NOR", "IMP", "EQV", "LPAREN", "RPAREN"):
@@ -45,6 +47,7 @@ class Lexer:
                 continue
             elif kind == "MISMATCH":
                 raise Exception(
-                    f"Invalid character {value!r} at position {mo.start() + 1}")
+                    f"Invalid character {value!r} at position {token_match.start() + 1}")
+            
         tokens.append(Token("EOF", None))
         return tokens
