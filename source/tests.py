@@ -74,9 +74,9 @@ class TestAST(unittest.TestCase):
     def test_evaluate_simple(self):
         expression = "A AND NOT B"
         boolean_function = BooleanFunction(expression)
-        self.assertTrue(boolean_function.evaluate({'A':1, 'B':0}))
-        self.assertFalse(boolean_function.evaluate({'A':1, 'B':1}))
-        self.assertFalse(boolean_function.evaluate({'A':0, 'B':0}))
+        self.assertTrue(boolean_function.evaluate({"A":1, "B":0}))
+        self.assertFalse(boolean_function.evaluate({"A":1, "B":1}))
+        self.assertFalse(boolean_function.evaluate({"A":0, "B":0}))
 
     def test_simplify(self):
         expression1 = "1 AND A"
@@ -136,7 +136,7 @@ class TestZhegalkin(unittest.TestCase):
         boolean_function = BooleanFunction(expression)
         polynomial = boolean_function.to_zhegalkin()
         expected_parts = {"A", "B", "A*B"}
-        polynomial_parts = set(part.strip() for part in polynomial.split('+'))
+        polynomial_parts = set(part.strip() for part in polynomial.split("+"))
         self.assertSetEqual(expected_parts, polynomial_parts)
 
 
@@ -178,9 +178,9 @@ class TestMinimizeAndQuine(unittest.TestCase):
         minimized = boolean_function.minimize()
 
         for (A_value, B_value) in product([0,1],[0,1]):
-            original = boolean_function.evaluate({'A':A_value, 'B':B_value})
+            original = boolean_function.evaluate({"A":A_value, "B":B_value})
             test_boolean_function = BooleanFunction(minimized)
-            minimized_evaluation = test_boolean_function.evaluate({'A':A_value, 'B':B_value})
+            minimized_evaluation = test_boolean_function.evaluate({"A":A_value, "B":B_value})
             self.assertEqual(original, minimized_evaluation)
 
     def test_quine_with_dontcare(self):
@@ -227,8 +227,8 @@ class TestKarnaughMap(unittest.TestCase):
         arr, _ = kmap.generate_map()
         self.assertEqual(arr.shape, (4,4))
         all_positions = [arr[i,j] for i in range(4) for j in range(4)]
-        self.assertEqual(all_positions.count('1'), 1)
-        self.assertEqual(all_positions.count('0'), 15)
+        self.assertEqual(all_positions.count("1"), 1)
+        self.assertEqual(all_positions.count("0"), 15)
 
     
 class TestEquivalence(unittest.TestCase):
@@ -403,7 +403,6 @@ class TestFileExport(unittest.TestCase):
         self.assertIn("is_linear", not_or_function_entry["properties"])
         self.assertEqual(not_or_function_entry["number_of_variables"], 1)
         self.assertEqual(len(not_or_function_entry["truth_table"]), 2)
-
 
 
 if __name__ == "__main__":
