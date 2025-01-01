@@ -1,5 +1,5 @@
-from parser_lexer.lexer import *
-from parser_lexer.parser import *
+from parser_lexer.lexer import Lexer
+from parser_lexer.parser import Parser
 
 class Validator:
     @staticmethod
