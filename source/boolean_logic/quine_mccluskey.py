@@ -3,8 +3,8 @@ def quine_mccluskey(minterms, num_vars, dont_cares=None):
         dont_cares = []
 
     all_terms = minterms + dont_cares
-
     groups = {}
+
     for term in all_terms:
         ones = bin(term).count("1")
         groups.setdefault(ones, []).append(f"{term:0{num_vars}b}")
@@ -16,12 +16,15 @@ def quine_mccluskey(minterms, num_vars, dont_cares=None):
         new_groups = {}
         checked = set()
         group_keys = sorted(next_groups.keys())
+
         for i in range(len(group_keys)-1):
             group1 = next_groups[group_keys[i]]
             group2 = next_groups[group_keys[i+1]]
+
             for term1 in group1:
                 for term2 in group2:
                     diff = sum(c1 != c2 for c1, c2 in zip(term1, term2))
+
                     if diff == 1:
                         idx = next(idx for idx, (c1, c2) in enumerate(zip(term1, term2)) if c1 != c2)
                         combined = term1[:idx] + "-" + term1[idx+1:]
@@ -40,6 +43,7 @@ def quine_mccluskey(minterms, num_vars, dont_cares=None):
             break
         next_groups = {}
         unique_terms = set()
+
         for terms in new_groups.values():
             for term in terms:
                 unique_terms.add(term)
@@ -57,6 +61,7 @@ def find_essential_prime_implicants_with_dont_cares(prime_implicants, minterms, 
 
     bin_minterms = [f'{m:0{num_vars}b}' for m in minterms]
     coverage = {}
+
     for pi in prime_implicants:
         coverage[pi] = [m for m in bin_minterms if matches(pi, m)]
 
@@ -81,6 +86,7 @@ def find_essential_prime_implicants_with_dont_cares(prime_implicants, minterms, 
 
     def covers_all(selected_pis, minterms_to_cover):
         covered = set()
+        
         for pi in selected_pis:
             covered.update(coverage[pi])
         return all(m in covered for m in minterms_to_cover)
