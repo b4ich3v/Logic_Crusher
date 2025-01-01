@@ -17,6 +17,8 @@ from boolean_logic.gate_parser import *
 from boolean_logic.karnaugh import *
 from boolean_logic.validator import *
 
+function_set = BooleanFunctionSet()
+
 def simplify_expression():
     global first_expression_entry, second_expression_entry, active_expression, expression_result_display, function_set
     expression_text = get_active_expression()
@@ -684,8 +686,6 @@ def open_sets_window():
     )
     canvas.create_window(60, 556, anchor="nw", window=btn_relations)
 
-function_set = BooleanFunctionSet()
-
 def run():
     global root, first_expression_entry, second_expression_entry, active_expression, expression_result_display, variable_entry, function_set
 
@@ -797,4 +797,3 @@ def run():
     
     function_set = BooleanFunctionSet()
     root.mainloop()
-
