@@ -3,28 +3,30 @@ class GateNode:
         self.gate_type = gate_type  
         self.children = children if children else []
 
-def parse_minimized_expression(expr):
-    expr = expr.strip()
+def parse_minimized_expression(expression):
+    expression = expression.strip()
 
-    if expr.isalnum() or expr in ("1", "0"):
-        return GateNode("VAR", [expr])
+    if expression.isalnum() or expression in ("1", "0"):
+        return GateNode("VAR", [expression])
 
-    if expr.startswith("(") and expr.endswith(")"):
+    if expression.startswith("(") and expression.endswith(")"):
         count = 0
         remove = True
-        for i, ch in enumerate(expr):
+
+        for i, ch in enumerate(expression):
             if ch == '(':
                 count += 1
             elif ch == ')':
                 count -= 1
-            if count == 0 and i < len(expr) - 1:
+            if count == 0 and i < len(expression) - 1:
                 remove = False
                 break
         if remove:
-            expr = expr[1:-1].strip()
+            expression = expression[1:-1].strip()
 
     def find_top_level_operator(expression):
         count = 0
+
         for i, ch in enumerate(expression):
             if ch == '(':
                 count += 1
@@ -42,56 +44,66 @@ def parse_minimized_expression(expr):
                             return "OR", i
         return None, None
 
-    op, idx = find_top_level_operator(expr)
-    if op is not None:
-        if op == "AND":
-            left = expr[:idx].strip()
-            right = expr[idx+3:].strip()
+    operator, index = find_top_level_operator(expression)
+
+    if operator is not None:
+        if operator == "AND":
+            left = expression[:index].strip()
+            right = expression[index+3:].strip()
+
             if right.startswith(" "):
                 right = right[1:].strip()
+
             left_node = parse_minimized_expression(left)
             right_node = parse_minimized_expression(right)
+
             return GateNode("AND", [left_node, right_node])
 
-        elif op == "OR":
-            left = expr[:idx].strip()
-            right = expr[idx+2:].strip()
+        elif operator == "OR":
+            left = expression[:index].strip()
+            right = expression[index+2:].strip()
+
             if right.startswith(" "):
                 right = right[1:].strip()
+
             left_node = parse_minimized_expression(left)
             right_node = parse_minimized_expression(right)
+
             return GateNode("OR", [left_node, right_node])
 
-    if expr.startswith("NOT"):
-        sub_expr = expr[3:].strip()
+    if expression.startswith("NOT"):
+        sub_expression = expression[3:].strip()
 
-        if sub_expr.startswith("(") and sub_expr.endswith(")"):
+        if sub_expression.startswith("(") and sub_expression.endswith(")"):
             pass
-        child = parse_minimized_expression(sub_expr)
+        child = parse_minimized_expression(sub_expression)
         return GateNode("NOT", [child])
 
-    if expr.startswith("NOT("):
-        sub_expr = expr[3:].strip()
-        if sub_expr.startswith("(") and sub_expr.endswith(")"):
-            sub_expr = sub_expr[1:-1].strip()
-        child = parse_minimized_expression(sub_expr)
+    if expression.startswith("NOT("):
+        sub_expression = expression[3:].strip()
+        if sub_expression.startswith("(") and sub_expression.endswith(")"):
+            sub_expression = sub_expression[1:-1].strip()
+
+        child = parse_minimized_expression(sub_expression)
         return GateNode("NOT", [child])
 
-    raise Exception(f"Cannot parse expression: {expr}")
+    raise Exception(f"Cannot parse expression: {expression}")
 
-def gate_ast_to_graphviz(node, dot):
+def gate_ast_to_graphviz(node, graph):
     node_id = str(id(node))
+
     if node.gate_type == "VAR":
-        dot.node(node_id, node.children[0], shape="circle")
+        graph.node(node_id, node.children[0], shape="circle")
     else:
-        dot.node(node_id, node.gate_type, shape="box")
+        graph.node(node_id, node.gate_type, shape="box")
 
     for child in node.children:
         if isinstance(child, GateNode):
-            child_id = gate_ast_to_graphviz(child, dot)
-            dot.edge(node_id, child_id)
+            child_id = gate_ast_to_graphviz(child, graph)
+            graph.edge(node_id, child_id)
         else:
             c_id = str(id(child))
-            dot.node(c_id, str(child), shape="circle")
-            dot.edge(node_id, c_id)
+            graph.node(c_id, str(child), shape="circle")
+            graph.edge(node_id, c_id)
+            
     return node_id
