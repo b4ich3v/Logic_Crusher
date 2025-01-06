@@ -1,6 +1,12 @@
-from main import *
 import unittest
 import tempfile
+
+from gui.gui_main import *
+from gui.gui_actions import *
+from parser_lexer.lexer import Lexer
+from parser_lexer.parser import Parser
+from boolean_logic.boolean_functions import BooleanFunctionSet
+from boolean_logic.quine_mccluskey import quine_mccluskey
 
 class TestLexer(unittest.TestCase):
     def test_basic_tokens(self):
