@@ -109,7 +109,7 @@ def run():
     buttons = [
         ("Simplification", gui_actions.simplify_expression),
         ("Zhegalkin polynomial", gui_actions.zhegalkin_polynomial),
-        ("Property Check", gui_actions.check_properties),
+        ("Property check", gui_actions.check_properties),
         ("Minimize", gui_actions.minimize_expression),
         ("Factoring in a variable", gui_actions.decompose_expression),
         ("Generate a Karnaugh  map", gui_actions.generate_kmap),
