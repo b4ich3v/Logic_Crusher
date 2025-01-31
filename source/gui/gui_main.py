@@ -2,7 +2,8 @@ import ctypes
 import os
 import platform
 import sys
-import webbrowser
+import markdown2
+from tkinterweb import HtmlFrame
 import tkinter as tk
 from tkinter import messagebox
 from PIL import Image, ImageSequence, ImageTk
@@ -24,9 +25,30 @@ def resource_path(relative_path):
     base_path = getattr(sys, "_MEIPASS", os.path.dirname(__file__))
     return os.path.join(base_path, relative_path)
 
-def open_help_website():
-    help_url = "https://github.com/b4ich3v/Logic_Crusher/tree/main/instructions" 
-    webbrowser.open(help_url)
+def open_help_window():
+    help_window = tk.Toplevel()
+    help_window.title("Help window")
+    help_window.geometry("800x600")
+
+    html_frame = HtmlFrame(help_window, horizontal_scrollbar="auto")
+    html_frame.pack(fill="both", expand=True)
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+
+    local_readme_path = os.path.join(
+        current_dir, '..', '..', 
+        'instructions', 'README.md'
+    )
+
+    try:
+        with open(local_readme_path, "r", encoding="utf-8") as f:
+            markdown_text = f.read()
+        html_text = markdown2.markdown(markdown_text)
+        html_frame.add_html(html_text)
+
+    except Exception as e:
+        html_frame.add_html(
+            f"<h2 style='color:red'>Error while reading the file</h2><p>{e}</p>"
+        )
 
 def run():
     global root, first_expression_entry, second_expression_entry
@@ -130,7 +152,7 @@ def run():
     canvas.create_window(720, 20, window=save_button, anchor="nw")
     canvas.create_window(50, 360, window=result_frame, anchor="nw")
 
-    help_button = tk.Button(root, text="Help", width=15, command=open_help_website, font=("Comic Sans MS", 10, "bold"), bg="#f0f0f0")
+    help_button = tk.Button(root, text="Help", width=15, command=open_help_window, font=("Comic Sans MS", 10, "bold"), bg="#f0f0f0")
     canvas.create_window(720, 60, window=help_button, anchor="nw")
 
     sets_button = tk.Button(root, text="Sets", width=15, command=gui_sets.open_sets_window, font=("Comic Sans MS", 10, "bold"), bg="#f0f0f0")
