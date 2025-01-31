@@ -1,7 +1,7 @@
 import unittest
 import tempfile
 
-from gui.gui_main import *
+from gui.gui_main import 
 from gui.gui_actions import *
 from parser_lexer.lexer import Lexer
 from parser_lexer.parser import Parser
