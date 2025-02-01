@@ -1,4 +1,6 @@
-from boolean_logic.helpers import add_polynomials, multiply_polynomials
+from boolean_logic.helpers import add_polynomials
+from boolean_logic.helpers import multiply_polynomials
+
 
 class Node:
     def simplify(self):
@@ -151,7 +153,7 @@ class AndNode(Node):
         return AndNode(new_left, new_right).simplify()
 
     def __str__(self):
-        return f'({self.left} AND {self.right})'
+        return f"({self.left} AND {self.right})"
 
     def to_graphviz(self, graph, counter):
         node_id = str(id(self))
