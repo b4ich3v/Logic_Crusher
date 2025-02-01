@@ -1,8 +1,18 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
+
 class KarnaughMap:
+    """
+    Constructs and plots a Karnaugh map (K-map) for a given Boolean function,
+    supporting 2 to 4 variables.
+    """
+    
     def __init__(self, boolean_function):
+        """
+        Initialize the K-map with the given BooleanFunction.
+        Raises ValueError if the number of variables is outside [2..4].
+        """
         self.boolean_function = boolean_function
         self.variables = boolean_function.variables
         self.variable_count = len(self.variables)
@@ -12,6 +22,10 @@ class KarnaughMap:
         self.truth_table = boolean_function.get_truth_table()
 
     def generate_map(self):
+        """
+        Return a 2D array (NumPy) representing the K-map layout
+        and the list of variable names used in row/column labeling.
+        """
         if self.variable_count == 2:
             return self._generate_map_2vars()
         elif self.variable_count == 3:
@@ -71,6 +85,10 @@ class KarnaughMap:
         return kmap, variables_order
 
     def plot_map(self):
+        """
+        Render and display the Karnaugh map using matplotlib,
+        labeling rows and columns with the appropriate variable combinations.
+        """
         kmap, variables_order = self.generate_map()
         rows_count, cols_count = kmap.shape
 
@@ -79,17 +97,38 @@ class KarnaughMap:
         ax.axis("tight")
 
         if self.variable_count == 2:
-            row_variables = [f"{variables_order[0]}=0", f"{variables_order[0]}=1"]
-            col_variables = [f"{variables_order[1]}=0", f"{variables_order[1]}=1"]
+            row_variables = [
+                f"{variables_order[0]}=0", 
+                f"{variables_order[0]}=1"
+                ]
+            col_variables = [
+                f"{variables_order[1]}=0",
+                f"{variables_order[1]}=1"
+                ]
         elif self.variable_count == 3:
-            row_variables = [f"{variables_order[0]}=0", f"{variables_order[0]}=1"]
-            col_variables = [f"{variables_order[1]}{variables_order[2]}=00", f"{variables_order[1]}{variables_order[2]}=01",
-                        f"{variables_order[1]}{variables_order[2]}=10", f"{variables_order[1]}{variables_order[2]}=11"]
+            row_variables = [
+                f"{variables_order[0]}=0",
+                f"{variables_order[0]}=1"
+                ]
+            col_variables = [
+                f"{variables_order[1]}{variables_order[2]}=00",
+                f"{variables_order[1]}{variables_order[2]}=01",
+                f"{variables_order[1]}{variables_order[2]}=10",
+                f"{variables_order[1]}{variables_order[2]}=11"
+                ]
         elif self.variable_count == 4:
-            row_variables = [f"{variables_order[0]}{variables_order[1]}=00", f"{variables_order[0]}{variables_order[1]}=01",
-                        f"{variables_order[0]}{variables_order[1]}=10", f"{variables_order[0]}{variables_order[1]}=11"]
-            col_variables = [f"{variables_order[2]}{variables_order[3]}=00", f"{variables_order[2]}{variables_order[3]}=01",
-                        f"{variables_order[2]}{variables_order[3]}=10", f"{variables_order[2]}{variables_order[3]}=11"]
+            row_variables = [
+                f"{variables_order[0]}{variables_order[1]}=00",
+                f"{variables_order[0]}{variables_order[1]}=01",
+                f"{variables_order[0]}{variables_order[1]}=10",
+                f"{variables_order[0]}{variables_order[1]}=11"
+                ]
+            col_variables = [
+                f"{variables_order[2]}{variables_order[3]}=00",
+                f"{variables_order[2]}{variables_order[3]}=01",
+                f"{variables_order[2]}{variables_order[3]}=10",
+                f"{variables_order[2]}{variables_order[3]}=11"
+                ]
 
         table = plt.table(cellText=kmap,
                           rowLabels=row_variables,
