@@ -1,6 +1,12 @@
 import re
 
+
 class Token:
+    """
+    A simple container for the type and value of a lexed token.
+    For example: Token(AND, '&&') or Token(IDENTIFIER, 'A').
+    """
+
     def __init__(self, type_, value=None):
         self.type = type_
         self.value = value
@@ -10,6 +16,11 @@ class Token:
 
 
 class Lexer:
+    """
+    Responsible for converting a Boolean expression string into a list of tokens
+    by matching against defined regular expression patterns.
+    """
+
     def __init__(self, text):
         self.text = text
         self.token_specification = [
@@ -29,10 +40,16 @@ class Lexer:
             ("MISMATCH",   r".")
         ]
 
+        # Build a single regex that alternates named groups for each token type
         self.token_regex = '|'.join(
-            f"(?P<{pair[0]}>{pair[1]})" for pair in self.token_specification)
+            f"(?P<{pair[0]}>{pair[1]})" for pair in self.token_specification
+            )
 
     def tokenize(self):
+        """
+        Yields a list of Token objects based on the input text.
+        Raises an exception if an invalid character is encountered.
+        """
         tokens = []
 
         for token_match in re.finditer(self.token_regex, self.text):
