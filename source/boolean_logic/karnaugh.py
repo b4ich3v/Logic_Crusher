@@ -130,11 +130,13 @@ class KarnaughMap:
                 f"{variables_order[2]}{variables_order[3]}=11"
                 ]
 
-        table = plt.table(cellText=kmap,
-                          rowLabels=row_variables,
-                          colLabels=col_variables,
-                          loc="center",
-                          cellLoc="center")
+        table = plt.table(
+            cellText=kmap,
+            rowLabels=row_variables,
+            colLabels=col_variables,
+            loc="center",
+            cellLoc="center"
+            )
 
         table.scale(1, 2)
         plt.title("Karnaugh map")
