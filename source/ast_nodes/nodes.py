@@ -3,13 +3,29 @@ from boolean_logic.helpers import multiply_polynomials
 
 
 class Node:
+    """
+    A base class for all AST nodes representing Boolean expressions.
+    """
+
     def simplify(self):
+        """
+        Attempt to simplify this node if possible.
+        """
+        
         return self
 
     def evaluate(self, variables):
+        """
+        Evaluate the node given a dictionary of variable assignments.
+        """
+
         pass
 
     def to_zhegalkin(self, variables):
+        """
+        Convert the node to its Zhegalkin polynomial representation.
+        """
+
         pass
 
     def __eq__(self, other):
@@ -23,6 +39,10 @@ class Node:
 
 
 class VariableNode(Node):
+    """
+    Represents a single variable in a Boolean expression.
+    """
+
     def __init__(self, name):
         self.name = name
 
@@ -54,6 +74,10 @@ class VariableNode(Node):
 
 
 class ConstNode(Node):
+    """
+    Represents a constant (True/False) in a Boolean expression.
+    """
+
     def __init__(self, value):
         self.value = value
 
@@ -81,6 +105,10 @@ class ConstNode(Node):
 
 
 class NotNode(Node):
+    """
+    Represents the logical NOT of a single operand.
+    """
+
     def __init__(self, operand):
         self.operand = operand
 
@@ -119,6 +147,10 @@ class NotNode(Node):
 
 
 class AndNode(Node):
+    """
+    Represents the logical AND of two operands.
+    """
+
     def __init__(self, left, right):
         self.left = left
         self.right = right
@@ -167,6 +199,10 @@ class AndNode(Node):
 
 
 class OrNode(Node):
+    """
+    Represents the logical OR of two operands.
+    """
+
     def __init__(self, left, right):
         self.left = left
         self.right = right
@@ -216,6 +252,10 @@ class OrNode(Node):
 
 
 class XorNode(Node):
+    """
+    Represents the logical XOR of two operands.
+    """
+
     def __init__(self, left, right):
         self.left = left
         self.right = right
@@ -273,6 +313,10 @@ class XorNode(Node):
 
 
 class ImpNode(Node):
+    """
+    Represents the logical implication of left -> right.
+    """
+
     def __init__(self, left, right):
         self.left = left
         self.right = right
@@ -314,6 +358,10 @@ class ImpNode(Node):
 
 
 class EqvNode(Node):
+    """
+    Represents the logical equivalence of left <-> right.
+    """
+
     def __init__(self, left, right):
         self.left = left
         self.right = right
@@ -352,6 +400,10 @@ class EqvNode(Node):
 
 
 class NandNode(Node):
+    """
+    Represents the logical NAND of two operands (negated AND).
+    """
+
     def __init__(self, left, right):
         self.left = left
         self.right = right
@@ -388,6 +440,10 @@ class NandNode(Node):
 
 
 class NorNode(Node):
+    """
+    Represents the logical NOR of two operands (negated OR).
+    """
+
     def __init__(self, left, right):
         self.left = left
         self.right = right
