@@ -1,12 +1,22 @@
 from ast_nodes.nodes import *
 
+
 class Parser:
+    """
+    Parses a list of tokens (from the Lexer) into an abstract syntax tree (AST).
+    Implements a recursive descent parser for Boolean expressions.
+    """
+
     def __init__(self, tokens):
         self.tokens = tokens
         self.position = 0
         self.current_token = self.tokens[self.position]
 
     def eat(self, token_type):
+        """
+        Consume the current token if it matches the expected type,
+        otherwise raise an exception.
+        """
         if self.current_token.type == token_type:
             self.position += 1
             self.current_token = self.tokens[self.position]
@@ -15,6 +25,10 @@ class Parser:
                 f"Expected token {token_type} but received {self.current_token.type} at position {self.position + 1}")
 
     def parse(self):
+        """
+        Initiates parsing and returns the root of the resulting AST.
+        Raises an exception if tokens remain after a complete parse.
+        """
         node = self.expr()
 
         if self.current_token.type != "EOF":
