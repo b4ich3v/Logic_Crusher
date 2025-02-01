@@ -1,9 +1,19 @@
 class GateNode:
+    """
+    Represents a node in a logic gate AST, storing a gate type
+    (e.g., "AND", "OR", "NOT", or "VAR") and its child nodes.
+    """
+
     def __init__(self, gate_type, children=None):
         self.gate_type = gate_type  
         self.children = children if children else []
 
+
 def parse_minimized_expression(expression):
+    """
+    Parse a minimized Boolean expression (e.g., "A AND B", "(NOT A) OR B")
+    into a GateNode AST structure suitable for further processing or visualization.
+    """
     expression = expression.strip()
 
     if expression.isalnum() or expression in ("1", "0"):
@@ -14,9 +24,9 @@ def parse_minimized_expression(expression):
         remove = True
 
         for i, ch in enumerate(expression):
-            if ch == '(':
+            if ch == "(":
                 count += 1
-            elif ch == ')':
+            elif ch == ")":
                 count -= 1
             if count == 0 and i < len(expression) - 1:
                 remove = False
@@ -28,9 +38,9 @@ def parse_minimized_expression(expression):
         count = 0
 
         for i, ch in enumerate(expression):
-            if ch == '(':
+            if ch == "(":
                 count += 1
-            elif ch == ')':
+            elif ch == ")":
                 count -= 1
             else:
                 if count == 0:
@@ -90,6 +100,10 @@ def parse_minimized_expression(expression):
     raise Exception(f"Cannot parse expression: {expression}")
 
 def gate_ast_to_graphviz(node, graph):
+    """
+    Recursively add the given GateNode (and any children) to a graphviz Digraph.
+    Each node is drawn as a box or circle (for variables), with edges to its children.
+    """
     node_id = str(id(node))
 
     if node.gate_type == "VAR":
