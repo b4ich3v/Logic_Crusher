@@ -1,4 +1,7 @@
 def quine_mccluskey(minterms, num_vars, dont_cares=None):
+    """
+    Quine-McCluskey algorithm to find prime implicants for given minterms/don't cares.
+    """
     if dont_cares is None:
         dont_cares = []
 
@@ -59,6 +62,9 @@ def quine_mccluskey(minterms, num_vars, dont_cares=None):
     return essential_prime_implicants
 
 def find_essential_prime_implicants_with_dont_cares(prime_implicants, minterms, num_vars):
+    """
+    Identify essential prime implicants, considering don't cares if any.
+    """
     def matches_pattern(prime_implicant, minterm):
         return all(
             current_prime_implicant == minterm_bit_state or current_prime_implicant == "-" 
@@ -69,13 +75,19 @@ def find_essential_prime_implicants_with_dont_cares(prime_implicants, minterms, 
     coverage = {}
 
     for prime_implicant in prime_implicants:
-        coverage[prime_implicant] = [minterm_bin for minterm_bin in bin_minterms if matches_pattern(prime_implicant, minterm_bin)]
+        coverage[prime_implicant] = [
+            minterm_bin for minterm_bin in bin_minterms
+            if matches_pattern(prime_implicant, minterm_bin)
+            ]
 
     essential_pis = set()
     uncovered_minterms = set(bin_minterms)
 
     for minterm_bin in bin_minterms:
-        covering_pis = [current_prime_implicant for current_prime_implicant, covered in coverage.items() if minterm_bin in covered]
+        covering_pis = [
+            current_prime_implicant for current_prime_implicant,
+            covered in coverage.items() if minterm_bin in covered
+            ]
 
         if len(covering_pis) == 1:
             essential_pis.add(covering_pis[0])
@@ -131,6 +143,9 @@ def find_essential_prime_implicants_with_dont_cares(prime_implicants, minterms, 
     return final_solution
 
 def matches_pattern(prime_implicant, minterm):
+    """
+    Matches a prime implicant pattern against a minterm.
+    """
     return all(
         current_prime_implicant == mt or current_prime_implicant == "-" 
         for current_prime_implicant, mt in zip(prime_implicant, minterm)
