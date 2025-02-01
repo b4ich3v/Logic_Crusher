@@ -7,7 +7,12 @@ from boolean_logic.quine_mccluskey import quine_mccluskey
 from parser_lexer.lexer import Lexer
 from parser_lexer.parser import Parser
 
+
 def get_variables(node):
+    """
+    Recursively gather all variable names from the given AST node.
+    For example, if the node is (A AND (NOT B)), returns {'A', 'B'}.
+    """
     variables = set()
 
     if isinstance(node, VariableNode):
@@ -19,7 +24,13 @@ def get_variables(node):
         variables.update(get_variables(node.right))
     return variables
 
+
 class BooleanFunction:
+    """
+    A class representing a Boolean expression and providing methods
+    for simplification, minimization, property checks, and more.
+    """
+
     def __init__(self, expression):
         self.expression = expression
         lexer = Lexer(expression)
@@ -35,6 +46,10 @@ class BooleanFunction:
         self._simplified_cache = None
 
     def simplify(self):
+        """
+        Return a simplified string representation of the Boolean function,
+        caching the result if already computed.
+        """
         if self._simplified_cache is not None:
             return self._simplified_cache
         
@@ -53,9 +68,9 @@ class BooleanFunction:
             remove = True
 
             for i, ch in enumerate(expression):
-                if ch == '(':
+                if ch == "(":
                     count += 1
-                elif ch == ')':
+                elif ch == ")":
                     count -= 1
                 if count == 0 and i < len(expression)-1:
                     remove = False
@@ -66,6 +81,10 @@ class BooleanFunction:
 
     @lru_cache(None)
     def to_zhegalkin(self):
+        """
+        Return the Zhegalkin polynomial representation of this Boolean function as a string.
+        Uses caching to avoid recomputation.
+        """
         if self._zhegalkin_cache is not None:
             return self._zhegalkin_cache
         
@@ -75,6 +94,10 @@ class BooleanFunction:
         return self._zhegalkin_cache
 
     def get_truth_table(self):
+        """
+        Build and cache the truth table (list of (input_tuple, result) pairs)
+        for the current Boolean function.
+        """
         if self._truth_table_cache is not None:
             return self._truth_table_cache
         
@@ -90,9 +113,15 @@ class BooleanFunction:
         return truth_table
 
     def evaluate(self, variables):
+        """
+        Evaluate the AST with a given dictionary of variable assignments.
+        """
         return self.ast.evaluate(variables)
 
     def preserves_zero(self):
+        """
+        Check if the function preserves zero (returns 0 when all variables are 0).
+        """
         if "preserves_zero" in self._properties_cache:
             return self._properties_cache["preserves_zero"]
         
@@ -103,6 +132,9 @@ class BooleanFunction:
         return value
 
     def preserves_one(self):
+        """
+        Check if the function preserves one (returns 1 when all variables are 1).
+        """
         if "preserves_one" in self._properties_cache:
             return self._properties_cache["preserves_one"]
         
@@ -113,6 +145,9 @@ class BooleanFunction:
         return value
 
     def is_self_dual(self):
+        """
+        Check if the function is self-dual, i.e., F(~x) = ~F(x).
+        """
         if "is_self_dual" in self._properties_cache:
             return self._properties_cache["is_self_dual"]
         
@@ -132,6 +167,9 @@ class BooleanFunction:
         return True
 
     def is_monotonic(self):
+        """
+        Check if the function is monotonic, i.e., non-decreasing when inputs are flipped from 0 to 1.
+        """
         if "is_monotonic" in self._properties_cache:
             return self._properties_cache["is_monotonic"]
         
@@ -148,6 +186,10 @@ class BooleanFunction:
         return True
 
     def is_linear(self):
+        """
+        Check if the function is linear, meaning each monomial in its Zhegalkin polynomial
+        has at most one variable (no products of multiple variables).
+        """
         if "is_linear" in self._properties_cache:
             return self._properties_cache["is_linear"]
         
@@ -162,6 +204,10 @@ class BooleanFunction:
         return True
 
     def minimize(self):
+        """
+        Minimize the function using the Quine-McCluskey algorithm.
+        Returns a string of the minimized expression.
+        """
         if self._minimized_cache is not None:
             return self._minimized_cache
 
@@ -208,6 +254,10 @@ class BooleanFunction:
 
 
     def cofactor(self, variable, value):
+        """
+        Return a new BooleanFunction that is the cofactor of self by setting
+        a given variable to a specified value (0 or 1).
+        """
         if variable not in self.variables:
             raise ValueError(f"The variable {variable} is not part of the function.")
 
@@ -218,6 +268,10 @@ class BooleanFunction:
         return BooleanFunction(new_expression)
 
     def decompose(self, variable):
+        """
+        Decompose this Boolean function into two cofactors with respect to 'variable':
+        one where variable=0 and one where variable=1.
+        """
         if variable not in self.variables:
             raise ValueError(f"The variable {variable} is not part of the function.")
 
@@ -236,13 +290,24 @@ class BooleanFunction:
     
 
 class BooleanFunctionSet:
+    """
+    Maintains a set of BooleanFunction objects and can provide collective information.
+    """
+
     def __init__(self):
         self.functions = set()  
 
     def add_function(self, boolean_function):
+        """
+        Add a BooleanFunction instance to the set.
+        """
         self.functions.add(boolean_function)
 
     def get_functions_info(self):
+        """
+        Collect descriptive information about each stored BooleanFunction,
+        including its properties, minimized expression, and truth table.
+        """
         functions_info = []
 
         for current_function in self.functions:
@@ -266,6 +331,9 @@ class BooleanFunctionSet:
         return functions_info
 
     def _format_truth_table(self, truth_table, variables):
+        """
+        Convert a list of (input_tuple, output) pairs into a more readable structure.
+        """
         formatted = []
 
         for inputs, result in truth_table:
