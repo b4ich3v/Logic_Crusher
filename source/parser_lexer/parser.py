@@ -1,4 +1,8 @@
-from ast_nodes.nodes import *
+from ast_nodes.nodes import (
+    EqvNode, ImpNode, OrNode, NorNode, 
+    XorNode, AndNode, NandNode, NotNode, 
+    VariableNode, ConstNode
+)
 
 
 class Parser:
@@ -21,8 +25,9 @@ class Parser:
             self.position += 1
             self.current_token = self.tokens[self.position]
         else:
-            raise Exception(
-                f"Expected token {token_type} but received {self.current_token.type} at position {self.position + 1}")
+            raise ValueError(
+                f"Expected token {token_type} but received {self.current_token.type} at position {self.position + 1}"
+            )
 
     def parse(self):
         """
@@ -32,12 +37,11 @@ class Parser:
         node = self.expr()
 
         if self.current_token.type != "EOF":
-            raise Exception(f"Unexpected token {self.current_token.type} at position {self.position + 1}")
+            raise ValueError(f"Unexpected token {self.current_token.type} at position {self.position + 1}")
         return node
 
     def expr(self):
-        node = self.equiv_expr()
-        return node
+        return self.equiv_expr()
 
     def equiv_expr(self):
         node = self.imp_expr()
@@ -60,13 +64,10 @@ class Parser:
     def or_expr(self):
         node = self.xor_expr()
 
-        while self.current_token.type in ("OR", "NOR"):
-            if self.current_token.type == "OR":
-                self.eat("OR")
-                node = OrNode(node, self.xor_expr())
-            elif self.current_token.type == "NOR":
-                self.eat("NOR")
-                node = NorNode(node, self.xor_expr())
+        while self.current_token.type in {"OR", "NOR"}:
+            op = self.current_token.type
+            self.eat(op)
+            node = OrNode(node, self.xor_expr()) if op == "OR" else NorNode(node, self.xor_expr())
 
         return node
 
@@ -109,12 +110,12 @@ class Parser:
             return VariableNode(token.value)
         elif token.type == "CONST":
             self.eat("CONST")
-            value = True if token.value.lower() in ("1", "true") else False
+            value = True if token.value.lower() in {"1", "true"} else False
             return ConstNode(value)
         elif token.type == "LPAREN":
             self.eat("LPAREN")
             node = self.expr()
             self.eat("RPAREN")
             return node
-        else:
-            raise Exception(f"Unexpected token {token.type} at position {self.position + 1}")
+        
+        raise ValueError(f"Unexpected token {token.type} at position {self.position + 1}")
