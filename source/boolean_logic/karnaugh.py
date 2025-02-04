@@ -90,9 +90,8 @@ class KarnaughMap:
         labeling rows and columns with the appropriate variable combinations.
         """
         kmap, variables_order = self.generate_map()
-        rows_count, cols_count = kmap.shape
 
-        figure, ax = plt.subplots()
+        _, ax = plt.subplots()
         ax.axis("off")
         ax.axis("tight")
 
