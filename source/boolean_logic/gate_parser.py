@@ -8,6 +8,9 @@ class GateNode:
         self.gate_type = gate_type  
         self.children = children if children else []
 
+    def __repr__(self):
+        return f"GateNode({self.gate_type}, {self.children})"
+
 
 def parse_minimized_expression(expression):
     """
@@ -97,7 +100,7 @@ def parse_minimized_expression(expression):
         child = parse_minimized_expression(sub_expression)
         return GateNode("NOT", [child])
 
-    raise Exception(f"Cannot parse expression: {expression}")
+    raise ValueError(f"Cannot parse expression: {expression}")
 
 def gate_ast_to_graphviz(node, graph):
     """
