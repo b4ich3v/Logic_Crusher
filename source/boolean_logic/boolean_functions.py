@@ -1,11 +1,15 @@
 from functools import lru_cache
 from itertools import product
 
-from ast_nodes.nodes import *
-from boolean_logic.helpers import zhegalkin_polynomial_to_str
-from boolean_logic.quine_mccluskey import quine_mccluskey
 from parser_lexer.lexer import Lexer
 from parser_lexer.parser import Parser
+from ast_nodes.nodes import (
+    EqvNode, ImpNode, OrNode, NorNode, 
+    XorNode, AndNode, NandNode, NotNode, 
+    VariableNode
+)
+from boolean_logic.helpers import zhegalkin_polynomial_to_str
+from boolean_logic.quine_mccluskey import quine_mccluskey
 
 
 def get_variables(node):
@@ -22,6 +26,7 @@ def get_variables(node):
     elif isinstance(node, (AndNode, OrNode, XorNode, ImpNode, EqvNode, NandNode, NorNode)):
         variables.update(get_variables(node.left))
         variables.update(get_variables(node.right))
+
     return variables
 
 
@@ -218,11 +223,15 @@ class BooleanFunction:
         if not minterms:
             self._minimized_cache = "0"
             return "0"
+        
         if len(minterms) == 2 ** variables_count:
             self._minimized_cache = "1"
             return "1"
 
-        minterm_numbers = [sum(val << (variables_count - idx - 1) for idx, val in enumerate(values)) for values in minterms]
+        minterm_numbers = [
+            sum(val << (variables_count - idx - 1) for idx, val
+            in enumerate(values)) for values in minterms
+            ]
         minimized_terms = quine_mccluskey(minterm_numbers, variables_count)
         terms_str = []
 
@@ -248,10 +257,9 @@ class BooleanFunction:
 
         minimized_expression = " OR ".join(terms_str)
         minimized_expression = self.remove_outer_parens(minimized_expression)
-
         self._minimized_cache = minimized_expression
-        return minimized_expression
 
+        return minimized_expression
 
     def cofactor(self, variable, value):
         """
@@ -324,7 +332,10 @@ class BooleanFunctionSet:
                 },
                 "minimized": current_function.minimize(),
                 "number_of_variables": len(current_function.variables),
-                "truth_table": self._format_truth_table(current_function.get_truth_table(), current_function.variables)
+                "truth_table": self._format_truth_table(
+                    current_function.get_truth_table(), 
+                    current_function.variables
+                    )
             }
             functions_info.append(info)
 
