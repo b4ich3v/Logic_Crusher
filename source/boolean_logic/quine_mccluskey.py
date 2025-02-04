@@ -58,7 +58,9 @@ def quine_mccluskey(minterms, num_vars, dont_cares=None):
             count_of_ones = term.count("1")
             current_groups.setdefault(count_of_ones, []).append(term)
 
-    essential_prime_implicants = find_essential_prime_implicants_with_dont_cares(prime_implicants, minterms, num_vars)
+    essential_prime_implicants = find_essential_prime_implicants_with_dont_cares(
+        prime_implicants, minterms, num_vars
+        )
     return essential_prime_implicants
 
 def find_essential_prime_implicants_with_dont_cares(prime_implicants, minterms, num_vars):
