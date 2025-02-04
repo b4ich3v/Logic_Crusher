@@ -16,5 +16,5 @@ class Validator:
             parser = Parser(tokens)
             parser.parse()
             return True, None
-        except Exception as e:
+        except (SyntaxError, ValueError) as e:
             return False, str(e)
