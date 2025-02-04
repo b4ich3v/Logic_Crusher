@@ -8,25 +8,13 @@ class Node:
     """
 
     def simplify(self):
-        """
-        Attempt to simplify this node if possible.
-        """
-        
         return self
 
     def evaluate(self, variables):
-        """
-        Evaluate the node given a dictionary of variable assignments.
-        """
-
-        pass
+        raise NotImplementedError("evaluate() must be implemented in subclasses")
 
     def to_zhegalkin(self, variables):
-        """
-        Convert the node to its Zhegalkin polynomial representation.
-        """
-
-        pass
+        raise NotImplementedError("to_zhegalkin() must be implemented in subclasses")
 
     def __eq__(self, other):
         return isinstance(other, Node) and self.__dict__ == other.__dict__
@@ -35,7 +23,7 @@ class Node:
         return self
 
     def to_graphviz(self, graph, counter):
-        pass
+        raise NotImplementedError("to_graphviz() must be implemented in subclasses")
 
 
 class VariableNode(Node):
@@ -55,14 +43,15 @@ class VariableNode(Node):
     def to_zhegalkin(self, variables):
         index = variables.index(self.name)
         monomial = 1 << index
+
         return {monomial}
 
     def substitute(self, variables):
         if self.name in variables and variables[self.name] is not None:
             return ConstNode(variables[self.name])
-        else:
-            return self
-
+        
+        return self
+            
     def __str__(self):
         return self.name
 
@@ -114,10 +103,13 @@ class NotNode(Node):
 
     def simplify(self):
         operand = self.operand.simplify()
+
         if isinstance(operand, NotNode):
             return operand.operand
+        
         if isinstance(operand, ConstNode):
             return ConstNode(not operand.value)
+        
         return NotNode(operand)
 
     def evaluate(self, variables):
@@ -161,6 +153,7 @@ class AndNode(Node):
 
         if isinstance(left, ConstNode):
             return right if left.value else ConstNode(False)
+        
         if isinstance(right, ConstNode):
             return left if right.value else ConstNode(False)
 
@@ -270,14 +263,13 @@ class XorNode(Node):
         if isinstance(left, ConstNode):
             if left.value == False:
                 return right
-            else:  
-                return NotNode(right).simplify()
+            return NotNode(right).simplify()
+        
         if isinstance(right, ConstNode):
             if right.value == False:
                 return left
-            else:  
-                return NotNode(left).simplify()
-
+            return NotNode(left).simplify()
+                
         if left == right:
             return ConstNode(False)
 
@@ -329,11 +321,11 @@ class ImpNode(Node):
 
     def to_zhegalkin(self, variables):
         one_polynomial = {0}
-        A_polynomial = self.left.to_zhegalkin(variables)
-        B_polynomial = self.right.to_zhegalkin(variables)
-        AB_polynomial = multiply_polynomials(A_polynomial, B_polynomial)
-        result_polynomial = add_polynomials(one_polynomial, A_polynomial)
-        result_polynomial = add_polynomials(result_polynomial, AB_polynomial)
+        left_polynomial = self.left.to_zhegalkin(variables)
+        right_polynomial = self.right.to_zhegalkin(variables)
+        mult_polynomial = multiply_polynomials(left_polynomial, right_polynomial)
+        result_polynomial = add_polynomials(one_polynomial, left_polynomial)
+        result_polynomial = add_polynomials(result_polynomial, mult_polynomial)
 
         return result_polynomial
 
