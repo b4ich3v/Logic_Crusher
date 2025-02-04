@@ -2,9 +2,9 @@ import ctypes
 import os
 import platform
 import sys
+import tkinter as tk
 import markdown2
 from tkinterweb import HtmlFrame
-import tkinter as tk
 from tkinter import messagebox
 from PIL import Image, ImageSequence, ImageTk
 
@@ -92,22 +92,94 @@ def run():
     
     active_expression = tk.IntVar(value=1) 
     
-    expression_label_1 = tk.Label(root, text="Enter boolean expression 1:", bg="#ffffff", font=("Comic Sans MS", 12, "bold"))
-    first_expression_entry = tk.Entry(root, width=40, font=("Comic Sans MS", 12, "bold"), bg="#ffffff")
+    expression_label_1 = tk.Label(
+        root, 
+        text="Enter boolean expression 1:", 
+        bg="#ffffff", 
+        font=("Comic Sans MS", 12, "bold")
+    )
+
+    first_expression_entry = tk.Entry(
+        root, 
+        width=40, 
+        font=("Comic Sans MS", 12, "bold"), 
+        bg="#ffffff"
+    )
     
-    expression_label_2 = tk.Label(root, text="Enter boolean expression 2:", bg="#ffffff", font=("Comic Sans MS", 12, "bold"))
-    second_expression_entry = tk.Entry(root, width=40, font=("Comic Sans MS", 12, "bold"), bg="#ffffff")
+    expression_label_2 = tk.Label(
+        root, 
+        text="Enter boolean expression 2:", 
+        bg="#ffffff", 
+        font=("Comic Sans MS", 12, "bold")
+    )
     
-    selection_label = tk.Label(root, text="Choose an active expression:", bg="#ffffff", font=("Comic Sans MS", 12, "bold"))
-    radio1 = tk.Radiobutton(root, text="Expression 1", variable=active_expression, value=1, bg="#ffffff", font=("Comic Sans MS", 12, "bold"))
-    radio2 = tk.Radiobutton(root, text="Expression 2", variable=active_expression, value=2, bg="#ffffff", font=("Comic Sans MS", 12, "bold"))
+    second_expression_entry = tk.Entry(
+        root, 
+        width=40, 
+        font=("Comic Sans MS", 12, "bold"), bg="#ffffff"
+    )
     
-    variable_label = tk.Label(root, text="Variable to decompose:", bg="#ffffff", font=("Comic Sans MS", 12, "bold"))
-    variable_entry = tk.Entry(root, width=20, font=("Comic Sans MS", 12, "bold"), bg="#ffffff")
+    selection_label = tk.Label(
+        root, 
+        text="Choose an active expression:", 
+        bg="#ffffff", 
+        font=("Comic Sans MS", 12, "bold")
+    )
     
-    result_frame = tk.Frame(root, bg="#ffffff", bd=2, relief="groove")
-    expression_result_display = tk.Label(result_frame, text="The result will be displayed here.", justify="left", wraplength=950, anchor="w", bg="#ffffff", font=("Comic Sans MS", 12, "bold"))
-    expression_result_display.pack(fill="both", expand=True, padx=10, pady=10)
+    radio1 = tk.Radiobutton(
+        root, 
+        text="Expression 1", 
+        variable=active_expression, 
+        value=1, bg="#ffffff", 
+        font=("Comic Sans MS", 12, "bold")
+    )
+    
+    radio2 = tk.Radiobutton(
+        root, 
+        text="Expression 2", 
+        variable=active_expression, 
+        value=2, 
+        bg="#ffffff", 
+        font=("Comic Sans MS", 12, "bold")
+    )
+    
+    variable_label = tk.Label(
+        root, 
+        text="Variable to decompose:", 
+        bg="#ffffff", 
+        font=("Comic Sans MS", 12, "bold")
+    )
+
+    variable_entry = tk.Entry(
+        root, 
+        width=20, 
+        font=("Comic Sans MS", 12, "bold"), 
+        bg="#ffffff"
+    )
+    
+    result_frame = tk.Frame(
+        root, 
+        bg="#ffffff", 
+        bd=2, 
+        relief="groove"
+    )
+
+    expression_result_display = tk.Label(
+        result_frame, 
+        text="The result will be displayed here.", 
+        justify="left", 
+        wraplength=950, 
+        anchor="w", 
+        bg="#ffffff", 
+        font=("Comic Sans MS", 12, "bold")
+    )
+
+    expression_result_display.pack(
+        fill="both", 
+        expand=True, 
+        padx=10, 
+        pady=10
+    )
     
     canvas.create_window(50, 20, window=expression_label_1, anchor="nw")
     canvas.create_window(300, 20, window=first_expression_entry, anchor="nw")
@@ -145,18 +217,77 @@ def run():
         col = index % BUTTONS_PER_ROW
         x = BUTTON_START_X + col * BUTTON_SPACING_X
         y = BUTTON_START_Y + row * BUTTON_SPACING_Y
-        button = tk.Button(root, text=text, width=25, command=command, font=("Comic Sans MS", 10, "bold"), bg="#f0f0f0")
-        canvas.create_window(x, y, window=button, anchor="nw")
+
+        button = tk.Button(
+            root, 
+            text=text, 
+            width=25, 
+            command=command, 
+            font=("Comic Sans MS", 10, "bold"), 
+            bg="#f0f0f0"
+        )
+
+        canvas.create_window(
+            x, 
+            y, 
+            window=button, 
+            anchor="nw"
+        )
     
-    save_button = tk.Button(root, text="Save to file", width=15, command=gui_actions.save_to_file, font=("Comic Sans MS", 10, "bold"), bg="#f0f0f0")
-    canvas.create_window(720, 20, window=save_button, anchor="nw")
-    canvas.create_window(50, 360, window=result_frame, anchor="nw")
+    save_button = tk.Button(
+        root, 
+        text="Save to file", 
+        width=15, 
+        command=gui_actions.save_to_file, 
+        font=("Comic Sans MS", 10, "bold"), 
+        bg="#f0f0f0"
+    )
 
-    help_button = tk.Button(root, text="Help", width=15, command=open_help_window, font=("Comic Sans MS", 10, "bold"), bg="#f0f0f0")
-    canvas.create_window(720, 60, window=help_button, anchor="nw")
+    canvas.create_window(
+        720, 
+        20, 
+        window=save_button, 
+        anchor="nw"
+    )
 
-    sets_button = tk.Button(root, text="Sets", width=15, command=gui_sets.open_sets_window, font=("Comic Sans MS", 10, "bold"), bg="#f0f0f0")
-    canvas.create_window(720, 100, window=sets_button, anchor="nw")
+    canvas.create_window(
+        50, 
+        360, 
+        window=result_frame, 
+        anchor="nw"
+    )
+
+    help_button = tk.Button(
+        root, 
+        text="Help", 
+        width=15, 
+        command=open_help_window, 
+        font=("Comic Sans MS", 10, "bold"), 
+        bg="#f0f0f0"
+    )
+    
+    canvas.create_window(
+        720, 
+        60, 
+        window=help_button, 
+        anchor="nw"
+    )
+
+    sets_button = tk.Button(
+        root, 
+        text="Sets", 
+        width=15, 
+        command=gui_sets.open_sets_window, 
+        font=("Comic Sans MS", 10, "bold"), 
+        bg="#f0f0f0"
+    )
+
+    canvas.create_window(
+        720, 
+        100, 
+        window=sets_button, 
+        anchor="nw"
+    )
     
     if background_image:
         root.bg_photo = frames 
