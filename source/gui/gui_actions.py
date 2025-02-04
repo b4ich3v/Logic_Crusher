@@ -21,8 +21,11 @@ def simplify_expression():
     expression_text = get_active_expression()
 
     if not expression_text:
-        messagebox.showwarning("Error", "Please enter the selected boolean expression.")
+        messagebox.showwarning(
+            "Error", "Please enter the selected boolean expression."
+            )
         return
+    
     is_valid, error_message = Validator.validate(expression_text)
     if not is_valid:
         messagebox.showerror("Syntax error.", error_message)
@@ -31,7 +34,9 @@ def simplify_expression():
         boolean_function = BooleanFunction(expression_text)
         gui_main.function_set.add_function(boolean_function)
         simplified_expression = boolean_function.simplify()
-        gui_main.expression_result_display.config(text=f"Simplified expression:\n{simplified_expression}")
+        gui_main.expression_result_display.config(
+            text=f"Simplified expression:\n{simplified_expression}"
+            )
     except Exception as e:
         messagebox.showerror("Error", str(e))
 
@@ -39,8 +44,11 @@ def zhegalkin_polynomial():
     expression_text = get_active_expression()
 
     if not expression_text:
-        messagebox.showwarning("Error", "Please enter the selected boolean expression.")
+        messagebox.showwarning(
+            "Error", "Please enter the selected boolean expression."
+            )
         return
+    
     is_valid, error_message = Validator.validate(expression_text)
     if not is_valid:
         messagebox.showerror("Syntax error.", error_message)
@@ -49,7 +57,9 @@ def zhegalkin_polynomial():
         boolean_function = BooleanFunction(expression_text)
         gui_main.function_set.add_function(boolean_function)
         zhegalkin = boolean_function.to_zhegalkin()
-        gui_main.expression_result_display.config(text=f"Zhegalkin polynomial:\n{zhegalkin}")
+        gui_main.expression_result_display.config(
+            text=f"Zhegalkin polynomial:\n{zhegalkin}"
+            )
     except Exception as e:
         messagebox.showerror("Eror", str(e))
 
@@ -57,8 +67,11 @@ def check_properties():
     expression_text = get_active_expression()
 
     if not expression_text:
-        messagebox.showwarning("Error", "Please enter the selected boolean expression.")
+        messagebox.showwarning(
+            "Error", "Please enter the selected boolean expression."
+            )
         return
+    
     is_valid, error_message = Validator.validate(expression_text)
     if not is_valid:
         messagebox.showerror("Syntax error.", error_message)
@@ -88,7 +101,9 @@ def check_properties():
             properties.append("Linear.")
         else:
             properties.append("Non-linear.")
-        gui_main.expression_result_display.config(text=f"Function properties:\n" + "\n".join(properties))
+        gui_main.expression_result_display.config(
+            text=f"Function properties:\n" + "\n".join(properties)
+            )
     except Exception as e:
         messagebox.showerror("Error.", str(e))
 
@@ -96,8 +111,11 @@ def minimize_expression():
     expression_text = get_active_expression()
 
     if not expression_text:
-        messagebox.showwarning("Error", "Please enter the selected boolean expression.")
+        messagebox.showwarning(
+            "Error", "Please enter the selected boolean expression."
+            )
         return
+    
     is_valid, error_message = Validator.validate(expression_text)
     if not is_valid:
         messagebox.showerror("Syntax error.", error_message)
@@ -106,7 +124,9 @@ def minimize_expression():
         boolean_function = BooleanFunction(expression_text)
         gui_main.function_set.add_function(boolean_function)
         minimized_expression = boolean_function.minimize()
-        gui_main.expression_result_display.config(text=f"Minimized expression:\n{minimized_expression}")
+        gui_main.expression_result_display.config(
+            text=f"Minimized expression:\n{minimized_expression}"
+            )
     except Exception as e:
         messagebox.showerror("Error.", str(e))
 
@@ -115,7 +135,9 @@ def decompose_expression():
     variable = gui_main.variable_entry.get()
 
     if not expression_text or not variable:
-        messagebox.showwarning("Error", "Please enter the selected Boolean expression and decomposition variable.")
+        messagebox.showwarning(
+            "Error", "Please enter the selected Boolean expression and decomposition variable."
+            )
         return
     is_valid, error_message = Validator.validate(expression_text)
     if not is_valid:
@@ -125,9 +147,11 @@ def decompose_expression():
         boolean_function = BooleanFunction(expression_text)
         gui_main.function_set.add_function(boolean_function)
         cofactor_0, cofactor_1 = boolean_function.decompose(variable)
-        gui_main.expression_result_display.config(text=f"Decomposition by {variable}:\n\n"
-                                 f"Cofactor at {variable}=0:\n{cofactor_0.simplify()}\n\n"
-                                 f"Cofactor at {variable}=1:\n{cofactor_1.simplify()}")
+        gui_main.expression_result_display.config(
+            text=f"Decomposition by {variable}:\n\n"
+            f"Cofactor at {variable}=0:\n{cofactor_0.simplify()}\n\n"
+            f"Cofactor at {variable}=1:\n{cofactor_1.simplify()}"
+            )
     except Exception as e:
         messagebox.showerror("Error.", str(e))
 
@@ -135,7 +159,9 @@ def generate_kmap():
     expression_text = get_active_expression()
 
     if not expression_text:
-        messagebox.showwarning("Error", "Please enter the selected boolean expression.")
+        messagebox.showwarning(
+            "Error", "Please enter the selected boolean expression."
+            )
         return
     is_valid, error_message = Validator.validate(expression_text)
     if not is_valid:
@@ -146,10 +172,14 @@ def generate_kmap():
         gui_main.function_set.add_function(boolean_function)
         number_of_variables = len(boolean_function.variables)
         if number_of_variables < 2 or number_of_variables > 4:
-            messagebox.showwarning("Error", "Karnaugh maps are only supported for 2 to 4 variables.")
+            messagebox.showwarning(
+                "Error", "Karnaugh maps are only supported for 2 to 4 variables."
+                )
             return
+    
         kmap = KarnaughMap(boolean_function)
         kmap.plot_map()
+
     except Exception as e:
         messagebox.showerror("Error.", str(e))
 
@@ -157,8 +187,11 @@ def visualize_ast():
     expression_text = get_active_expression()
 
     if not expression_text:
-        messagebox.showwarning("Error", "Please enter the selected boolean expression.")
+        messagebox.showwarning(
+            "Error", "Please enter the selected boolean expression."
+            )
         return
+    
     is_valid, error_message = Validator.validate(expression_text)
     if not is_valid:
         messagebox.showerror("Syntax error.", error_message)
@@ -178,8 +211,11 @@ def generate_circuit():
     expression_text = get_active_expression()
 
     if not expression_text:
-        messagebox.showwarning("Error", "Please enter the selected boolean expression.")
+        messagebox.showwarning(
+            "Error", "Please enter the selected boolean expression."
+            )
         return
+    
     is_valid, error_message = Validator.validate(expression_text)
     if not is_valid:
         messagebox.showerror("Syntax error.", error_message)
@@ -213,7 +249,9 @@ def check_equivalence():
     expression_text2 = gui_main.second_expression_entry.get()
 
     if not expression_text1 or not expression_text2:
-        messagebox.showwarning("Error", "Please enter the two boolean expressions.")
+        messagebox.showwarning(
+            "Error", "Please enter the two boolean expressions."
+            )
         return
 
     is_valid1, error1 = Validator.validate(expression_text1)
@@ -257,11 +295,13 @@ def save_to_file():
     functions_info = gui_main.function_set.get_functions_info()
     
     if not functions_info:
-        messagebox.showwarning("Error", "No functions to save.")
+        messagebox.showwarning(
+            "Error", "No functions to save."
+            )
         return
 
     file_path = filedialog.asksaveasfilename(defaultextension=".json",
-                                             filetypes=[("JSON Files", "*.json"), ("All Files", "*.*")])
+    filetypes=[("JSON Files", "*.json"), ("All Files", "*.*")])
     if not file_path:
         return  
 
