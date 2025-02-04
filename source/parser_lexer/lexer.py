@@ -13,6 +13,9 @@ class Token:
 
     def __repr__(self):
         return f"Token({self.type}, {self.value})"
+    
+    def __eq__(self, other):
+        return isinstance(other, Token) and self.type == other.type and self.value == other.value
 
 
 class Lexer:
@@ -56,15 +59,22 @@ class Lexer:
             kind = token_match.lastgroup
             value = token_match.group(kind)
 
-            if kind == "IDENTIFIER" or kind == "CONST":
+            if kind in {"IDENTIFIER", "CONST"}:
                 tokens.append(Token(kind, value))
-            elif kind in ("NOT", "AND", "OR", "XOR", "NAND", "NOR", "IMP", "EQV", "LPAREN", "RPAREN"):
+            elif kind in {
+                "NOT", "AND", "OR",
+                "XOR", "NAND", "NOR",
+                "IMP", "EQV", "LPAREN", "RPAREN"
+                }:
                 tokens.append(Token(kind, value))
             elif kind == "SKIP":
                 continue
             elif kind == "MISMATCH":
-                raise Exception(
+                raise ValueError(
                     f"Invalid character {value!r} at position {token_match.start() + 1}")
             
         tokens.append(Token("EOF", None))
         return tokens
+    
+    def __iter__(self):
+        return iter(self.tokenize())
