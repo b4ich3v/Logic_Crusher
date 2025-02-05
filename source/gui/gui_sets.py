@@ -4,23 +4,31 @@ import matplotlib.pyplot as plt
 from matplotlib_venn import venn2, venn2_circles
 from PIL import Image, ImageTk
 
+from gui import constants as cn
 from . import gui_main
 
 def open_sets_window():
     sets_window = tk.Toplevel(gui_main.root)
     sets_window.title("Set operations")
-    sets_window.geometry("900x600")
+    sets_window.geometry(f"{cn.SET_WINDOW_WIDTH}x{cn.SET_WINDOW_HEIGHT}")
     sets_window.resizable(False, False)
     
     try:
         background_image = Image.open(gui_main.resource_path("secondary_background.jpg"))
-        background_image = background_image.resize((900, 600), Image.LANCZOS)  
+        background_image = background_image.resize(
+            (cn.BACKGROUND_IM_WIDTH, cn.BACKGROUND_IM_HEIGHT), Image.LANCZOS
+            )  
         background_photo = ImageTk.PhotoImage(background_image)
     except Exception as e:
         messagebox.showerror("Error", f"The background image was not loaded: {str(e)}")
         background_photo = None
     
-    canvas = tk.Canvas(sets_window, width=900, height=600, highlightthickness=0)
+    canvas = tk.Canvas(
+        sets_window, 
+        width=cn.SET_WINDOW_WIDTH, 
+        height=cn.SET_WINDOW_HEIGHT, 
+        highlightthickness=0
+    )
     canvas.pack(fill="both", expand=True)
     
     if background_photo:
@@ -32,17 +40,17 @@ def open_sets_window():
     result_label_sets = tk.Label(
         sets_window, 
         text="The result will be displayed here.",
-        wraplength=300, 
+        wraplength=cn.RESULT_LABEL_WRAP, 
         justify="left",
-        font=("Comic Sans MS", 12, "bold"), 
-        bg="#ffffff",
-        bd=2, 
+        font=cn.LABEL_FONT, 
+        bg=cn.LABEL_BG_COLOR,
+        bd=cn.RESULT_LABEL_BORDER_WIDTH, 
         relief="groove"
     )
 
     canvas.create_window(
-        575, 
-        20, 
+        cn.RESULT_LABEL_X, 
+        cn.RESULT_LABEL_Y, 
         anchor="nw",
         window=result_label_sets
     )
@@ -50,27 +58,27 @@ def open_sets_window():
     set1_label = tk.Label(
         sets_window, 
         text="Set A (separate with commas):",
-        font=("Comic Sans MS", 12, "bold"), 
-        bg="#ffffff"
+        font=cn.LABEL_FONT, 
+        bg=cn.LABEL_BG_COLOR
     )
 
     canvas.create_window(
-        20, 
-        20, 
+        cn.SET1_LABEL_X, 
+        cn.SET1_LABEL_Y, 
         anchor="nw", 
         window=set1_label
     )
 
     set1_entry = tk.Entry(
         sets_window, 
-        width=35,
-        font=("Comic Sans MS", 12, "bold"),
-        bg="#ffffff"
+        width=cn.SET_ENTRY_WIDTH,
+        font=cn.ENTRY_FONT,
+        bg=cn.ENTRY_BG_COLOR
     )
     
     canvas.create_window(
-        20, 
-        55, 
+        cn.SET1_ENTRY_X, 
+        cn.SET1_ENTRY_Y, 
         anchor="nw", 
         window=set1_entry
     )
@@ -78,27 +86,27 @@ def open_sets_window():
     set2_label = tk.Label(
         sets_window, 
         text="Set B (separate with commas):",
-        font=("Comic Sans MS", 12, "bold"), 
-        bg="#ffffff"
+        font=cn.LABEL_FONT, 
+        bg=cn.LABEL_BG_COLOR
     )
 
     canvas.create_window(
-        20, 
-        90, 
+        cn.SET2_LABEL_X, 
+        cn.SET2_LABEL_Y, 
         anchor="nw", 
         window=set2_label
     )
 
     set2_entry = tk.Entry(
         sets_window, 
-        width=35,
-        font=("Comic Sans MS", 12, "bold"),
-        bg="#ffffff"
+        width=cn.SET_ENTRY_WIDTH,
+        font=cn.ENTRY_FONT,
+        bg=cn.ENTRY_BG_COLOR
     )
 
     canvas.create_window(
-        20, 
-        125, 
+        cn.SET2_ENTRY_X, 
+        cn.SET2_ENTRY_Y, 
         anchor="nw", 
         window=set2_entry
     )
@@ -338,15 +346,15 @@ def open_sets_window():
     btn_union = tk.Button(
         sets_window, 
         text="Union (A ∪ B)",
-        width=35, 
-        font=("Comic Sans MS", 10, "bold"),
-        bg="#f0f0f0", 
+        width=cn.BUTTON_WIDTH_LARGE, 
+        font=cn.BUTTON_FONT,
+        bg=cn.BUTTON_BG_COLOR, 
         command=lambda: perform_set_operation(set1_entry, set2_entry, "union")
     )
 
     canvas.create_window(
-        60, 
-        170, 
+        cn.BUTTON_X_FOR_SETS, 
+        cn.BTN_UNION_Y, 
         anchor="nw", 
         window=btn_union
     )
@@ -354,15 +362,15 @@ def open_sets_window():
     btn_intersect = tk.Button(
         sets_window, 
         text="Intersection (A ∩ B)",
-        width=35, 
-        font=("Comic Sans MS", 10, "bold"),
-        bg="#f0f0f0", 
+        width=cn.BUTTON_WIDTH_LARGE, 
+        font=cn.BUTTON_FONT,
+        bg=cn.BUTTON_BG_COLOR, 
         command=lambda: perform_set_operation(set1_entry, set2_entry, "intersection")
     )
 
     canvas.create_window(
-        60, 
-        212, 
+        cn.BUTTON_X_FOR_SETS, 
+        cn.BTN_INTERSECT_Y, 
         anchor="nw", 
         window=btn_intersect
     )
@@ -370,15 +378,15 @@ def open_sets_window():
     btn_diff = tk.Button(
         sets_window, 
         text="Difference (A - B)",
-        width=35, 
-        font=("Comic Sans MS", 10, "bold"),
-        bg="#f0f0f0", 
+        width=cn.BUTTON_WIDTH_LARGE, 
+        font=cn.BUTTON_FONT,
+        bg=cn.BUTTON_BG_COLOR, 
         command=lambda: perform_set_operation(set1_entry, set2_entry, "difference")
     )
 
     canvas.create_window(
-        60, 
-        255, 
+        cn.BUTTON_X_FOR_SETS, 
+        cn.BTN_DIFF_Y, 
         anchor="nw", 
         window=btn_diff
     )
@@ -386,15 +394,15 @@ def open_sets_window():
     btn_symdiff = tk.Button(
         sets_window, 
         text="Symmetric difference (A Δ B)",
-        width=35, 
-        font=("Comic Sans MS", 10, "bold"),
-        bg="#f0f0f0",
+        width=cn.BUTTON_WIDTH_LARGE, 
+        font=cn.BUTTON_FONT,
+        bg=cn.BUTTON_BG_COLOR,
         command=lambda: perform_set_operation(set1_entry, set2_entry, "symmetric_difference")
     )
 
     canvas.create_window(
-        60, 
-        298, 
+        cn.BUTTON_X_FOR_SETS, 
+        cn.BTN_SYMDIFF_Y, 
         anchor="nw", 
         window=btn_symdiff
     )
@@ -402,15 +410,15 @@ def open_sets_window():
     venn_button = tk.Button(
         sets_window, 
         text="Venn diagram",
-        width=35, 
-        font=("Comic Sans MS", 10, "bold"),
-        bg="#f0f0f0", 
+        width=cn.BUTTON_WIDTH_LARGE, 
+        font=cn.BUTTON_FONT,
+        bg=cn.BUTTON_BG_COLOR, 
         command=plot_venn
     )
 
     canvas.create_window(
-        60, 
-        341, 
+        cn.BUTTON_X_FOR_SETS, 
+        cn.BTN_VENN_Y, 
         anchor="nw", 
         window=venn_button
     )
@@ -418,15 +426,15 @@ def open_sets_window():
     btn_disjoint = tk.Button(
         sets_window, 
         text="Discretion check",
-        width=35, 
-        font=("Comic Sans MS", 10, "bold"),
-        bg="#f0f0f0", 
+        width=cn.BUTTON_WIDTH_LARGE, 
+        font=cn.BUTTON_FONT,
+        bg=cn.BUTTON_BG_COLOR, 
         command=lambda: perform_set_relation(set1_entry, set2_entry, "disjoint")
     )
     
     canvas.create_window(
-        60, 
-        384, 
+        cn.BUTTON_X_FOR_SETS, 
+        cn.BTN_DISJOINT_Y, 
         anchor="nw", 
         window=btn_disjoint
     )
@@ -434,15 +442,15 @@ def open_sets_window():
     btn_cartprod = tk.Button(
         sets_window, 
         text="Cartesian product (A × B)",
-        width=35, 
-        font=("Comic Sans MS", 10, "bold"),
-        bg="#f0f0f0", 
+        width=cn.BUTTON_WIDTH_LARGE, 
+        font=cn.BUTTON_FONT,
+        bg=cn.BUTTON_BG_COLOR, 
         command=lambda: cartesian_product(set1_entry, set2_entry)
     )
     
     canvas.create_window(
-        60, 
-        427, 
+        cn.BUTTON_X_FOR_SETS, 
+        cn.BTN_CARTPROD_Y, 
         anchor="nw", 
         window=btn_cartprod
     )
@@ -450,15 +458,15 @@ def open_sets_window():
     btn_cardinality = tk.Button(
         sets_window, 
         text="Cardinality",
-        width=35, 
-        font=("Comic Sans MS", 10, "bold"),
-        bg="#f0f0f0", 
+        width=cn.BUTTON_WIDTH_LARGE, 
+        font=cn.BUTTON_FONT,
+        bg=cn.BUTTON_BG_COLOR, 
         command=lambda: cardinality(set1_entry, set2_entry)
     )
     
     canvas.create_window(
-        60, 
-        470, 
+        cn.BUTTON_X_FOR_SETS, 
+        cn.BTN_CARDINALITY_Y, 
         anchor="nw", 
         window=btn_cardinality
     )
@@ -466,15 +474,15 @@ def open_sets_window():
     btn_power = tk.Button(
         sets_window, 
         text="Power Set of A and B",
-        width=35, 
-        font=("Comic Sans MS", 10, "bold"),
-        bg="#f0f0f0", 
+        width=cn.BUTTON_WIDTH_LARGE, 
+        font=cn.BUTTON_FONT,
+        bg=cn.BUTTON_BG_COLOR, 
         command=power_set_both
     )
 
     canvas.create_window(
-        60, 
-        513, 
+        cn.BUTTON_X_FOR_SETS, 
+        cn.BTN_POWER_Y, 
         anchor="nw", 
         window=btn_power
     )
@@ -482,15 +490,15 @@ def open_sets_window():
     btn_relations = tk.Button(
         sets_window, 
         text="Relations between A and B",
-        width=35, 
-        font=("Comic Sans MS", 10, "bold"),
-        bg="#f0f0f0", 
+        width=cn.BUTTON_WIDTH_LARGE, 
+        font=cn.BUTTON_FONT,
+        bg=cn.BUTTON_BG_COLOR, 
         command=check_all_relations
     )
 
     canvas.create_window(
-        60, 
-        556, 
+        cn.BUTTON_X_FOR_SETS, 
+        cn.BTN_RELATIONS_Y, 
         anchor="nw", 
         window=btn_relations
     )
