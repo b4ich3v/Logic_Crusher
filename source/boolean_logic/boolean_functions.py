@@ -23,7 +23,10 @@ def get_variables(node):
         variables.add(node.name)
     elif isinstance(node, NotNode):
         variables.update(get_variables(node.operand))
-    elif isinstance(node, (AndNode, OrNode, XorNode, ImpNode, EqvNode, NandNode, NorNode)):
+    elif isinstance(node, (
+        AndNode, OrNode, XorNode, ImpNode, 
+        EqvNode, NandNode, NorNode)
+        ):
         variables.update(get_variables(node.left))
         variables.update(get_variables(node.right))
 
@@ -130,8 +133,8 @@ class BooleanFunction:
         if "preserves_zero" in self._properties_cache:
             return self._properties_cache["preserves_zero"]
         
-        new_variables = {var: 0 for var in self.variables}
-        value = (self.evaluate(new_variables) == 0)
+        new_variables = dict.fromkeys(self.variables, 0)
+        value = self.evaluate(new_variables) == 0
         self._properties_cache["preserves_zero"] = value
 
         return value
@@ -143,8 +146,8 @@ class BooleanFunction:
         if "preserves_one" in self._properties_cache:
             return self._properties_cache["preserves_one"]
         
-        new_variables = {var: 1 for var in self.variables}
-        value = (self.evaluate(new_variables) == 1)
+        new_variables = dict.fromkeys(self.variables, 1)
+        value = self.evaluate(new_variables) == 1
         self._properties_cache["preserves_one"] = value
 
         return value
