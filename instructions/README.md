@@ -1,351 +1,387 @@
-## Съдържание
-
-- Начало
-  - Входни Изрази
-  - Избор на Активен Израз
-  - Въвеждане на Променлива
-  - Дисплей на Резултати
-  - Бутони
-- Функционалности
-  - Опростяване на Булеви Изрази
-  - Генериране на Полиноми на Жегалкин
-  - Проверка на Свойствата на Функциите
-  - Минимизиране на Изрази
-  - Декомпозиция на Изрази
-  - Генериране на Карно Карти
-  - Визуализация на Абстрактни Синтактични Дървета (AST)
-  - Генериране на Схеми
-  - Проверка на Еквивалентност Между Изрази
-  - Операции с Множества
-- Теоретична Основа
-  - Булева Алгебра
-  - Алгоритъм на Quine-McCluskeyskey
-  - Карно Карти
-  - Полиноми на Жегалкин
-  - Абстрактни Синтактични Дървета (AST)
-  - Генериране на Схеми
-  - Операции с Множества
-- Примери
-
-### Входни Изрази
-  - Въведете до два булеви израза за сравнение или двойни операции.
-
-### Избор на Активен Израз
-  - Изберете кой израз (1 или 2) е активен за операциите.
-
-### Въвеждане на Променлива
-  - Специфицирайте променлива за операции на декомпозиция.
-
-### Дисплей на Резултати
-  - Вижте резултатите от операциите в предназначената област.
-
-### Бутони
-  - Достъп до различните функционалности чрез ясно означени бутони.
-
-## Функционалности
-
-### Опростяване на Булеви Изрази
-
-**Описание:** Опростява избрания булев израз до неговата минимална форма.
-
-**Как да използвате:**
-
-1. Въведете булевия израз в полето "`Expression 1`" или "`Expression 2`".
-2. Изберете активния израз чрез радиобутоните.
-3. Кликнете върху бутона "`Simplification`".
-4. Вижте опростения израз в дисплея за резултати.
-
-**Пример:**
-
-- **Вход:** `(A AND B) OR (A AND NOT B)`
-- **Опростен Изход:** `A`
-
-### Генериране на Полиноми на Жегалкин
-
-**Описание:** Конвертира избрания булев израз в съответния му полином на Жегалкин.
-
-**Как да използвате:**
-
-1. Въведете булевия израз.
-2. Изберете активния израз.
-3. Кликнете върху бутона "`Zhegalkin polynomial`".
-4. Полиномът на Жегалкин ще бъде показан.
-
-**Пример:**
-
-- **Вход:** `A XOR B`
-- **Полином на Жегалкин:** `A ⊕ B`
-
-### Проверка на Свойствата на Функциите
-
-**Описание:** Анализира избраната булева функция за различни свойства като запазване на нула и единица, самодуалност, монотонност и линейност.
-
-**Как да използвате:**
-
-1. Въведете булевия израз.
-2. Изберете активния израз.
-3. Кликнете върху бутона "`Property check`".
-4. Вижте свойствата в дисплея за резултати.
-
-**Проверявани Свойства:**
-
-- **Запазване на Нула:** Функцията дава нула, когато всички входове са нула.
-- **Запазване на Единица:** Функцията дава единица, когато всички входове са единица.
-- **Самодуалност:** Функцията е равна на своя дуал.
-- **Монотонност:** Изходът на функцията не намалява при преместване на всяка входна битова стойност от `0` към `1`.
-- **Линейност:** Функцията може да бъде изразена като линейна комбинация от входните променливи.
-
-### Минимизиране на Изрази
-
-**Описание:** Минимизира избрания булев израз, използвайки алгоритъма на `Quine-McCluskey`.
-
-**Как да използвате:**
-
-1. Въведете булевия израз.
-2. Изберете активния израз.
-3. Кликнете върху бутона "`Minimize`".
-4. Минимизираният израз ще бъде показан.
-
-**Пример:**
-
-- **Вход:** `A OR (A AND B)`
-- **Минимизирано Изход:** `A`
-
-### Декомпозиция на Изрази
-
-**Описание:** Декомпозира избрания булев израз на базата на посочена променлива, като предоставя ко-фактори за двете възможни стойности на променливата (`0` и `1`).
-
-**Как да използвате:**
-
-1. Въведете булевия израз.
-2. Изберете активния израз.
-3. Въведете променливата, която желаете да декомпозирате в полето "`Variable to decompose`".
-4. Кликнете върху бутона "`Factoring in a variable`".
-5. Вижте ко-факторите в дисплея за резултати.
-
-**Пример:**
-
-- **Израз:** `A AND B OR A AND NOT B`
-- **Променлива за Декомпозиция:** `A`
-- **Кофактор при A=0:** `0`
-- **Кофактор при A=1:** `B OR NOT B` (което опростява до `1`)
-
-### Генериране на Карно Карти
-
-**Описание:** Генерира и показва Карно карта за избрания булев израз. Поддържа се за 2 до 4 променливи.
-
-**Как да използвате:**
-
-1. Въведете булевия израз.
-2. Изберете активния израз.
-3. Кликнете върху бутона "`Generate a Karnaugh map`".
-4. Карно картата ще бъде показана в ново прозорец.
-
-**Пример:**
-
-- **Израз:** `A AND B OR A AND C`
-- **Карно Карта:** Графично представяне, показващо групирани минтерми за опростяване.
-
-### Визуализация на Абстрактни Синтактични Дървета (AST)
-
-**Описание:** Визуализира Абстрактното Синтактично Дърво на избрания булев израз, илюстрирайки йерархичната структура на операциите.
-
-**Как да използвате:**
-
-1. Въведете булевия израз.
-2. Изберете активния израз.
-3. Кликнете върху бутона "`Visualization of AST`".
-4. AST ще бъде визуализирано и показано като изображение.
-
-**Пример:**
-
-- **Израз:** `A AND (B OR C)`
-- **AST Визуализация:** Показва `AND` като корен с `A` и `OR` като деца, които от своя страна имат `B` и `C`.
-
-### Генериране на Схеми
-
-**Описание:** Автоматично генерира диаграма на дигитална схема от опростения булев израз.
-
-**Как да използвате:**
-
-1. Въведете булевия израз.
-2. Изберете активния израз.
-3. Кликнете върху бутона "`Generate Circuit`".
-4. Диаграмата на схемата ще бъде рендерирана и показана като изображение.
-
-**Пример:**
-
-- **Израз:** `A AND B OR NOT C`
-- **Диаграма на Схемата:** Показва логически гейтове AND, OR и NOT, свързани съответно.
-
-### Проверка на Еквивалентност Между Изрази
-
-**Описание:** Определя дали два булеви израза са логически еквивалентни, като сравнява техните полиноми на Жегалкин и изчислява мерката за разлика.
-
-**Как да използвате:**
-
-1. Въведете два булеви израза в полетата "`Expression 1`" и "`Expression 2`".
-2. Кликнете върху бутона "`Equivalence check`".
-3. Вижте резултата от еквивалентността и мерката за разлика в дисплея за резултати.
-
-**Пример:**
-
-- **Израз 1:** `A OR B`
-- **Израз 2:** `B OR A`
-- **Резултат:** Еквивалентни.
-
-### Операции с Множества
-
-**Описание:** Извършва различни операции с множества като съюз, пресичане, разлика, симетрична разлика, декартово произведение, мощни множества и проверка на отношения като дискретност. Подкрепени са с визуални средства като диаграми на Вен.
-
-**Как да използвате:**
-
-1. Въведете множествата `A` и `B` в съответните полета, като отделяте елементите със запетаи.
-2. Кликнете върху бутона "`Sets`" за отваряне на прозореца за операции с множества.
-3. Използвайте наличните бутони за извършване на желаните операции.
-4. Вижте резултатите и визуализациите в прозореца за операции с множества.
-
-**Примери:**
-
-- **Множества:**
-  - **Множество A:** `1, 2, 3`
-  - **Множество B:** `3, 4, 5`
-  - **Съюз (A ∪ B):** `1, 2, 3, 4, 5`
-  - **Пресичане (A ∩ B):** `3`
-  - **Разлика (A - B):** `1, 2`
-  - **Симетрична Разлика (A Δ B):** `1, 2, 4, 5`
-  - **Диаграма на Вен:** Визуално представяне на пресичането и съюза.
-  - **Декартово Произведение (A × B):** `{(1,3), (1,4), (1,5), (2,3), (2,4), (2,5), (3,3), (3,4), (3,5)}`
-  - **Мощно Множество на A:** `{{}, {1}, {2}, {3}, {1,2}, {1,3}, {2,3}, {1,2,3}}`
+## Table of Contents
+
+- Start
+  - Input Expressions
+  - Select Active Expression
+  - Enter Variable
+  - Display Results
+  - Buttons
+- Features
+  - Simplification of Boolean Expressions
+  - Generating Zhegalkin Polynomials
+  - Checking Function Properties
+  - Minimizing Expressions
+  - Decomposition of Expressions
+  - Generating Karnaugh Maps
+  - Visualization of Abstract Syntax Trees (AST)
+  - Generating Circuits
+  - Checking Equivalence Between Expressions
+  - Set Operations
+- Theoretical Background
+  - Boolean Algebra
+  - Quine-McCluskey Algorithm
+  - Karnaugh Maps
+  - Zhegalkin Polynomials
+  - Abstract Syntax Trees (AST)
+  - Generating Circuits
+  - Set Operations
+- Examples
 
 ---
 
-## Теоретична Основа
+### Start
 
-### Булева Алгебра
+#### Input Expressions
+- Enter up to two Boolean expressions for comparison or dual operations.
 
-Булевата алгебра е клон на математиката, който се занимава с променливи, които имат две възможни стойности: истина (1) и лъжа (0). Тя е фундаментална в дизайна и анализа на дигитални схеми, компютърно програмиране и различни области на инженерството и компютърните науки.
+#### Select Active Expression
+- Choose which expression (1 or 2) is active for the operations.
 
-**Основни операции в булевата алгебра включват:**
+#### Enter Variable
+- Specify a variable for decomposition operations.
 
-- **AND (И):** Резултатът е истина само ако и двете променливи са истина.
-- **OR (ИЛИ):** Резултатът е истина, ако поне една от променливите е истина.
-- **NOT (НЕ):** Обръща стойността на променливата.
-- **XOR (Исключващо ИЛИ):** Резултатът е истина само ако точно една от променливите е истина.
+#### Display Results
+- View the results of the operations in the designated area.
 
-Булевата алгебра се използва за представяне и опростяване на логически изрази, които са основа на цифровите електронни схеми и компютърните програми.
+#### Buttons
+- Access various functionalities through clearly labeled buttons.
 
-### Алгоритъм на Quine-McCluskey
+---
 
-Алгоритъмът на Quine-McCluskey е метод, използван за минимизиране на булеви функции. Той систематично намалява булев израз до най-простата му форма чрез идентифициране и елиминиране на излишни термини. Този алгоритъм е особено полезен за функции с голям брой променливи, където ръчното опростяване става непрактично.
+## Features
 
-**Стъпки на алгоритъма:**
+### Simplification of Boolean Expressions
 
-1. **Групиране на минтерми:** Мinterms (термини) се групират според броя на единиците в тяхното бинарно представяне.
-2. **Комбиниране на минтерми:** Съседните групи се комбинират, като се отбелязва разликата между термини.
-3. **Определяне на основните термини:** Термините, които не могат да бъдат комбинирани повече, се идентифицират като основни.
-4. **Изграждане на импликанти:** Основните термини се използват за изграждане на минимизирани изрази.
+**Description:** Simplifies the selected Boolean expression to its minimal form.
 
-Алгоритъмът на Quine-McCluskey предлага систематичен подход за минимизиране, като гарантира намирането на най-малкия възможен израз.
+**How to use:**
 
-### Карно Карти
+1. Enter the Boolean expression in the "`Expression 1`" or "`Expression 2`" field.
+2. Select the active expression using the radio buttons.
+3. Click the "`Simplification`" button.
+4. View the simplified expression in the results display.
 
-Карно картата (К-карта) е визуален инструмент, използван за опростяване на булеви изрази. Чрез организиране на минтерми в мрежа въз основа на техните бинарни представяния, К-картите позволяват лесно идентифициране на общи модели и опростявания, намалявайки сложността на булеви функции.
+**Example:**
 
-**Особености на Карно картите:**
+- **Input:** `(A AND B) OR (A AND NOT B)`
+- **Simplified Output:** `A`
 
-- **Грид структура:** Карно картите са представени като мрежа, където редовете и колоните съответстват на различни променливи.
-- **Групиране на единици:** Единиците в картата се групират по континуиращи клетки, като се стремим към най-големите възможни групи (силни импликанти).
-- **Минимизиране:** Чрез групиране се елиминират променливите, които не влияят върху общия резултат, водейки до по-прост израз.
+---
 
-Карно картите са особено полезни при минимизиране на функции с до шест променливи, където визуалното представяне улеснява намирането на оптималния израз.
+### Generating Zhegalkin Polynomials
 
-### Полиноми на Жегалкин
+**Description:** Converts the selected Boolean expression into its corresponding Zhegalkin polynomial.
 
-Полиномът на Жегалкин е уникално представяне на булеви функции, използващо операции XOR и AND без използване на OR. Той е полезен в области като теория на кодирането и криптографията, предоставяйки алтернативен подход към анализа на булеви функции.
+**How to use:**
 
-**Характеристики на полиномите на Жегалкин:**
+1. Enter the Boolean expression.
+2. Select the active expression.
+3. Click the "`Zhegalkin polynomial`" button.
+4. The Zhegalkin polynomial will be displayed.
 
-- **Бинарно представяне:** Всеки булев израз може да бъде представен като полином на Жегалкин, който е сума (XOR) от продукти (AND) на променливи.
-- **Линеаризация:** Този подход позволява линеаризация на нелинейни функции, което улеснява анализа и синтеза на криптографски системи.
-- **Еднозначност:** Полиномът на Жегалкин е уникален за всяка булева функция, което го прави полезен за тестване на еквивалентност.
+**Example:**
 
-Пример:
+- **Input:** `A XOR B`
+- **Zhegalkin Polynomial:** `A ⊕ B`
 
-- **Булев израз:** `A XOR B`
-- **Полином на Жегалкин:** `A ⊕ B`
+---
 
-Полиномите на Жегалкин предоставят мощен инструмент за работа с булеви функции, особено в контекста на криптографията и теория на информацията.
+### Checking Function Properties
 
-### Абстрактни Синтактични Дървета (AST)
+**Description:** Analyzes the selected Boolean function for various properties such as preserving zero and one, self-duality, monotonicity, and linearity.
 
-Абстрактното Синтактично Дърво (AST) е дървовидно представяне на абстрактната синтактична структура на изходния код или изрази. В контекста на булеви изрази, AST визуализира йерархичните взаимоотношения между различните операции (например AND, OR, NOT).
+**How to use:**
 
-**Елементи на AST:**
+1. Enter the Boolean expression.
+2. Select the active expression.
+3. Click the "`Property check`" button.
+4. View the properties in the results display.
 
-- **Възли:** Представляват операции (например AND, OR) или променливи.
-- **Деца:** Представляват операндите на дадена операция.
-- **Корен:** Представлява основната операция или резултат на израза.
+**Properties Checked:**
 
-**Пример:**
+- **Preserving Zero:** The function outputs zero when all inputs are zero.
+- **Preserving One:** The function outputs one when all inputs are one.
+- **Self-duality:** The function is equal to its dual.
+- **Monotonicity:** The function’s output does not decrease when any input bit transitions from `0` to `1`.
+- **Linearity:** The function can be expressed as a linear combination of the input variables.
 
-За израза `A AND (B OR C)`:
+---
 
-- **Корен:** AND
-  - **Ляво дете:** `A`
-  - **Дясно дете:** OR
-    - **Ляво дете:** `B`
-    - **Дясно дете:** `C`
+### Minimizing Expressions
 
-AST позволява анализ и визуализация на сложни изрази, улеснявайки разбирането на тяхната структура и взаимоотношения.
+**Description:** Minimizes the selected Boolean expression using the `Quine-McCluskey` algorithm.
 
-### Генериране на Схеми
+**How to use:**
 
-Автоматичното генериране на дигитални схеми от опростени булеви изрази позволява физическата реализация на логически функции в хардуер. Този процес включва превеждане на логическите операции в свързани логически гейтове, които след това могат да бъдат имплементирани на хардуерни платформи като FPGA или ASIC.
+1. Enter the Boolean expression.
+2. Select the active expression.
+3. Click the "`Minimize`" button.
+4. The minimized expression will be displayed.
 
-**Процес на генериране на схеми:**
+**Example:**
 
-1. **Опростяване на израза:** Използване на методи като Quine-McCluskey или Карно карти за минимизиране на израза.
-2. **Превод в логически гейтове:** Конвертиране на минимизирания израз в комбинация от логически гейтове (AND, OR, NOT, XOR и т.н.).
-3. **Визуализация:** Генериране на графично представяне на схемата, което показва връзките между различните гейтове.
-4. **Експорт:** Възможност за експортиране на схемата във формати, подходящи за хардуерно синтезиране или симулация.
+- **Input:** `A OR (A AND B)`
+- **Minimized Output:** `A`
 
-Генерирането на схеми автоматизира процеса на дизайн на дигитални системи, намалявайки времето и грешките, свързани с ръчното проектиране.
+---
 
-### Операции с Множества
+### Decomposition of Expressions
 
-Операциите с множества като съюз, пресичане, разлика и декартово произведение са фундаментални в математиката и компютърните науки. Визуални инструменти като диаграми на Вен подпомагат разбирането на взаимоотношенията между различни множества и техните комбинации.
+**Description:** Decomposes the selected Boolean expression based on the specified variable, providing cofactors for both possible values of that variable (`0` and `1`).
 
-**Основни операции:**
+**How to use:**
 
-- **Обединение (∪):** Комбинира елементите на две множества, без повторение.
-- **Сечение (∩):** Връща общите елементи на двете множества.
-- **Разлика (-):** Връща елементите, които са в едно множество, но не и в другото.
-- **Симетрична Разлика (Δ):** Връща елементите, които са в точно едно от двете множества.
-- **Декартово Произведение (×):** Връща всички възможни наредени двойки от елементите на двете множества.
-- **Мощно Множество (P):** Връща всички възможни подмножества на дадено множество.
+1. Enter the Boolean expression.
+2. Select the active expression.
+3. Enter the variable you want to decompose in the "`Variable to decompose`" field.
+4. Click the "`Factoring in a variable`" button.
+5. View the cofactors in the results display.
 
-**Допълнителни операции:**
+**Example:**
 
-- **Проверка на дискретност:** Анализира дали дадени множества са дискретни спрямо определени критерии.
-- **Визуализация:** Използване на диаграми на Вен за графично представяне на отношенията между множества.
+- **Expression:** `A AND B OR A AND NOT B`
+- **Variable for Decomposition:** `A`
+- **Cofactor for A=0:** `0`
+- **Cofactor for A=1:** `B OR NOT B` (which simplifies to `1`)
 
-**Примери:**
+---
 
-- **Множества A и B:**
+### Generating Karnaugh Maps
+
+**Description:** Generates and displays a Karnaugh map for the selected Boolean expression. Supported for 2 to 4 variables.
+
+**How to use:**
+
+1. Enter the Boolean expression.
+2. Select the active expression.
+3. Click the "`Generate a Karnaugh map`" button.
+4. The Karnaugh map will be displayed in a new window.
+
+**Example:**
+
+- **Expression:** `A AND B OR A AND C`
+- **Karnaugh Map:** A graphical representation showing grouped minterms for simplification.
+
+---
+
+### Visualization of Abstract Syntax Trees (AST)
+
+**Description:** Visualizes the Abstract Syntax Tree of the selected Boolean expression, illustrating the hierarchical structure of the operations.
+
+**How to use:**
+
+1. Enter the Boolean expression.
+2. Select the active expression.
+3. Click the "`Visualization of AST`" button.
+4. The AST will be visualized and displayed as an image.
+
+**Example:**
+
+- **Expression:** `A AND (B OR C)`
+- **AST Visualization:** Shows `AND` as the root with `A` and `OR` as children, which in turn have `B` and `C`.
+
+---
+
+### Generating Circuits
+
+**Description:** Automatically generates a digital circuit diagram from the simplified Boolean expression.
+
+**How to use:**
+
+1. Enter the Boolean expression.
+2. Select the active expression.
+3. Click the "`Generate Circuit`" button.
+4. The circuit diagram will be rendered and displayed as an image.
+
+**Example:**
+
+- **Expression:** `A AND B OR NOT C`
+- **Circuit Diagram:** Shows the AND, OR, and NOT gates, connected accordingly.
+
+---
+
+### Checking Equivalence Between Expressions
+
+**Description:** Determines whether two Boolean expressions are logically equivalent by comparing their Zhegalkin polynomials and calculating the difference measure.
+
+**How to use:**
+
+1. Enter two Boolean expressions in the "`Expression 1`" and "`Expression 2`" fields.
+2. Click the "`Equivalence check`" button.
+3. View the equivalence result and the difference measure in the results display.
+
+**Example:**
+
+- **Expression 1:** `A OR B`
+- **Expression 2:** `B OR A`
+- **Result:** Equivalent.
+
+---
+
+### Set Operations
+
+**Description:** Performs various set operations such as union, intersection, difference, symmetric difference, Cartesian product, power sets, and checks relations like discreteness. Supported by visual aids like Venn diagrams.
+
+**How to use:**
+
+1. Enter sets `A` and `B` in the respective fields, separating elements with commas.
+2. Click the "`Sets`" button to open the set operations window.
+3. Use the available buttons to perform the desired operations.
+4. View the results and visualizations in the set operations window.
+
+**Examples:**
+
+- **Sets:**
+  - **Set A:** `1, 2, 3`
+  - **Set B:** `3, 4, 5`
+  - **Union (A ∪ B):** `1, 2, 3, 4, 5`
+  - **Intersection (A ∩ B):** `3`
+  - **Difference (A - B):** `1, 2`
+  - **Symmetric Difference (A Δ B):** `1, 2, 4, 5`
+  - **Venn Diagram:** Visual representation of the intersection and union.
+  - **Cartesian Product (A × B):** `{(1,3), (1,4), (1,5), (2,3), (2,4), (2,5), (3,3), (3,4), (3,5)}`
+  - **Power Set of A:** `{{}, {1}, {2}, {3}, {1,2}, {1,3}, {2,3}, {1,2,3}}`
+
+---
+
+## Theoretical Background
+
+### Boolean Algebra
+
+Boolean algebra is a branch of mathematics dealing with variables that have two possible values: true (1) and false (0). It is fundamental in the design and analysis of digital circuits, computer programming, and various fields of engineering and computer science.
+
+**Basic operations in Boolean algebra include:**
+
+- **AND:** The result is true only if both variables are true.
+- **OR:** The result is true if at least one of the variables is true.
+- **NOT:** Inverts the value of the variable.
+- **XOR (Exclusive OR):** The result is true only if exactly one of the variables is true.
+
+Boolean algebra is used to represent and simplify logical expressions that form the basis of digital electronic circuits and computer programs.
+
+---
+
+### Quine-McCluskey Algorithm
+
+The Quine-McCluskey algorithm is a method used to minimize Boolean functions. It systematically reduces a Boolean expression to its simplest form by identifying and eliminating redundant terms. This algorithm is particularly useful for functions with a large number of variables, where manual simplification becomes impractical.
+
+**Algorithm steps:**
+
+1. **Grouping minterms:** Minterms (terms) are grouped according to the number of 1s in their binary representation.
+2. **Combining minterms:** Adjacent groups are combined, noting the differences between terms.
+3. **Determining prime implicants:** Terms that cannot be combined further are identified as prime implicants.
+4. **Constructing implicants:** The prime implicants are used to build the minimized expressions.
+
+The Quine-McCluskey algorithm offers a systematic approach to minimization, ensuring the discovery of the smallest possible expression.
+
+---
+
+### Karnaugh Maps
+
+A Karnaugh map (K-map) is a visual tool used to simplify Boolean expressions. By arranging minterms in a grid based on their binary representations, K-maps allow easy identification of common patterns and simplifications, reducing the complexity of Boolean functions.
+
+**Characteristics of Karnaugh Maps:**
+
+- **Grid structure:** K-maps are represented as a grid where rows and columns correspond to different variables.
+- **Grouping of 1s:** The 1s in the map are grouped in contiguous cells, aiming for the largest possible groups (prime implicants).
+- **Minimization:** By grouping, the variables that do not affect the overall result are eliminated, leading to a simpler expression.
+
+Karnaugh maps are especially useful for functions with up to six variables, where visual representation makes finding the optimal expression easier.
+
+---
+
+### Zhegalkin Polynomials
+
+A Zhegalkin polynomial is a unique representation of Boolean functions, using XOR and AND operations without using OR. It is useful in areas such as coding theory and cryptography, providing an alternative approach to Boolean function analysis.
+
+**Features of Zhegalkin Polynomials:**
+
+- **Binary representation:** Every Boolean expression can be represented as a Zhegalkin polynomial, which is a sum (XOR) of products (AND) of variables.
+- **Linearization:** This approach enables the linearization of non-linear functions, simplifying analysis and synthesis in cryptographic systems.
+- **Uniqueness:** The Zhegalkin polynomial is unique for every Boolean function, making it useful for equivalence testing.
+
+**Example:**
+
+- **Boolean expression:** `A XOR B`
+- **Zhegalkin Polynomial:** `A ⊕ B`
+
+Zhegalkin polynomials provide a powerful tool for working with Boolean functions, especially in the context of cryptography and information theory.
+
+---
+
+### Abstract Syntax Trees (AST)
+
+An Abstract Syntax Tree (AST) is a tree representation of the abstract syntactic structure of source code or expressions. In the context of Boolean expressions, an AST visualizes the hierarchical relationships between different operations (e.g., AND, OR, NOT).
+
+**Elements of an AST:**
+
+- **Nodes:** Represent operations (e.g., AND, OR) or variables.
+- **Children:** Represent the operands of a given operation.
+- **Root:** Represents the main operation or the result of the expression.
+
+**Example:**
+
+For the expression `A AND (B OR C)`:
+
+- **Root:** AND
+  - **Left child:** `A`
+  - **Right child:** OR
+    - **Left child:** `B`
+    - **Right child:** `C`
+
+ASTs allow for the analysis and visualization of complex expressions, making it easier to understand their structure and relationships.
+
+---
+
+### Generating Circuits
+
+Automatically generating digital circuits from simplified Boolean expressions enables the physical realization of logical functions in hardware. This process involves translating logical operations into interconnected logic gates, which can then be implemented on hardware platforms such as FPGAs or ASICs.
+
+**Circuit generation process:**
+
+1. **Expression simplification:** Using methods such as Quine-McCluskey or Karnaugh maps to minimize the expression.
+2. **Translation into logic gates:** Converting the minimized expression into a combination of logic gates (AND, OR, NOT, XOR, etc.).
+3. **Visualization:** Generating a graphical representation of the circuit, showing connections between the different gates.
+4. **Export:** Optionally exporting the circuit in formats suitable for hardware synthesis or simulation.
+
+Circuit generation automates the digital system design process, reducing time and errors associated with manual design.
+
+---
+
+### Set Operations
+
+Set operations such as union, intersection, difference, and Cartesian product are fundamental in mathematics and computer science. Visual tools like Venn diagrams help understand the relationships between different sets and their combinations.
+
+**Key operations:**
+
+- **Union (∪):** Combines the elements of two sets without repetition.
+- **Intersection (∩):** Returns the common elements of two sets.
+- **Difference (-):** Returns the elements that are in one set but not in the other.
+- **Symmetric Difference (Δ):** Returns the elements that are in exactly one of the two sets.
+- **Cartesian Product (×):** Returns all possible ordered pairs from the elements of two sets.
+- **Power Set (P):** Returns all possible subsets of a given set.
+
+**Additional operations:**
+
+- **Discreteness check:** Analyzes whether given sets are discrete according to certain criteria.
+- **Visualization:** Using Venn diagrams to graphically represent the relationships between sets.
+
+**Examples:**
+
+- **Sets A and B:**
   - **A:** `1, 2, 3`
   - **B:** `3, 4, 5`
 
-- **Обединение (A ∪ B):** `1, 2, 3, 4, 5`
-- **Сечение (A ∩ B):** `3`
-- **Разлика (A - B):** `1, 2`
-- **Симетрична Разлика (A Δ B):** `1, 2, 4, 5`
-- **Декартово Произведение (A × B):** `{(1,3), (1,4), (1,5), (2,3), (2,4), (2,5), (3,3), (3,4), (3,5)}`
-- **Мощно Множество на A:** `{{}, {1}, {2}, {3}, {1,2}, {1,3}, {2,3}, {1,2,3}}`
+- **Union (A ∪ B):** `1, 2, 3, 4, 5`
+- **Intersection (A ∩ B):** `3`
+- **Difference (A - B):** `1, 2`
+- **Symmetric Difference (A Δ B):** `1, 2, 4, 5`
+- **Cartesian Product (A × B):** `{(1,3), (1,4), (1,5), (2,3), (2,4), (2,5), (3,3), (3,4), (3,5)}`
+- **Power Set of A:** `{{}, {1}, {2}, {3}, {1,2}, {1,3}, {2,3}, {1,2,3}}`
 
-**Визуални Инструменти:**
+**Visual Tools:**
 
-- **Диаграми на Вен:** Помагат за визуализиране на сеченията и обединенията между множества.
-- **Графики на множествени операции:** Позволяват по-лесно разбиране на сложни комбинации от операции с множества.
+- **Venn Diagrams:** Help visualize intersections and unions of sets.
+- **Set operation graphs:** Allow easier understanding of complex combinations of set operations.
 
 ---
