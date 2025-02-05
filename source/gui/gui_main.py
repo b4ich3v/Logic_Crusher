@@ -186,8 +186,8 @@ def run():
     expression_result_display.pack(
         fill="both", 
         expand=True, 
-        padx=10, 
-        pady=10
+        padx=cn.RESULT_DISPLAY_PADX, 
+        pady=cn.RESULT_DISPLAY_PADY
     )
     
     canvas.create_window(
@@ -274,15 +274,15 @@ def run():
     )
 
     canvas.create_window(
-        720, 
-        20, 
+        cn.SAVE_BUTTON_X, 
+        cn.SAVE_BUTTON_Y, 
         window=save_button, 
         anchor="nw"
     )
 
     canvas.create_window(
-        50, 
-        360, 
+        cn.RESULT_FRAME_X, 
+        cn.RESULT_FRAME_Y, 
         window=result_frame, 
         anchor="nw"
     )
@@ -297,8 +297,8 @@ def run():
     )
     
     canvas.create_window(
-        720, 
-        60, 
+        cn.HELP_BUTTON_X, 
+        cn.HELP_BUTTON_Y, 
         window=help_button, 
         anchor="nw"
     )
@@ -313,8 +313,8 @@ def run():
     )
 
     canvas.create_window(
-        720, 
-        100, 
+        cn.SETS_BUTTON_X, 
+        cn.SETS_BUTTON_Y, 
         window=sets_button, 
         anchor="nw"
     )
