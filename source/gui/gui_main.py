@@ -27,6 +27,54 @@ BUTTON_SPACING_X = 225
 BUTTON_SPACING_Y = 50
 BUTTONS_PER_ROW = 3
 
+MAIN_WINDOW_WIDTH = 1000
+MAIN_WINDOW_HEIGHT = 600
+
+HELP_WINDOW_WIDTH = 800
+HELP_WINDOW_HEIGHT = 600
+
+BACKGROUND_WIDTH = 1000
+BACKGROUND_HEIGHT = 600
+
+BUTTON_WIDTH_1 = 25
+BUTTON_WIDTH_2 = 15
+BUTTON_BG_COLOR = "#f0f0f0"
+BUTTON_FONT = ("Comic Sans MS", 10, "bold")
+
+ENTRY_WIDTH_1 = 40
+ENTRY_WIDTH_2 = 20
+ENTRY_FONT = ("Comic Sans MS", 12, "bold")
+ENTRY_BG_COLOR = "#ffffff"
+
+LABEL_BG_COLOR = "#ffffff"
+LABEL_FONT = ("Comic Sans MS", 12, "bold")
+
+RADIO_BUTTON_FONT = ("Comic Sans MS", 12, "bold")
+RADIO_BUTTON_BG_COLOR = "#ffffff"
+
+SAVE_BUTTON_X = 720
+SAVE_BUTTON_Y = 20
+
+HELP_BUTTON_X = 720
+HELP_BUTTON_Y = 60
+
+SETS_BUTTON_X = 720
+SETS_BUTTON_Y = 100
+
+EXPR_LABEL_X = 50
+EXPR_LABEL_Y_1 = 20
+EXPR_LABEL_Y_2 = 60
+SELECTION_LABEL_Y = 100
+VARIABLE_LABEL_Y = 140
+
+EXPR_ENTRY_X = 300
+EXPR_ENTRY_Y_1 = 20
+EXPR_ENTRY_Y_2 = 60
+RADIO_BUTTON_X_1 = 300
+RADIO_BUTTON_X_2 = 450
+RADIO_BUTTON_Y = 100
+VARIABLE_ENTRY_Y = 140
+
 def resource_path(relative_path):
     base_path = getattr(sys, "_MEIPASS", os.path.dirname(__file__))
     return os.path.join(base_path, relative_path)
@@ -34,7 +82,7 @@ def resource_path(relative_path):
 def open_help_window():
     help_window = tk.Toplevel()
     help_window.title("Help window")
-    help_window.geometry("800x600")
+    help_window.geometry(f"{HELP_WINDOW_WIDTH}x{HELP_WINDOW_HEIGHT}")
 
     html_frame = HtmlFrame(help_window, horizontal_scrollbar="auto")
     html_frame.pack(fill="both", expand=True)
@@ -63,7 +111,8 @@ def run():
 
     root = tk.Tk()
     root.title("Logic crusher")
-    root.geometry("1000x600")
+    root.geometry(f"{MAIN_WINDOW_WIDTH}x{MAIN_WINDOW_HEIGHT}")
+
     root.resizable(False, False)
     
     if platform.system() == "Windows":
@@ -72,18 +121,18 @@ def run():
         style &= ~0x10000  
         ctypes.windll.user32.SetWindowLongW(hwnd, -16, style)
     
-    canvas = tk.Canvas(root, width=1000, height=600)
+    canvas = tk.Canvas(root, width=MAIN_WINDOW_WIDTH, height=MAIN_WINDOW_HEIGHT)
     canvas.pack(fill="both", expand=True)
     
     try:
         background_image = Image.open(resource_path("main_background.gif"))
-    except Exception as e:
+    except (FileNotFoundError, IOError) as e:
         messagebox.showerror("Error", f"Failed to load background image: {e}")
         background_image = None
 
     if background_image:
         frames = [
-            ImageTk.PhotoImage(frame.copy().resize((1000, 600), Image.LANCZOS)) 
+            ImageTk.PhotoImage(frame.copy().resize((BACKGROUND_WIDTH, BACKGROUND_HEIGHT), Image.LANCZOS)) 
             for frame in ImageSequence.Iterator(background_image)
         ]
         frame_count = len(frames)
@@ -102,82 +151,135 @@ def run():
     active_expression = tk.IntVar(value=1) 
     
     expression_label_1 = tk.Label(
-        root, text="Enter boolean expression 1:", 
-        bg="#ffffff", font=("Comic Sans MS", 12, "bold")
+        root, 
+        text="Enter boolean expression 1:", 
+        bg=LABEL_BG_COLOR, 
+        font=LABEL_FONT
     )
 
     first_expression_entry = tk.Entry(
-        root, width=40, 
-        font=("Comic Sans MS", 12, "bold"), bg="#ffffff"
+        root, 
+        width=ENTRY_WIDTH_1,
+        font=ENTRY_FONT,
+        bg=ENTRY_BG_COLOR
     )
     
     expression_label_2 = tk.Label(
-        root, text="Enter boolean expression 2:", 
-        bg="#ffffff", font=("Comic Sans MS", 12, "bold")
+        root, 
+        text="Enter boolean expression 2:", 
+        bg=LABEL_BG_COLOR, 
+        font=LABEL_FONT
     )
     
     second_expression_entry = tk.Entry(
-        root, width=40, 
-        font=("Comic Sans MS", 12, "bold"), bg="#ffffff"
+        root, 
+        width=ENTRY_WIDTH_1, 
+        font=ENTRY_FONT, 
+        bg=ENTRY_BG_COLOR
     )
     
     selection_label = tk.Label(
-        root, text="Choose an active expression:", 
-        bg="#ffffff", font=("Comic Sans MS", 12, "bold")
+        root, 
+        text="Choose an active expression:", 
+        bg=LABEL_BG_COLOR, 
+        font=LABEL_FONT
     )
     
     radio1 = tk.Radiobutton(
-        root, text="Expression 1", 
-        variable=active_expression, value=1, bg="#ffffff", 
-        font=("Comic Sans MS", 12, "bold")
+        root, 
+        text="Expression 1", 
+        variable=active_expression, 
+        value=1, 
+        bg=RADIO_BUTTON_BG_COLOR, 
+        font=RADIO_BUTTON_FONT
     )
     
     radio2 = tk.Radiobutton(
-        root, text="Expression 2", 
-        variable=active_expression, value=2, 
-        bg="#ffffff", font=("Comic Sans MS", 12, "bold")
+        root, 
+        text="Expression 2", 
+        variable=active_expression, 
+        value=2, 
+        bg=RADIO_BUTTON_BG_COLOR, 
+        font=RADIO_BUTTON_FONT
     )
     
     variable_label = tk.Label(
-        root, text="Variable to decompose:", 
-        bg="#ffffff", font=("Comic Sans MS", 12, "bold")
+        root, 
+        text="Variable to decompose:", 
+        bg=LABEL_BG_COLOR, 
+        font=LABEL_FONT
     )
 
     variable_entry = tk.Entry(
-        root, width=20, 
-        font=("Comic Sans MS", 12, "bold"), 
-        bg="#ffffff"
+        root, 
+        width=ENTRY_WIDTH_2, 
+        font=ENTRY_FONT, 
+        bg=ENTRY_BG_COLOR
     )
     
     result_frame = tk.Frame(
-        root, bg="#ffffff", 
-        bd=2, relief="groove"
+        root, 
+        bg=ENTRY_BG_COLOR, 
+        bd=2, 
+        relief="groove"
     )
 
     expression_result_display = tk.Label(
-        result_frame, text="The result will be displayed here.", 
-        justify="left", wraplength=950, 
-        anchor="w", bg="#ffffff", 
-        font=("Comic Sans MS", 12, "bold")
+        result_frame, 
+        text="The result will be displayed here.", 
+        justify="left", 
+        wraplength=950, 
+        anchor="w", 
+        bg=LABEL_BG_COLOR, 
+        font=LABEL_FONT
     )
 
     expression_result_display.pack(
-        fill="both", expand=True, 
-        padx=10, pady=10
+        fill="both", 
+        expand=True, 
+        padx=10, 
+        pady=10
     )
     
-    canvas.create_window(50, 20, window=expression_label_1, anchor="nw")
-    canvas.create_window(300, 20, window=first_expression_entry, anchor="nw")
+    canvas.create_window(
+        EXPR_LABEL_X, EXPR_LABEL_Y_1, 
+        window=expression_label_1, anchor="nw"
+        )
+    canvas.create_window(
+        EXPR_ENTRY_X, EXPR_ENTRY_Y_1, 
+        window=first_expression_entry, anchor="nw"
+        )
     
-    canvas.create_window(50, 60, window=expression_label_2, anchor="nw")
-    canvas.create_window(300, 60, window=second_expression_entry, anchor="nw")
+    canvas.create_window(
+        EXPR_LABEL_X, EXPR_LABEL_Y_2, 
+        window=expression_label_2, anchor="nw"
+        )
+    canvas.create_window(
+        EXPR_ENTRY_X, EXPR_ENTRY_Y_2, 
+        window=second_expression_entry, anchor="nw"
+        )
     
-    canvas.create_window(50, 100, window=selection_label, anchor="nw")
-    canvas.create_window(300, 100, window=radio1, anchor="nw")
-    canvas.create_window(450, 100, window=radio2, anchor="nw")
+    canvas.create_window(
+        EXPR_LABEL_X, SELECTION_LABEL_Y, 
+        window=selection_label, anchor="nw"
+        )
+    canvas.create_window(
+        RADIO_BUTTON_X_1, RADIO_BUTTON_Y, 
+        window=radio1, anchor="nw"
+        )
+    canvas.create_window(
+        RADIO_BUTTON_X_2, RADIO_BUTTON_Y, 
+        window=radio2, anchor="nw"
+        )
     
-    canvas.create_window(50, 140, window=variable_label, anchor="nw")
-    canvas.create_window(300, 140, window=variable_entry, anchor="nw")
+    canvas.create_window(
+        EXPR_LABEL_X, VARIABLE_LABEL_Y, 
+        window=variable_label, anchor="nw"
+        )
+    canvas.create_window(
+        EXPR_ENTRY_X, VARIABLE_ENTRY_Y, 
+        window=variable_entry, anchor="nw"
+        )
     
     buttons = [
         ("Simplification", gui_actions.simplify_expression),
@@ -198,57 +300,72 @@ def run():
         y = BUTTON_START_Y + row * BUTTON_SPACING_Y
 
         button = tk.Button(
-            root, text=text, 
-            width=25, command=command, 
-            font=("Comic Sans MS", 10, "bold"), bg="#f0f0f0"
+            root, 
+            text=text, 
+            width=BUTTON_WIDTH_1, 
+            command=command, 
+            font=BUTTON_FONT, 
+            bg=BUTTON_BG_COLOR
         )
 
         canvas.create_window(
-            x, y, 
+            x, 
+            y, 
             window=button, 
             anchor="nw"
         )
     
     save_button = tk.Button(
-        root, text="Save to file", 
-        width=15, command=gui_actions.save_to_file, 
-        font=("Comic Sans MS", 10, "bold"), bg="#f0f0f0"
+        root, 
+        text="Save to file", 
+        width=BUTTON_WIDTH_2, 
+        command=gui_actions.save_to_file, 
+        font=BUTTON_FONT, 
+        bg=BUTTON_BG_COLOR
     )
 
     canvas.create_window(
-        720, 20, 
+        720, 
+        20, 
         window=save_button, 
         anchor="nw"
     )
 
     canvas.create_window(
-        50, 360, 
+        50, 
+        360, 
         window=result_frame, 
         anchor="nw"
     )
 
     help_button = tk.Button(
-        root, text="Help", 
-        width=15, command=open_help_window, 
-        font=("Comic Sans MS", 10, "bold"), 
-        bg="#f0f0f0"
+        root, 
+        text="Help", 
+        width=15, 
+        command=open_help_window, 
+        font=BUTTON_FONT, 
+        bg=BUTTON_BG_COLOR
     )
     
     canvas.create_window(
-        720, 60, 
+        720, 
+        60, 
         window=help_button, 
         anchor="nw"
     )
 
     sets_button = tk.Button(
-        root, text="Sets", 
-        width=15, command=gui_sets.open_sets_window, 
-        font=("Comic Sans MS", 10, "bold"), 
-        bg="#f0f0f0"
+        root, 
+        text="Sets", 
+        width=BUTTON_WIDTH_2, 
+        command=gui_sets.open_sets_window, 
+        font=BUTTON_FONT, 
+        bg=BUTTON_BG_COLOR
     )
 
     canvas.create_window(
-        720, 100, 
+        720, 
+        100, 
         window=sets_button, 
         anchor="nw"
     )
