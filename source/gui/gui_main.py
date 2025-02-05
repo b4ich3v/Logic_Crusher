@@ -8,6 +8,7 @@ import markdown2
 from tkinterweb import HtmlFrame
 from PIL import Image, ImageSequence, ImageTk
 
+from gui import constants as cn
 from boolean_logic.boolean_functions import BooleanFunctionSet
 from . import gui_actions
 from . import gui_sets
@@ -21,60 +22,6 @@ active_expression = None
 expression_result_display = None
 variable_entry = None
 
-BUTTON_START_X = 150    
-BUTTON_START_Y = 200
-BUTTON_SPACING_X = 225  
-BUTTON_SPACING_Y = 50
-BUTTONS_PER_ROW = 3
-
-MAIN_WINDOW_WIDTH = 1000
-MAIN_WINDOW_HEIGHT = 600
-
-HELP_WINDOW_WIDTH = 800
-HELP_WINDOW_HEIGHT = 600
-
-BACKGROUND_WIDTH = 1000
-BACKGROUND_HEIGHT = 600
-
-BUTTON_WIDTH_1 = 25
-BUTTON_WIDTH_2 = 15
-BUTTON_BG_COLOR = "#f0f0f0"
-BUTTON_FONT = ("Comic Sans MS", 10, "bold")
-
-ENTRY_WIDTH_1 = 40
-ENTRY_WIDTH_2 = 20
-ENTRY_FONT = ("Comic Sans MS", 12, "bold")
-ENTRY_BG_COLOR = "#ffffff"
-
-LABEL_BG_COLOR = "#ffffff"
-LABEL_FONT = ("Comic Sans MS", 12, "bold")
-
-RADIO_BUTTON_FONT = ("Comic Sans MS", 12, "bold")
-RADIO_BUTTON_BG_COLOR = "#ffffff"
-
-SAVE_BUTTON_X = 720
-SAVE_BUTTON_Y = 20
-
-HELP_BUTTON_X = 720
-HELP_BUTTON_Y = 60
-
-SETS_BUTTON_X = 720
-SETS_BUTTON_Y = 100
-
-EXPR_LABEL_X = 50
-EXPR_LABEL_Y_1 = 20
-EXPR_LABEL_Y_2 = 60
-SELECTION_LABEL_Y = 100
-VARIABLE_LABEL_Y = 140
-
-EXPR_ENTRY_X = 300
-EXPR_ENTRY_Y_1 = 20
-EXPR_ENTRY_Y_2 = 60
-RADIO_BUTTON_X_1 = 300
-RADIO_BUTTON_X_2 = 450
-RADIO_BUTTON_Y = 100
-VARIABLE_ENTRY_Y = 140
-
 def resource_path(relative_path):
     base_path = getattr(sys, "_MEIPASS", os.path.dirname(__file__))
     return os.path.join(base_path, relative_path)
@@ -82,7 +29,7 @@ def resource_path(relative_path):
 def open_help_window():
     help_window = tk.Toplevel()
     help_window.title("Help window")
-    help_window.geometry(f"{HELP_WINDOW_WIDTH}x{HELP_WINDOW_HEIGHT}")
+    help_window.geometry(f"{cn.HELP_WINDOW_WIDTH}x{cn.HELP_WINDOW_HEIGHT}")
 
     html_frame = HtmlFrame(help_window, horizontal_scrollbar="auto")
     html_frame.pack(fill="both", expand=True)
@@ -111,7 +58,7 @@ def run():
 
     root = tk.Tk()
     root.title("Logic crusher")
-    root.geometry(f"{MAIN_WINDOW_WIDTH}x{MAIN_WINDOW_HEIGHT}")
+    root.geometry(f"{cn.MAIN_WINDOW_WIDTH}x{cn.MAIN_WINDOW_HEIGHT}")
 
     root.resizable(False, False)
     
@@ -121,7 +68,7 @@ def run():
         style &= ~0x10000  
         ctypes.windll.user32.SetWindowLongW(hwnd, -16, style)
     
-    canvas = tk.Canvas(root, width=MAIN_WINDOW_WIDTH, height=MAIN_WINDOW_HEIGHT)
+    canvas = tk.Canvas(root, width=cn.MAIN_WINDOW_WIDTH, height=cn.MAIN_WINDOW_HEIGHT)
     canvas.pack(fill="both", expand=True)
     
     try:
@@ -132,7 +79,9 @@ def run():
 
     if background_image:
         frames = [
-            ImageTk.PhotoImage(frame.copy().resize((BACKGROUND_WIDTH, BACKGROUND_HEIGHT), Image.LANCZOS)) 
+            ImageTk.PhotoImage(frame.copy().resize(
+                (cn.BACKGROUND_WIDTH, cn.BACKGROUND_HEIGHT), Image.LANCZOS)
+                ) 
             for frame in ImageSequence.Iterator(background_image)
         ]
         frame_count = len(frames)
@@ -153,36 +102,36 @@ def run():
     expression_label_1 = tk.Label(
         root, 
         text="Enter boolean expression 1:", 
-        bg=LABEL_BG_COLOR, 
-        font=LABEL_FONT
+        bg=cn.LABEL_BG_COLOR, 
+        font=cn.LABEL_FONT
     )
 
     first_expression_entry = tk.Entry(
         root, 
-        width=ENTRY_WIDTH_1,
-        font=ENTRY_FONT,
-        bg=ENTRY_BG_COLOR
+        width=cn.ENTRY_WIDTH_1,
+        font=cn.ENTRY_FONT,
+        bg=cn.ENTRY_BG_COLOR
     )
     
     expression_label_2 = tk.Label(
         root, 
         text="Enter boolean expression 2:", 
-        bg=LABEL_BG_COLOR, 
-        font=LABEL_FONT
+        bg=cn.LABEL_BG_COLOR, 
+        font=cn.LABEL_FONT
     )
     
     second_expression_entry = tk.Entry(
         root, 
-        width=ENTRY_WIDTH_1, 
-        font=ENTRY_FONT, 
-        bg=ENTRY_BG_COLOR
+        width=cn.ENTRY_WIDTH_1, 
+        font=cn.ENTRY_FONT, 
+        bg=cn.ENTRY_BG_COLOR
     )
     
     selection_label = tk.Label(
         root, 
         text="Choose an active expression:", 
-        bg=LABEL_BG_COLOR, 
-        font=LABEL_FONT
+        bg=cn.LABEL_BG_COLOR, 
+        font=cn.LABEL_FONT
     )
     
     radio1 = tk.Radiobutton(
@@ -190,8 +139,8 @@ def run():
         text="Expression 1", 
         variable=active_expression, 
         value=1, 
-        bg=RADIO_BUTTON_BG_COLOR, 
-        font=RADIO_BUTTON_FONT
+        bg=cn.RADIO_BUTTON_BG_COLOR, 
+        font=cn.RADIO_BUTTON_FONT
     )
     
     radio2 = tk.Radiobutton(
@@ -199,27 +148,27 @@ def run():
         text="Expression 2", 
         variable=active_expression, 
         value=2, 
-        bg=RADIO_BUTTON_BG_COLOR, 
-        font=RADIO_BUTTON_FONT
+        bg=cn.RADIO_BUTTON_BG_COLOR, 
+        font=cn.RADIO_BUTTON_FONT
     )
     
     variable_label = tk.Label(
         root, 
         text="Variable to decompose:", 
-        bg=LABEL_BG_COLOR, 
-        font=LABEL_FONT
+        bg=cn.LABEL_BG_COLOR, 
+        font=cn.LABEL_FONT
     )
 
     variable_entry = tk.Entry(
         root, 
-        width=ENTRY_WIDTH_2, 
-        font=ENTRY_FONT, 
-        bg=ENTRY_BG_COLOR
+        width=cn.ENTRY_WIDTH_2, 
+        font=cn.ENTRY_FONT, 
+        bg=cn.ENTRY_BG_COLOR
     )
     
     result_frame = tk.Frame(
         root, 
-        bg=ENTRY_BG_COLOR, 
+        bg=cn.ENTRY_BG_COLOR, 
         bd=2, 
         relief="groove"
     )
@@ -230,8 +179,8 @@ def run():
         justify="left", 
         wraplength=950, 
         anchor="w", 
-        bg=LABEL_BG_COLOR, 
-        font=LABEL_FONT
+        bg=cn.LABEL_BG_COLOR, 
+        font=cn.LABEL_FONT
     )
 
     expression_result_display.pack(
@@ -242,42 +191,42 @@ def run():
     )
     
     canvas.create_window(
-        EXPR_LABEL_X, EXPR_LABEL_Y_1, 
+        cn.EXPR_LABEL_X, cn.EXPR_LABEL_Y_1, 
         window=expression_label_1, anchor="nw"
         )
     canvas.create_window(
-        EXPR_ENTRY_X, EXPR_ENTRY_Y_1, 
+        cn.EXPR_ENTRY_X, cn.EXPR_ENTRY_Y_1, 
         window=first_expression_entry, anchor="nw"
         )
     
     canvas.create_window(
-        EXPR_LABEL_X, EXPR_LABEL_Y_2, 
+        cn.EXPR_LABEL_X, cn.EXPR_LABEL_Y_2, 
         window=expression_label_2, anchor="nw"
         )
     canvas.create_window(
-        EXPR_ENTRY_X, EXPR_ENTRY_Y_2, 
+        cn.EXPR_ENTRY_X, cn.EXPR_ENTRY_Y_2, 
         window=second_expression_entry, anchor="nw"
         )
     
     canvas.create_window(
-        EXPR_LABEL_X, SELECTION_LABEL_Y, 
+        cn.EXPR_LABEL_X, cn.SELECTION_LABEL_Y, 
         window=selection_label, anchor="nw"
         )
     canvas.create_window(
-        RADIO_BUTTON_X_1, RADIO_BUTTON_Y, 
+        cn.RADIO_BUTTON_X_1, cn.RADIO_BUTTON_Y, 
         window=radio1, anchor="nw"
         )
     canvas.create_window(
-        RADIO_BUTTON_X_2, RADIO_BUTTON_Y, 
+        cn.RADIO_BUTTON_X_2, cn.RADIO_BUTTON_Y, 
         window=radio2, anchor="nw"
         )
     
     canvas.create_window(
-        EXPR_LABEL_X, VARIABLE_LABEL_Y, 
+        cn.EXPR_LABEL_X, cn.VARIABLE_LABEL_Y, 
         window=variable_label, anchor="nw"
         )
     canvas.create_window(
-        EXPR_ENTRY_X, VARIABLE_ENTRY_Y, 
+        cn.EXPR_ENTRY_X, cn.VARIABLE_ENTRY_Y, 
         window=variable_entry, anchor="nw"
         )
     
@@ -294,18 +243,18 @@ def run():
     ]
     
     for index, (text, command) in enumerate(buttons):
-        row = index // BUTTONS_PER_ROW
-        col = index % BUTTONS_PER_ROW
-        x = BUTTON_START_X + col * BUTTON_SPACING_X
-        y = BUTTON_START_Y + row * BUTTON_SPACING_Y
+        row = index // cn.BUTTONS_PER_ROW
+        col = index % cn.BUTTONS_PER_ROW
+        x = cn.BUTTON_START_X + col * cn.BUTTON_SPACING_X
+        y = cn.BUTTON_START_Y + row * cn.BUTTON_SPACING_Y
 
         button = tk.Button(
             root, 
             text=text, 
-            width=BUTTON_WIDTH_1, 
+            width=cn.BUTTON_WIDTH_1, 
             command=command, 
-            font=BUTTON_FONT, 
-            bg=BUTTON_BG_COLOR
+            font=cn.BUTTON_FONT, 
+            bg=cn.BUTTON_BG_COLOR
         )
 
         canvas.create_window(
@@ -318,10 +267,10 @@ def run():
     save_button = tk.Button(
         root, 
         text="Save to file", 
-        width=BUTTON_WIDTH_2, 
+        width=cn.BUTTON_WIDTH_2, 
         command=gui_actions.save_to_file, 
-        font=BUTTON_FONT, 
-        bg=BUTTON_BG_COLOR
+        font=cn.BUTTON_FONT, 
+        bg=cn.BUTTON_BG_COLOR
     )
 
     canvas.create_window(
@@ -343,8 +292,8 @@ def run():
         text="Help", 
         width=15, 
         command=open_help_window, 
-        font=BUTTON_FONT, 
-        bg=BUTTON_BG_COLOR
+        font=cn.BUTTON_FONT, 
+        bg=cn.BUTTON_BG_COLOR
     )
     
     canvas.create_window(
@@ -357,10 +306,10 @@ def run():
     sets_button = tk.Button(
         root, 
         text="Sets", 
-        width=BUTTON_WIDTH_2, 
+        width=cn.BUTTON_WIDTH_2, 
         command=gui_sets.open_sets_window, 
-        font=BUTTON_FONT, 
-        bg=BUTTON_BG_COLOR
+        font=cn.BUTTON_FONT, 
+        bg=cn.BUTTON_BG_COLOR
     )
 
     canvas.create_window(
