@@ -101,6 +101,7 @@ def check_properties():
             properties.append("Linear.")
         else:
             properties.append("Non-linear.")
+
         gui_main.expression_result_display.config(
             text=f"Function properties:\n" + "\n".join(properties)
             )
@@ -117,6 +118,7 @@ def minimize_expression():
         return
     
     is_valid, error_message = Validator.validate(expression_text)
+
     if not is_valid:
         messagebox.showerror("Syntax error.", error_message)
         return
@@ -140,6 +142,7 @@ def decompose_expression():
             )
         return
     is_valid, error_message = Validator.validate(expression_text)
+
     if not is_valid:
         messagebox.showerror("Syntax error.", error_message)
         return
@@ -163,7 +166,9 @@ def generate_kmap():
             "Error", "Please enter the selected boolean expression."
             )
         return
+    
     is_valid, error_message = Validator.validate(expression_text)
+
     if not is_valid:
         messagebox.showerror("Syntax error.", error_message)
         return
@@ -193,6 +198,7 @@ def visualize_ast():
         return
     
     is_valid, error_message = Validator.validate(expression_text)
+
     if not is_valid:
         messagebox.showerror("Syntax error.", error_message)
         return
@@ -217,6 +223,7 @@ def generate_circuit():
         return
     
     is_valid, error_message = Validator.validate(expression_text)
+
     if not is_valid:
         messagebox.showerror("Syntax error.", error_message)
         return
@@ -302,6 +309,7 @@ def save_to_file():
 
     file_path = filedialog.asksaveasfilename(defaultextension=".json",
     filetypes=[("JSON Files", "*.json"), ("All Files", "*.*")])
+    
     if not file_path:
         return  
 
