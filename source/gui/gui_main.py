@@ -68,7 +68,11 @@ def run():
         style &= ~0x10000  
         ctypes.windll.user32.SetWindowLongW(hwnd, -16, style)
     
-    canvas = tk.Canvas(root, width=cn.MAIN_WINDOW_WIDTH, height=cn.MAIN_WINDOW_HEIGHT)
+    canvas = tk.Canvas(
+        root, 
+        width=cn.MAIN_WINDOW_WIDTH, 
+        height=cn.MAIN_WINDOW_HEIGHT
+    )
     canvas.pack(fill="both", expand=True)
     
     try:
@@ -80,7 +84,7 @@ def run():
     if background_image:
         frames = [
             ImageTk.PhotoImage(frame.copy().resize(
-                (cn.BACKGROUND_WIDTH, cn.BACKGROUND_HEIGHT), Image.LANCZOS)
+                (cn.BACKGROUND_GIF_WIDTH, cn.BACKGROUND_GIF_HEIGHT), Image.LANCZOS)
                 ) 
             for frame in ImageSequence.Iterator(background_image)
         ]
