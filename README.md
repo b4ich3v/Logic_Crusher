@@ -1,124 +1,124 @@
 # **Logic Crusher**
 
-## **Описание**
+## **Description**
 
-**Logic Crusher** е графично приложение, което позволява на потребителите да въвеждат, опростяват и минимизират Булеви изрази. Приложението използва алгоритъма на Quine–McCluskey за минимизация и предлага визуални инструменти като Карно карти и визуализация на Абстрактно Синтактично Дърво (AST).
+**Logic Crusher** is a graphical application that allows users to input, simplify, and minimize Boolean expressions. The application uses the Quine–McCluskey algorithm for minimization and offers visual tools such as Karnaugh maps and visualization of the Abstract Syntax Tree (AST).
 
-Целта е да се опрости логическите формули за по-добро разбиране и ефективност, като инструментът е полезен както за образователни, така и за професионални цели.
-
----
-
-## **Поддържани Оператори**
-
-### **Двоични Логически Оператори**
-
-| Оператор                   | Поддържани Алтернативи       |
-|----------------------------|------------------------------|
-| Дизюнкция (OR)             | OR, or, ∨, \|, \|\|          |
-| Конюнкция (AND)            | AND, and, &, ∧, &&           |
-| Изключващо ИЛИ (XOR)       | XOR, xor, ^, ⊕              |
-| Еквивалентност (EQV)       | EQV, eqv, <=>, ↔, ==         |
-| Импликация (IMP)           | IMP, imp, =>, →, ⇒           |
-| НЕ И (NAND)                | NAND, nand, !&, ¬&, ↑        |
-| НЕ ИЛИ (NOR)               | NOR, nor, !v, ¬∨, ↓         |
-
-### **Унарни Логически Оператори**
-
-| Оператор   | Поддържани Алтернативи |
-|------------|------------------------|
-| Отрицание (NOT) | NOT, not, !, ~, ¬ |
-
-### **Константи**
-
-| Константа | Поддържани Алтернативи |
-|-----------|-------------------------|
-| True      | true, 1                 |
-| False     | false, 0                |
+The goal is to simplify logical formulas for better understanding and efficiency, making the tool useful for both educational and professional purposes.
 
 ---
 
-## **Функционалности**
+## **Supported Operators**
 
-- **Въвеждане и приоритизиране на Булеви изрази:**
-  - Въвеждайте и изберете един или два Булеви израза за по-нататъшни операции.
-  
-- **Валидиране на синтаксис:**
-  - Проверява правилността на синтаксиса на въведените Булеви изрази.
-  
-- **Опростяване на изрази:**
-  - Опростява изразите до най-кратката им форма.
-  
-- **Проверка на логически свойства:**
-  - **Монотонност:** Проверява дали функцията е монотонна.
-  - **Линейност:** Проверява дали функцията е линейна.
-  - **Самодуелност:** Проверява дали функцията е самодуелна.
-  - **Запазване на нула:** Проверява дали функцията запазва нула.
-  - **Запазване на единица:** Проверява дали функцията запазва единица.
-  
-- **Минимизиране на изрази:**
-  - Минимизира изразите с помощта на алгоритъма на Quine–McCluskey.
-  
-- **Генериране на полином на Жегалкин:**
-  - Генерира полиномите на Жегалкин за избраните Булеви изрази.
-  
-- **Визуализация на Карно карти:**
-  - Генерира и визуализира Карно карти за Булеви функции с 2-4 променливи.
-  
-- **Визуализация на Абстрактно Синтактично Дърво (AST):**
-  - Визуализира AST на избраните Булеви изрази с помощта на Graphviz.
-  
-- **Генериране на логическа схема (Circuit Diagram):**
-  - Генерира и визуализира логически схеми на минимизираните изрази.
-  
-- **Запазване на изрази и свойства:**
-  - Запазва всички съхранени изрази и техните свойства във файлове във формат JSON.
-  
-- **Проверка на еквивалентност между два израза:**
-  - Проверява дали два Булеви израза са еквивалентни и показва разликите в броя на входните комбинации.
+### **Binary Logical Operators**
 
-- **Операции със множества:**
-  - **Обединение (Union):** Обединява два множества.
-  - **Пресичане (Intersection):** Намира общите елементи между два множества.
-  - **Разлика (Difference):** Намира елементите, които са в едно множество, но не и в другото.
-  - **Симетрична разлика (Symmetric Difference):** Намира елементите, които са в едно от двете множества, но не в двете.
-  - **Вен диаграми:** Визуализира Вен диаграми за две множества.
-  - **Декартово произведение (Cartesian Product):** Изчислява декартовото произведение на две множества.
-  - **Кардиналност:** Изчислява броя на елементите в двете множества.
-  - **Подмножества (Power Sets):** Генерира подмножествата на двете множества.
-  - **Проверка на отношения:** Проверява различни отношения между множествата като подмножество, супермножество, равенство и дискретност.
+| Operator                  | Supported Alternatives        |
+|---------------------------|-------------------------------|
+| Disjunction (OR)          | OR, or, ∨, \|, \|\|           |
+| Conjunction (AND)         | AND, and, &, ∧, &&            |
+| Exclusive OR (XOR)        | XOR, xor, ^, ⊕               |
+| Equivalence (EQV)         | EQV, eqv, <=>, ↔, ==          |
+| Implication (IMP)         | IMP, imp, =>, →, ⇒            |
+| NAND                       | NAND, nand, !&, ¬&, ↑         |
+| NOR                        | NOR, nor, !v, ¬∨, ↓          |
+
+### **Unary Logical Operators**
+
+| Operator      | Supported Alternatives |
+|---------------|------------------------|
+| Negation (NOT) | NOT, not, !, ~, ¬      |
+
+### **Constants**
+
+| Constant | Supported Alternatives |
+|----------|------------------------|
+| True     | true, 1               |
+| False    | false, 0              |
 
 ---
 
-## **Правила**
+## **Features**
 
-- **Въвеждане на Булеви Изрази:**
-  - Променливите трябва да се състоят от букви (a-z, A-Z).
-  - Резервираните ключови думи (`true`, `false`) не могат да се използват като имена на променливи.
-  - Изразите без скоби се оценяват отляво надясно според приоритета на операторите.
-  - Изразите трябва да са коректно синтактично оформени със скоби при необходимост.
-  - Използвайте поддържаните логически оператори и константи.
+- **Input and prioritization of Boolean expressions:**
+  - Enter and select one or two Boolean expressions for further operations.
+  
+- **Syntax validation:**
+  - Checks the correctness of the syntax of the entered Boolean expressions.
+  
+- **Expression simplification:**
+  - Simplifies expressions to their shortest form.
+  
+- **Checking logical properties:**
+  - **Monotonicity:** Checks if the function is monotonic.
+  - **Linearity:** Checks if the function is linear.
+  - **Self-duality:** Checks if the function is self-dual.
+  - **Preserving zero:** Checks if the function preserves zero.
+  - **Preserving one:** Checks if the function preserves one.
+  
+- **Expression minimization:**
+  - Minimizes expressions using the Quine–McCluskey algorithm.
+  
+- **Generating Zhegalkin polynomials:**
+  - Generates Zhegalkin polynomials for the selected Boolean expressions.
+  
+- **Karnaugh map visualization:**
+  - Generates and visualizes Karnaugh maps for Boolean functions with 2–4 variables.
+  
+- **Abstract Syntax Tree (AST) visualization:**
+  - Visualizes the AST of the selected Boolean expressions using Graphviz.
+  
+- **Generating logic circuits (Circuit Diagram):**
+  - Generates and visualizes logic circuits of minimized expressions.
+  
+- **Saving expressions and properties:**
+  - Saves all stored expressions and their properties in JSON format files.
+  
+- **Checking equivalence between two expressions:**
+  - Checks if two Boolean expressions are equivalent and shows the difference in the number of input combinations.
 
-- **Въвеждане на Множества:**
-  - Въвеждайте елементите на множествата, разделени със запетайки (например A, B, C).
-  - Използвайте алтернативните наименования за операциите според нуждите ви.
+- **Set operations:**
+  - **Union:** Unites two sets.
+  - **Intersection:** Finds the common elements of two sets.
+  - **Difference:** Finds the elements that are in one set but not in the other.
+  - **Symmetric difference:** Finds the elements that are in either set but not in both.
+  - **Venn diagrams:** Visualizes Venn diagrams for two sets.
+  - **Cartesian product:** Computes the Cartesian product of two sets.
+  - **Cardinality:** Computes the number of elements in both sets.
+  - **Power sets:** Generates the power sets of both sets.
+  - **Relation checks:** Checks various relations between the sets such as subset, superset, equality, and discreteness.
 
-- **Избор на Активен Израз:**
-  - Изберете кой израз (1 или 2) да се използва за операции.
+---
 
-- **Променлива за Декомпозиция:**
-  - Специфицирайте променлива от активния израз за декомпозиция. Чувствителна към големи и малки букви (напр. `A` ≠ `a`).
+## **Rules**
 
-- **Факторизиране по Променлива:**
-  - Декомпозира активния израз спрямо зададената променлива.
+- **Entering Boolean Expressions:**
+  - Variables must consist of letters (a-z, A-Z).
+  - Reserved keywords (`true`, `false`) cannot be used as variable names.
+  - Expressions without parentheses are evaluated left to right according to operator precedence.
+  - Expressions must be syntactically correct with parentheses where needed.
+  - Use the supported logical operators and constants.
 
-- **Генериране на Карно Карта:**
-  - Поддържа се само за Булеви функции с 2-4 променливи.
+- **Entering Sets:**
+  - Enter the elements of the sets, separated by commas (e.g., A, B, C).
+  - Use the alternative operator names as needed.
 
-- **Запазване във Файл:**
-  - Запазва всички съхранени изрази и техните свойства като JSON файл.
+- **Selecting the Active Expression:**
+  - Choose which expression (1 or 2) to use for operations.
 
-- **Проверка на Еквивалентност:**
-  - И двата израза трябва да са валидни и въведени в съответните полета.
+- **Variable for Decomposition:**
+  - Specify a variable from the active expression for decomposition. Case-sensitive (e.g., `A` ≠ `a`).
+
+- **Factoring by Variable:**
+  - Decomposes the active expression with respect to the specified variable.
+
+- **Karnaugh Map Generation:**
+  - Only supported for Boolean functions with 2–4 variables.
+
+- **Saving to File:**
+  - Saves all stored expressions and their properties as a JSON file.
+
+- **Equivalence Check:**
+  - Both expressions must be valid and entered in the respective fields.
 
 ---
 <br><br>
@@ -131,5 +131,3 @@
     <img src="screenshots/screenshot2.png" alt="Image 1" width="1000"/>
 </div>
 <br><br>
-
----
