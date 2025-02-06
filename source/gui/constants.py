@@ -1,3 +1,5 @@
+# ========== WINDOW SIZES ==========
+
 MAIN_WINDOW_WIDTH = 1000
 MAIN_WINDOW_HEIGHT = 600
 
@@ -7,30 +9,24 @@ HELP_WINDOW_HEIGHT = 600
 SET_WINDOW_WIDTH = 900
 SET_WINDOW_HEIGHT = 600
 
+SPLASH_WIDTH = 735
+SPLASH_HEIGHT = 600
+
+
+# ========== BACKGROUND & IMAGES ==========
+
 BACKGROUND_GIF_WIDTH = 1000
 BACKGROUND_GIF_HEIGHT = 600
 
 BACKGROUND_IM_WIDTH = 900
 BACKGROUND_IM_HEIGHT = 600
 
-BUTTON_WIDTH_1 = 25
-BUTTON_WIDTH_2 = 15
-BUTTON_BG_COLOR = "#f0f0f0"
-BUTTON_FONT = ("Comic Sans MS", 10, "bold")
+SPLASH_BG_IMAGE = "loading_background.jpg"
+MAIN_BG_GIFF = "main_background.gif"
+SECONDARY_BG_IMAGE = "secondary_background.jpg"
 
-ENTRY_WIDTH_1 = 40
-ENTRY_WIDTH_2 = 20
-ENTRY_FONT = ("Comic Sans MS", 12, "bold")
-ENTRY_BG_COLOR = "#ffffff"
 
-LABEL_BG_COLOR = "#ffffff"
-LABEL_FONT = ("Comic Sans MS", 12, "bold")
-
-RADIO_BUTTON_FONT = ("Comic Sans MS", 12, "bold")
-RADIO_BUTTON_BG_COLOR = "#ffffff"
-
-RESULT_DISPLAY_PADX = 10
-RESULT_DISPLAY_PADY = 10
+# ========== LAYOUT COORDINATES (MAIN WINDOW) ==========
 
 SAVE_BUTTON_X = 720
 SAVE_BUTTON_Y = 20
@@ -69,6 +65,9 @@ RESULT_LABEL_Y = 20
 RESULT_LABEL_WRAP = 300
 RESULT_LABEL_BORDER_WIDTH = 2
 
+
+# ========== LAYOUT COORDINATES (SETS WINDOW) ==========
+
 SET1_LABEL_X = 20
 SET1_LABEL_Y = 20
 
@@ -96,35 +95,52 @@ BTN_CARDINALITY_Y = 470
 BTN_POWER_Y = 513
 BTN_RELATIONS_Y = 556
 
-SPLASH_WIDTH = 735
-SPLASH_HEIGHT = 600
 
+# ========== BUTTON & WIDGET SIZES/STYLES ==========
+
+BUTTON_WIDTH_1 = 25
+BUTTON_WIDTH_2 = 15
+BUTTON_FONT = ("Comic Sans MS", 10, "bold")
+BUTTON_BG_COLOR = "#f0f0f0"
+
+ENTRY_WIDTH_1 = 40
+ENTRY_WIDTH_2 = 20
+ENTRY_FONT = ("Comic Sans MS", 12, "bold")
+ENTRY_BG_COLOR = "#ffffff"
+
+LABEL_FONT = ("Comic Sans MS", 12, "bold")
+LABEL_BG_COLOR = "#ffffff"
+
+RADIO_BUTTON_FONT = ("Comic Sans MS", 12, "bold")
+RADIO_BUTTON_BG_COLOR = "#ffffff"
+
+RESULT_DISPLAY_PADX = 10
+RESULT_DISPLAY_PADY = 10
+
+
+# ========== SPLASH (ANIMATION) CONSTANTS ==========
+
+FADE_DURATION = 60
+FADE_INTERVAL = 50
+SPLASH_TIMEOUT = 7500
 TEXT_X_OFFSET = 20
 TEXT_Y_OFFSET = 20
+UPDATE_BACKGROUND_INTERVAL = 100
 
-FADE_DURATION = 60  
-FADE_INTERVAL = 50 
 
-SPLASH_TIMEOUT = 7500
+# ========== FONTS & PATHS ==========
 
 MYSTERIOUS_FONT_PATH = "C:/Windows/Fonts/Chiller.ttf"
 FALLBACK_FONT_PATH = "C:/Windows/Fonts/Arial.ttf"
-
 DEFAULT_FONT_SIZE = 30
 
-SPLASH_BG_IMAGE = "loading_background.jpg"
-MAIN_BG_GIFF = "main_background.gif"
-SECONDARY_BG_IMAGE = "secondary_background.jpg"
 
-SPLASH_QUOTE = (
-    "In the silent corridors of reason,\n"
-    "logic is the hidden key that unlocks\n"
-    "the chaos of our minds."
-)
+# ========== STRINGS / APP TITLES ==========
 
 APP_TITLE = "Logic crusher"
 SECONDARY_TITTLE = "Set operations"
 HELP_WINDOW_TITLE = "Help window"
+
 RESULT_PLACEHOLDER = "The result will be displayed here."
 SAVE_TO_FILE_BUTTON_TEXT = "Save to file"
 SETS_BUTTON_TEXT = "Sets"
@@ -135,4 +151,8 @@ LABEL_EXPR_2_TEXT = "Enter boolean expression 2:"
 LABEL_SELECT_ACTIVE = "Choose an active expression:"
 LABEL_DECOMPOSE_VAR = "Variable to decompose:"
 
-UPDATE_BACKGROUND_INTERVAL = 100
+SPLASH_QUOTE = (
+    "In the silent corridors of reason,\n"
+    "logic is the hidden key that unlocks\n"
+    "the chaos of our minds."
+)
