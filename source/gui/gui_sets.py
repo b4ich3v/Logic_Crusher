@@ -9,12 +9,12 @@ from . import gui_main
 
 def open_sets_window():
     sets_window = tk.Toplevel(gui_main.root)
-    sets_window.title("Set operations")
+    sets_window.title(cn.SECONDARY_TITTLE)
     sets_window.geometry(f"{cn.SET_WINDOW_WIDTH}x{cn.SET_WINDOW_HEIGHT}")
     sets_window.resizable(False, False)
     
     try:
-        background_image = Image.open(gui_main.resource_path("secondary_background.jpg"))
+        background_image = Image.open(gui_main.resource_path(cn.SECONDARY_BG_IMAGE))
         background_image = background_image.resize(
             (cn.BACKGROUND_IM_WIDTH, cn.BACKGROUND_IM_HEIGHT), Image.LANCZOS
             )  
@@ -39,7 +39,7 @@ def open_sets_window():
 
     result_label_sets = tk.Label(
         sets_window, 
-        text="The result will be displayed here.",
+        text=cn.RESULT_PLACEHOLDER,
         wraplength=cn.RESULT_LABEL_WRAP, 
         justify="left",
         font=cn.LABEL_FONT, 
