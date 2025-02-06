@@ -114,6 +114,7 @@ DEFAULT_FONT_SIZE = 30
 
 SPLASH_BG_IMAGE = "loading_background.jpg"
 MAIN_BG_GIFF = "main_background.gif"
+SECONDARY_BG_IMAGE = "secondary_background.jpg"
 
 SPLASH_QUOTE = (
     "In the silent corridors of reason,\n"
@@ -122,6 +123,7 @@ SPLASH_QUOTE = (
 )
 
 APP_TITLE = "Logic crusher"
+SECONDARY_TITTLE = "Set operations"
 HELP_WINDOW_TITLE = "Help window"
 RESULT_PLACEHOLDER = "The result will be displayed here."
 SAVE_TO_FILE_BUTTON_TEXT = "Save to file"
