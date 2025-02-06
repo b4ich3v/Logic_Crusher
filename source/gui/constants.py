@@ -113,6 +113,7 @@ FALLBACK_FONT_PATH = "C:/Windows/Fonts/Arial.ttf"
 DEFAULT_FONT_SIZE = 30
 
 SPLASH_BG_IMAGE = "loading_background.jpg"
+MAIN_BG_GIFF = "main_background.gif"
 
 SPLASH_QUOTE = (
     "In the silent corridors of reason,\n"
