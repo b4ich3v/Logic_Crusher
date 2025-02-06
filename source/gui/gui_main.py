@@ -28,7 +28,7 @@ def resource_path(relative_path):
 
 def open_help_window():
     help_window = tk.Toplevel()
-    help_window.title("Help window")
+    help_window.title(cn.HELP_WINDOW_TITLE)
     help_window.geometry(f"{cn.HELP_WINDOW_WIDTH}x{cn.HELP_WINDOW_HEIGHT}")
 
     html_frame = HtmlFrame(help_window, horizontal_scrollbar="auto")
@@ -51,17 +51,20 @@ def open_help_window():
             f"<h2 style='color:red'>Error while reading the file</h2><p>{e}</p>"
         )
 
-def create_text_image(width, height, text, alpha, font_path=None, font_size=100):
+def create_text_image(
+        width, height, text, alpha, font_path=None, 
+        font_size=cn.UPDATE_BACKGROUND_INTERVAL
+    ):
     img = Image.new("RGBA", (width, height), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
 
     if font_path and os.path.exists(font_path):
         font = ImageFont.truetype(font_path, font_size)
     else:
-        font = ImageFont.truetype("C:/Windows/Fonts/Arial.ttf", font_size)
+        font = ImageFont.truetype(cn.FALLBACK_FONT_PATH, font_size)
 
-    x_offset = 20
-    y_offset = 20
+    x_offset = cn.TEXT_X_OFFSET
+    y_offset = cn.TEXT_Y_OFFSET
     x = x_offset
     y = y_offset
 
@@ -69,7 +72,10 @@ def create_text_image(width, height, text, alpha, font_path=None, font_size=100)
     draw.text((x, y), text, font=font, fill=text_color)
     return img
 
-def fade_text_in_out(canvas, text_content, duration=60, interval=50, font_path=None):
+def fade_text_in_out(
+        canvas, text_content, duration=cn.FADE_DURATION, 
+        interval=cn.FADE_INTERVAL, font_path=None
+    ):
     width = canvas.winfo_reqwidth()
     height = canvas.winfo_reqheight()
 
@@ -83,7 +89,7 @@ def fade_text_in_out(canvas, text_content, duration=60, interval=50, font_path=N
             alpha = max(0, 255 - int(((step - duration) / duration) * 255))
 
         img = create_text_image(width, height, text_content, alpha=alpha,
-                                font_path=font_path, font_size=30)
+                                font_path=font_path, font_size=cn.DEFAULT_FONT_SIZE)
         photo = ImageTk.PhotoImage(img)
         images_cache[0] = photo
         canvas.itemconfig(text_image_id, image=photo)
@@ -97,14 +103,14 @@ def show_splash():
     splash_root = tk.Tk()
     splash_root.overrideredirect(True)
 
-    width, height = 735, 600
+    width, height = cn.SPLASH_WIDTH, cn.SPLASH_HEIGHT
     screen_w = splash_root.winfo_screenwidth()
     screen_h = splash_root.winfo_screenheight()
     x = (screen_w // 2) - (width // 2)
     y = (screen_h // 2) - (height // 2)
     splash_root.geometry(f"{width}x{height}+{x}+{y}")
 
-    bg_path = resource_path("loading_background.jpg")
+    bg_path = resource_path(cn.SPLASH_BG_IMAGE)
     bg_image = Image.open(bg_path)
     bg_photo = ImageTk.PhotoImage(bg_image)
 
@@ -113,18 +119,18 @@ def show_splash():
     canvas.pack(fill="both", expand=True)
     canvas.create_image(0, 0, anchor="nw", image=bg_photo)
 
-    text_content = "In the silent corridors of reason,\nlogic is the hidden key that unlocks\nthe chaos of our minds."
-    mysterious_font_path = "C:/Windows/Fonts/Chiller.ttf"
+    text_content = cn.SPLASH_QUOTE
+    mysterious_font_path = cn.MYSTERIOUS_FONT_PATH
 
     fade_text_in_out(
         canvas,
         text_content,
-        duration=60,
-        interval=50,
+        duration=cn.FADE_DURATION,
+        interval=cn.FADE_INTERVAL,
         font_path=mysterious_font_path
     )
 
-    splash_root.after(7500, lambda: start_main_window(splash_root))
+    splash_root.after(cn.SPLASH_TIMEOUT, lambda: start_main_window(splash_root))
     splash_root.mainloop()
 
 def start_main_window(splash_root):
@@ -137,7 +143,7 @@ def run():
     global function_set
 
     root = tk.Tk()
-    root.title("Logic crusher")
+    root.title(cn.APP_TITLE)
     root.geometry(f"{cn.MAIN_WINDOW_WIDTH}x{cn.MAIN_WINDOW_HEIGHT}")
 
     root.resizable(False, False)
@@ -185,7 +191,7 @@ def run():
     
     expression_label_1 = tk.Label(
         root, 
-        text="Enter boolean expression 1:", 
+        text=cn.LABEL_EXPR_1_TEXT, 
         bg=cn.LABEL_BG_COLOR, 
         font=cn.LABEL_FONT
     )
@@ -199,7 +205,7 @@ def run():
     
     expression_label_2 = tk.Label(
         root, 
-        text="Enter boolean expression 2:", 
+        text=cn.LABEL_EXPR_2_TEXT, 
         bg=cn.LABEL_BG_COLOR, 
         font=cn.LABEL_FONT
     )
@@ -213,7 +219,7 @@ def run():
     
     selection_label = tk.Label(
         root, 
-        text="Choose an active expression:", 
+        text=cn.LABEL_SELECT_ACTIVE, 
         bg=cn.LABEL_BG_COLOR, 
         font=cn.LABEL_FONT
     )
@@ -238,7 +244,7 @@ def run():
     
     variable_label = tk.Label(
         root, 
-        text="Variable to decompose:", 
+        text=cn.LABEL_DECOMPOSE_VAR, 
         bg=cn.LABEL_BG_COLOR, 
         font=cn.LABEL_FONT
     )
@@ -259,7 +265,7 @@ def run():
 
     expression_result_display = tk.Label(
         result_frame, 
-        text="The result will be displayed here.", 
+        text=cn.RESULT_PLACEHOLDER, 
         justify="left", 
         wraplength=950, 
         anchor="w", 
@@ -350,7 +356,7 @@ def run():
     
     save_button = tk.Button(
         root, 
-        text="Save to file", 
+        text=cn.SAVE_TO_FILE_BUTTON_TEXT, 
         width=cn.BUTTON_WIDTH_2, 
         command=gui_actions.save_to_file, 
         font=cn.BUTTON_FONT, 
@@ -373,7 +379,7 @@ def run():
 
     help_button = tk.Button(
         root, 
-        text="Help", 
+        text=cn.HELP_BUTTON_TEXT, 
         width=15, 
         command=open_help_window, 
         font=cn.BUTTON_FONT, 
@@ -389,7 +395,7 @@ def run():
 
     sets_button = tk.Button(
         root, 
-        text="Sets", 
+        text=cn.SETS_BUTTON_TEXT, 
         width=cn.BUTTON_WIDTH_2, 
         command=gui_sets.open_sets_window, 
         font=cn.BUTTON_FONT, 
