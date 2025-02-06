@@ -95,3 +95,41 @@ BTN_CARTPROD_Y = 427
 BTN_CARDINALITY_Y = 470
 BTN_POWER_Y = 513
 BTN_RELATIONS_Y = 556
+
+SPLASH_WIDTH = 735
+SPLASH_HEIGHT = 600
+
+TEXT_X_OFFSET = 20
+TEXT_Y_OFFSET = 20
+
+FADE_DURATION = 60  
+FADE_INTERVAL = 50 
+
+SPLASH_TIMEOUT = 7500
+
+MYSTERIOUS_FONT_PATH = "C:/Windows/Fonts/Chiller.ttf"
+FALLBACK_FONT_PATH = "C:/Windows/Fonts/Arial.ttf"
+
+DEFAULT_FONT_SIZE = 30
+
+SPLASH_BG_IMAGE = "loading_background.jpg"
+
+SPLASH_QUOTE = (
+    "In the silent corridors of reason,\n"
+    "logic is the hidden key that unlocks\n"
+    "the chaos of our minds."
+)
+
+APP_TITLE = "Logic crusher"
+HELP_WINDOW_TITLE = "Help window"
+RESULT_PLACEHOLDER = "The result will be displayed here."
+SAVE_TO_FILE_BUTTON_TEXT = "Save to file"
+SETS_BUTTON_TEXT = "Sets"
+HELP_BUTTON_TEXT = "Help"
+
+LABEL_EXPR_1_TEXT = "Enter boolean expression 1:"
+LABEL_EXPR_2_TEXT = "Enter boolean expression 2:"
+LABEL_SELECT_ACTIVE = "Choose an active expression:"
+LABEL_DECOMPOSE_VAR = "Variable to decompose:"
+
+UPDATE_BACKGROUND_INTERVAL = 100
