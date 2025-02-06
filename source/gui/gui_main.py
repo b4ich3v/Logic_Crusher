@@ -162,7 +162,7 @@ def run():
     canvas.pack(fill="both", expand=True)
     
     try:
-        background_image = Image.open(resource_path("main_background.gif"))
+        background_image = Image.open(resource_path(cn.MAIN_BG_GIFF))
     except (FileNotFoundError, IOError) as e:
         messagebox.showerror("Error", f"Failed to load background image: {e}")
         background_image = None
