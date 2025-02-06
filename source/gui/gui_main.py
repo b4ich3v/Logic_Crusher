@@ -6,7 +6,7 @@ import tkinter as tk
 from tkinter import messagebox
 import markdown2
 from tkinterweb import HtmlFrame
-from PIL import Image, ImageSequence, ImageTk
+from PIL import Image, ImageSequence, ImageTk, ImageDraw, ImageFont
 
 from gui import constants as cn
 from boolean_logic.boolean_functions import BooleanFunctionSet
@@ -50,6 +50,86 @@ def open_help_window():
         html_frame.add_html(
             f"<h2 style='color:red'>Error while reading the file</h2><p>{e}</p>"
         )
+
+def create_text_image(width, height, text, alpha, font_path=None, font_size=100):
+    img = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(img)
+
+    if font_path and os.path.exists(font_path):
+        font = ImageFont.truetype(font_path, font_size)
+    else:
+        font = ImageFont.truetype("C:/Windows/Fonts/Arial.ttf", font_size)
+
+    x_offset = 20
+    y_offset = 20
+    x = x_offset
+    y = y_offset
+
+    text_color = (0, 0, 0, alpha)
+    draw.text((x, y), text, font=font, fill=text_color)
+    return img
+
+def fade_text_in_out(canvas, text_content, duration=60, interval=50, font_path=None):
+    width = canvas.winfo_reqwidth()
+    height = canvas.winfo_reqheight()
+
+    text_image_id = canvas.create_image(0, 0, anchor="nw")
+    images_cache = [None]
+
+    def do_step(step):
+        if step <= duration:
+            alpha = int((step / duration) * 255)
+        else:
+            alpha = max(0, 255 - int(((step - duration) / duration) * 255))
+
+        img = create_text_image(width, height, text_content, alpha=alpha,
+                                font_path=font_path, font_size=30)
+        photo = ImageTk.PhotoImage(img)
+        images_cache[0] = photo
+        canvas.itemconfig(text_image_id, image=photo)
+
+        if step < 2 * duration:
+            canvas.after(interval, lambda: do_step(step + 1))
+
+    do_step(0)
+
+def show_splash():
+    splash_root = tk.Tk()
+    splash_root.overrideredirect(True)
+
+    width, height = 735, 600
+    screen_w = splash_root.winfo_screenwidth()
+    screen_h = splash_root.winfo_screenheight()
+    x = (screen_w // 2) - (width // 2)
+    y = (screen_h // 2) - (height // 2)
+    splash_root.geometry(f"{width}x{height}+{x}+{y}")
+
+    bg_path = resource_path("loading_background.jpg")
+    bg_image = Image.open(bg_path)
+    bg_photo = ImageTk.PhotoImage(bg_image)
+
+    canvas = tk.Canvas(splash_root, width=width, height=height,
+                       bd=0, highlightthickness=0)
+    canvas.pack(fill="both", expand=True)
+    canvas.create_image(0, 0, anchor="nw", image=bg_photo)
+
+    text_content = "In the silent corridors of reason,\nlogic is the hidden key that unlocks\nthe chaos of our minds."
+    mysterious_font_path = "C:/Windows/Fonts/Chiller.ttf"
+
+    fade_text_in_out(
+        canvas,
+        text_content,
+        duration=60,
+        interval=50,
+        font_path=mysterious_font_path
+    )
+
+    splash_root.after(7500, lambda: start_main_window(splash_root))
+    splash_root.mainloop()
+
+def start_main_window(splash_root):
+    splash_root.destroy()
+    run()
 
 def run():
     global root, first_expression_entry, second_expression_entry
