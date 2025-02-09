@@ -1,416 +1,496 @@
-import unittest
-import tempfile
+import ctypes
+import os
+import platform
+import sys
+import tkinter as tk
+from tkinter import messagebox
+import markdown2
+from tkinterweb import HtmlFrame
+from PIL import Image, ImageSequence, ImageTk, ImageDraw, ImageFont
+import pygame  
 
-from gui.gui_main import *
-from gui.gui_actions import *
-from parser_lexer.lexer import Lexer
-from parser_lexer.parser import Parser
+from gui import constants as cn
 from boolean_logic.boolean_functions import BooleanFunctionSet
-from boolean_logic.quine_mccluskey import quine_mccluskey
+from . import gui_actions
+from . import gui_sets
 
-class TestLexer(unittest.TestCase):
-    def test_basic_tokens(self):
-        expressions = [
-            "A AND B",
-            "A OR B",
-            "A XOR B",
-            "NOT A",
-            "(A AND B) NAND C",
-            "1 OR false NAND 0",
-            "XOR nand nor eqv imp"
-        ]
+SPLASH_MUSIC = "intro_music.mp3"
+MAIN_MUSIC = "main_music.mp3"
 
-        for expression in expressions:
-            lexer = Lexer(expression)
-            tokens = lexer.tokenize()
-            self.assertIn("EOF", [t.type for t in tokens])
+function_set = BooleanFunctionSet()
 
-    def test_invalid_character(self):
-        expression2 = "A ? B"
-        lexer2 = Lexer(expression2)
-        
-        with self.assertRaises(Exception):
-            _ = lexer2.tokenize()
+root = None
+first_expression_entry = None
+second_expression_entry = None
+active_expression = None
+expression_result_display = None
+variable_entry = None
+main_music_playing = False
 
-    def test_operators_standard_case(self):
-        expression = "A AND B OR C NOT D"
-        lexer = Lexer(expression)
-        tokens = lexer.tokenize()
-        expected_types = ["IDENTIFIER", "AND", "IDENTIFIER", "OR", "IDENTIFIER", "NOT", "IDENTIFIER", "EOF"]
-        self.assertEqual([t.type for t in tokens], expected_types)
+def resource_path(relative_path):
+    base_path = getattr(sys, "_MEIPASS", os.path.dirname(__file__))
+    return os.path.join(base_path, relative_path)
 
-    def test_all_synonyms_nand_nor(self):
-        expression = "A NAND B   C nand D   E !& F   G ¬& H   I ↑ J   K NOR L   M nor N  O !v P  Q ¬∨ R  S ↓ T"
-        lexer = Lexer(expression)
-        tokens = lexer.tokenize()
-        self.assertIn("EOF", [t.type for t in tokens])
-        nand_nor_count = sum(1 for t in tokens if t.type in ["NAND","NOR"])
-        self.assertEqual(nand_nor_count, 10)
+def open_help_window():
+    help_window = tk.Toplevel()
+    help_window.title(cn.HELP_WINDOW_TITLE)
+    help_window.geometry(f"{cn.HELP_WINDOW_WIDTH}x{cn.HELP_WINDOW_HEIGHT}")
 
+    html_frame = HtmlFrame(help_window, horizontal_scrollbar="auto")
+    html_frame.pack(fill="both", expand=True)
+    current_dir = os.path.dirname(os.path.abspath(__file__))
 
-class TestParser(unittest.TestCase):
-    def test_simple_parse(self):
-        expression = "(A AND B) OR NOT(C)"
-        lexer = Lexer(expression)
-        tokens = lexer.tokenize()
-        parser = Parser(tokens)
-        ast = parser.parse()
-        self.assertIsNotNone(ast)
+    local_readme_path = os.path.join(
+        current_dir, "..", "..", 
+        "instructions", "README.md"
+    )
 
-    def test_parser_error(self):
-        expression = "(A AND B"
-        lexer = Lexer(expression)
-        tokens = lexer.tokenize()
-        parser = Parser(tokens)
+    try:
+        with open(local_readme_path, "r", encoding="utf-8") as f:
+            markdown_text = f.read()
+        html_text = markdown2.markdown(markdown_text)
+        html_frame.add_html(html_text)
 
-        with self.assertRaises(Exception):
-            parser.parse()
+    except Exception as e:
+        html_frame.add_html(
+            f"<h2 style='color:red'>Error while reading the file</h2><p>{e}</p>"
+        )
 
-    def test_nested_parentheses(self):
-        expression = "(A AND (B OR (C XOR D)))"
-        lexer = Lexer(expression)
-        tokens = lexer.tokenize()
-        parser = Parser(tokens)
-        ast = parser.parse()
-        self.assertIsNotNone(ast)
-        self.assertEqual(str(ast), "(A AND (B OR (C XOR D)))")
+def create_text_image(width, height, text, alpha, font_path=None, font_size=cn.UPDATE_BACKGROUND_INTERVAL):
+    img = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(img)
 
+    if font_path and os.path.exists(font_path):
+        font = ImageFont.truetype(font_path, font_size)
+    else:
+        font = ImageFont.truetype(cn.FALLBACK_FONT_PATH, font_size)
 
-class TestAST(unittest.TestCase):
-    def test_evaluate_simple(self):
-        expression = "A AND NOT B"
-        boolean_function = BooleanFunction(expression)
-        self.assertTrue(boolean_function.evaluate({"A":1, "B":0}))
-        self.assertFalse(boolean_function.evaluate({"A":1, "B":1}))
-        self.assertFalse(boolean_function.evaluate({"A":0, "B":0}))
+    x_offset = cn.TEXT_X_OFFSET
+    y_offset = cn.TEXT_Y_OFFSET
+    text_color = (0, 0, 0, alpha)
+    draw.text((x_offset, y_offset), text, font=font, fill=text_color)
 
-    def test_simplify(self):
-        expression1 = "1 AND A"
-        boolean_function1 = BooleanFunction(expression1)
-        self.assertEqual(boolean_function1.simplify(), "A")  
+    return img
 
-        expression2 = "0 OR B"
-        boolean_function2 = BooleanFunction(expression2)
-        self.assertEqual(boolean_function2.simplify(), "B")
+def fade_text_in_out(
+    canvas, text_content, duration=cn.FADE_DURATION, 
+    interval=cn.FADE_INTERVAL, font_path=None
+):
+    width = canvas.winfo_reqwidth()
+    height = canvas.winfo_reqheight()
 
-        expression3 = "A AND A"
-        boolean_function3 = BooleanFunction(expression3)
-        self.assertEqual(boolean_function3.simplify(), "A")
+    text_image_id = canvas.create_image(0, 0, anchor="nw")
+    images_cache = [None]
 
-        expression4 = "A XOR A"
-        boolean_function4 = BooleanFunction(expression4)
-        self.assertEqual(boolean_function4.simplify(), "0")
+    def do_step(step):
+        if step <= duration:
+            alpha = int((step / duration) * 255)
+        else:
+            alpha = max(0, 255 - int(((step - duration) / duration) * 255))
 
-    def test_substitute(self):
-        boolean_function = BooleanFunction("A AND B")
-        new_boolean_function1 = boolean_function.cofactor("A", 1)
-        self.assertEqual(new_boolean_function1.simplify(), "B")
-        new_boolean_function2 = boolean_function.cofactor("B", 0)
-        self.assertEqual(new_boolean_function2.simplify(), "0")
+        img = create_text_image(
+            width, 
+            height, 
+            text_content, 
+            alpha=alpha,
+            font_path=font_path, 
+            font_size=cn.DEFAULT_FONT_SIZE
+        )
 
-    def test_evaluate_mixed_operators(self):
-        expression = "((A AND B) XOR (NOT C OR 1)) NAND (D IMP (E NOR 0))"
-        boolean_function = BooleanFunction(expression)
+        photo = ImageTk.PhotoImage(img)
+        images_cache[0] = photo
+        canvas.itemconfig(text_image_id, image=photo)
 
-        for values in product([0,1], repeat=5):
-            variables = dict(zip(["A","B","C","D","E"], values))
-            result = boolean_function.evaluate(variables)
-            self.assertIn(result, [True, False])
+        if step < 2 * duration:
+            canvas.after(interval, lambda: do_step(step + 1))
 
-    def test_substitute_multiple(self):
-        expression = "(A AND B) OR (C XOR D)"
-        boolean_function = BooleanFunction(expression)
-        new_boolean_function = boolean_function.ast.substitute({"A":1, "C":0}).simplify()
-        self.assertEqual(str(new_boolean_function), "(B OR D)")
+    do_step(0)
 
+def show_splash():
+    splash_root = tk.Tk()
+    splash_root.overrideredirect(True)
 
-class TestZhegalkin(unittest.TestCase):
-    def test_not_node(self):
-        expression = "NOT A"
-        boolean_function = BooleanFunction(expression)
-        polynomial = boolean_function.to_zhegalkin()
-        polynomial_split = set(polynomial.replace(" ", "").split("+"))
-        self.assertEqual(polynomial_split, {"1", "A"})
+    width, height = cn.SPLASH_WIDTH, cn.SPLASH_HEIGHT
+    screen_w = splash_root.winfo_screenwidth()
+    screen_h = splash_root.winfo_screenheight()
+    x = (screen_w // 2) - (width // 2)
+    y = (screen_h // 2) - (height // 2)
+    splash_root.geometry(f"{width}x{height}+{x}+{y}")
 
-    def test_and(self):
-        expression = "A AND B"
-        boolean_function = BooleanFunction(expression)
-        polynomial = boolean_function.to_zhegalkin()
-        self.assertIn("A*B", polynomial.replace(" ", ""))
+    bg_path = resource_path(cn.SPLASH_BG_IMAGE)
+    bg_image = Image.open(bg_path)
+    bg_photo = ImageTk.PhotoImage(bg_image)
 
-    def test_or(self):
-        expression = "A OR B"
-        boolean_function = BooleanFunction(expression)
-        polynomial = boolean_function.to_zhegalkin()
-        expected_parts = {"A", "B", "A*B"}
-        polynomial_parts = set(part.strip() for part in polynomial.split("+"))
-        self.assertSetEqual(expected_parts, polynomial_parts)
+    canvas = tk.Canvas(
+        splash_root, 
+        width=width, 
+        height=height,
+        bd=0, 
+        highlightthickness=0
+    )
+    canvas.pack(fill="both", expand=True)
+    canvas.create_image(0, 0, anchor="nw", image=bg_photo)
 
+    text_content = cn.SPLASH_QUOTE
+    mysterious_font_path = cn.MYSTERIOUS_FONT_PATH
 
-class TestProperties(unittest.TestCase):
-    def test_preserves_zero(self):
-        boolean_function1 = BooleanFunction("A AND B")
-        self.assertTrue(boolean_function1.preserves_zero()) 
-        boolean_function2 = BooleanFunction("A OR B")
-        self.assertTrue(boolean_function2.preserves_zero())
+    pygame.mixer.init()
+    splash_music_path = resource_path(SPLASH_MUSIC)
 
-    def test_preserves_one(self):
-        boolean_function1 = BooleanFunction("A AND B")
-        self.assertTrue(boolean_function1.preserves_one())
-        boolean_function2 = BooleanFunction("A XOR B")
-        self.assertFalse(boolean_function2.preserves_one())
+    if os.path.exists(splash_music_path):
+        pygame.mixer.music.load(splash_music_path)
+        pygame.mixer.music.play(loops=0) 
+    else:
+        print(f"Splash music '{splash_music_path}' not found!")
 
-    def test_is_self_dual(self):
-        boolean_function_nor = BooleanFunction("A AND B")
-        self.assertFalse(boolean_function_nor.is_self_dual())
-        boolean_function_nand = BooleanFunction("A NAND B")
-        self.assertFalse(boolean_function_nand.is_self_dual())
+    fade_text_in_out(
+        canvas, 
+        text_content, 
+        duration=cn.FADE_DURATION,
+        interval=cn.FADE_INTERVAL, 
+        font_path=mysterious_font_path
+    )
 
-    def test_is_monotonic(self):
-        boolean_function_and = BooleanFunction("A AND B")
-        self.assertTrue(boolean_function_and.is_monotonic())
-        boolean_function_xor = BooleanFunction("A XOR B")
-        self.assertFalse(boolean_function_xor.is_monotonic())
+    splash_root.after(cn.SPLASH_TIMEOUT, lambda: start_main_window(splash_root))
+    splash_root.mainloop()
 
-    def test_is_linear(self):
-        boolean_function_xor = BooleanFunction("A XOR B")
-        self.assertTrue(boolean_function_xor.is_linear())
-        boolean_function_and = BooleanFunction("A AND B")
-        self.assertFalse(boolean_function_and.is_linear())
+def start_main_window(splash_root):
+    pygame.mixer.music.stop()  
+    splash_root.destroy()
+    run()
+
+def toggle_main_music(mbutton):
+    global main_music_playing
+
+    if main_music_playing:
+        pygame.mixer.music.stop()
+        main_music_playing = False
+        mbutton.config(text="Music: OFF")
+    else:
+        pygame.mixer.music.play(loops=-1)
+        main_music_playing = True
+        mbutton.config(text="Music: ON")
 
 
-class TestMinimizeAndQuine(unittest.TestCase):
-    def test_minimize_simple(self):
-        boolean_function = BooleanFunction("(A AND B) OR (NOT A AND NOT B)")
-        minimized = boolean_function.minimize()
+def run():
+    global root, first_expression_entry, second_expression_entry
+    global active_expression, expression_result_display, variable_entry
+    global function_set, main_music_playing
 
-        for (A_value, B_value) in product([0,1],[0,1]):
-            original = boolean_function.evaluate({"A":A_value, "B":B_value})
-            test_boolean_function = BooleanFunction(minimized)
-            minimized_evaluation = test_boolean_function.evaluate({"A":A_value, "B":B_value})
-            self.assertEqual(original, minimized_evaluation)
-
-    def test_quine_with_dontcare(self):
-        minterms = [0b0110, 0b0111]  
-        dont_cares = [0b0000, 0b1111]
-        pis = quine_mccluskey(minterms, 4, dont_cares)
-        self.assertTrue(len(pis) > 0)
-
-    def test_minimize_equiv_expression(self):
-        boolean_function = BooleanFunction("A EQV B")
-        min_expression = boolean_function.minimize()
-        test_boolean_function = BooleanFunction(min_expression)
-
-        for (A_value, B_value) in product([0,1],[0,1]):
-            self.assertEqual(
-                boolean_function.evaluate({"A": A_value, "B": B_value}),
-                test_boolean_function.evaluate({"A": A_value, "B": B_value})
-            )
-
-
-class TestKarnaughMap(unittest.TestCase):
-    def test_kmap_2vars(self):
-        boolean_function = BooleanFunction("A XOR B")
-        kmap = KarnaughMap(boolean_function)
-        arr, _ = kmap.generate_map()
-        self.assertEqual(arr.shape, (2,2))
-        self.assertEqual(arr[0,0], "0")
-        self.assertEqual(arr[0,1], "1")
-        self.assertEqual(arr[1,0], "1")
-        self.assertEqual(arr[1,1], "0")
-
-    def test_kmap_3vars_nontrivial(self):
-        boolean_function = BooleanFunction("(A AND B) OR C")
-        kmap = KarnaughMap(boolean_function)
-        arr, _ = kmap.generate_map()
-        self.assertEqual(arr.shape, (2,4))
-        self.assertEqual(arr[0,0], "0")
-        self.assertEqual(arr[0,1], "1")
-        self.assertEqual(arr[1,2], "1")
-
-    def test_kmap_4vars(self):
-        boolean_function = BooleanFunction("A AND B AND C AND D")
-        kmap = KarnaughMap(boolean_function)
-        arr, _ = kmap.generate_map()
-        self.assertEqual(arr.shape, (4,4))
-        all_positions = [arr[i,j] for i in range(4) for j in range(4)]
-        self.assertEqual(all_positions.count("1"), 1)
-        self.assertEqual(all_positions.count("0"), 15)
-
+    root = tk.Tk()
+    root.title(cn.APP_TITLE)
+    root.geometry(f"{cn.MAIN_WINDOW_WIDTH}x{cn.MAIN_WINDOW_HEIGHT}")
+    root.resizable(False, False)
     
-class TestEquivalence(unittest.TestCase):
-    def test_equivalence(self):
-        boolean_function1 = BooleanFunction("A XOR B")
-        boolean_function2 = BooleanFunction("(A AND NOT B) OR (NOT A AND B)")
-        difference1 = difference_measure(boolean_function1, boolean_function2)
-        self.assertEqual(difference1, 0)
+    if platform.system() == "Windows":
+        hwnd = ctypes.windll.user32.GetParent(root.winfo_id())
+        style = ctypes.windll.user32.GetWindowLongW(hwnd, -16)
+        style &= ~0x10000  
+        ctypes.windll.user32.SetWindowLongW(hwnd, -16, style)
+    
+    canvas = tk.Canvas(root, width=cn.MAIN_WINDOW_WIDTH, height=cn.MAIN_WINDOW_HEIGHT)
+    canvas.pack(fill="both", expand=True)
+    
+    try:
+        bg_image_path = resource_path(cn.MAIN_BG_GIFF)
+        background_image = Image.open(bg_image_path)
+    except (FileNotFoundError, IOError) as e:
+        messagebox.showerror("Error", f"Failed to load background image: {e}")
+        background_image = None
 
-        boolean_function3 = BooleanFunction("A AND B")
-        difference2 = difference_measure(boolean_function1, boolean_function3)
-        self.assertNotEqual(difference2, 0)
+    if background_image:
+        frames = [
+            ImageTk.PhotoImage(frame.copy().resize(
+                (cn.BACKGROUND_GIF_WIDTH, cn.BACKGROUND_GIF_HEIGHT), Image.LANCZOS)
+            ) 
+            for frame in ImageSequence.Iterator(background_image)
+        ]
+        frame_count = len(frames)
+        current_frame = 0
 
-    def test_equivalence_zhegalkin(self):
-        boolean_function1 = BooleanFunction("A NOR B")  
-        boolean_function2 = BooleanFunction("NOT(A OR B)")
-        polynomial1 = boolean_function1.to_zhegalkin()
-        polynomial2 = boolean_function2.to_zhegalkin()
-        self.assertEqual(polynomial1, polynomial2)
+        background_label = canvas.create_image(0, 0, image=frames[0], anchor="nw")
 
+        def update_background():
+            nonlocal current_frame
+            current_frame = (current_frame + 1) % frame_count
+            canvas.itemconfig(background_label, image=frames[current_frame])
+            root.after(100, update_background)
 
-class TestParseMinimizedExpression(unittest.TestCase):
-    def test_parse_minimized_simple(self):
-        expression = "NOT A AND B"
-        node = parse_minimized_expression(expression)
-        self.assertEqual(node.gate_type, "AND")
-        self.assertEqual(len(node.children), 2)
-        self.assertEqual(node.children[0].gate_type, "NOT")
-        self.assertEqual(node.children[1].gate_type, "VAR")
+        root.after(0, update_background)
+    
+    active_expression = tk.IntVar(value=1) 
 
-    def test_parse_minimized_or(self):
-        expression = "(A AND B) OR (NOT A)"
-        node = parse_minimized_expression(expression)
-        self.assertEqual(node.gate_type, "OR")
+    expression_label_1 = tk.Label(
+        root, 
+        text=cn.LABEL_EXPR_1_TEXT, 
+        bg=cn.LABEL_BG_COLOR, 
+        font=cn.LABEL_FONT
+    )
 
+    first_expression_entry = tk.Entry(
+        root, 
+        width=cn.ENTRY_WIDTH_1, 
+        font=cn.ENTRY_FONT, 
+        bg=cn.ENTRY_BG_COLOR
+    )
+    
+    expression_label_2 = tk.Label(
+        root, 
+        text=cn.LABEL_EXPR_2_TEXT, 
+        bg=cn.LABEL_BG_COLOR, 
+        font=cn.LABEL_FONT
+    )
 
-class TestSets(unittest.TestCase):
-    def setUp(self):
-        self.set1 = {"dog", "1", "cat"}
-        self.set2 = {"1", "2"}
+    second_expression_entry = tk.Entry(
+        root, 
+        width=cn.ENTRY_WIDTH_1, 
+        font=cn.ENTRY_FONT, 
+        bg=cn.ENTRY_BG_COLOR
+    )
+    
+    selection_label = tk.Label(
+        root, 
+        text=cn.LABEL_SELECT_ACTIVE, 
+        bg=cn.LABEL_BG_COLOR, 
+        font=cn.LABEL_FONT
+    )
+    
+    radio1 = tk.Radiobutton(
+        root, 
+        text="Expression 1", 
+        variable=active_expression, 
+        value=1,
+        bg=cn.RADIO_BUTTON_BG_COLOR, 
+        font=cn.RADIO_BUTTON_FONT
+    )
 
-    def test_union(self):
-        union_set = self.set1.union(self.set2)
-        self.assertEqual(union_set, {"dog", "1", "cat","2"})
+    radio2 = tk.Radiobutton(
+        root, 
+        text="Expression 2", 
+        variable=active_expression, 
+        value=2,
+        bg=cn.RADIO_BUTTON_BG_COLOR, 
+        font=cn.RADIO_BUTTON_FONT
+    )
+    
+    variable_label = tk.Label(
+        root, 
+        text=cn.LABEL_DECOMPOSE_VAR, 
+        bg=cn.LABEL_BG_COLOR, 
+        font=cn.LABEL_FONT
+    )
 
-    def test_intersection(self):
-        intersection = self.set1.intersection(self.set2)
-        self.assertEqual(intersection, {"1"})
+    variable_entry = tk.Entry(
+        root, 
+        width=cn.ENTRY_WIDTH_2, 
+        font=cn.ENTRY_FONT, 
+        bg=cn.ENTRY_BG_COLOR
+    )
+    
+    result_frame = tk.Frame(
+        root, 
+        bg=cn.ENTRY_BG_COLOR, 
+        bd=2, 
+        relief="groove"
+    )
 
-    def test_difference(self):
-        differece = self.set1.difference(self.set2)
-        self.assertEqual(differece, {"dog","cat"})
+    expression_result_display = tk.Label(
+        result_frame, 
+        text=cn.RESULT_PLACEHOLDER, 
+        justify="left",
+        wraplength=950, 
+        anchor="w", 
+        bg=cn.LABEL_BG_COLOR, 
+        font=cn.LABEL_FONT
+    )
 
-    def test_symdiff(self):
-        symmetrical_difference = self.set1.symmetric_difference(self.set2)
-        self.assertEqual(symmetrical_difference, {"dog","cat","2"})
+    expression_result_display.pack(
+        fill="both", 
+        expand=True,
+        padx=cn.RESULT_DISPLAY_PADX, 
+        pady=cn.RESULT_DISPLAY_PADY
+    )
+    
+    canvas.create_window(
+        cn.EXPR_LABEL_X, 
+        cn.EXPR_LABEL_Y_1, 
+        window=expression_label_1, 
+        anchor="nw"
+    )
 
-    def test_subset(self):
-        self.assertFalse(self.set2.issubset(self.set1))
-        self.assertTrue({"1"}.issubset(self.set1))
-        self.assertFalse(self.set1.issubset(self.set2))
+    canvas.create_window(
+        cn.EXPR_ENTRY_X, 
+        cn.EXPR_ENTRY_Y_1, 
+        window=first_expression_entry,
+        anchor="nw"
+    )
+    
+    canvas.create_window(
+        cn.EXPR_LABEL_X, 
+        cn.EXPR_LABEL_Y_2, 
+        window=expression_label_2, 
+        anchor="nw"
+    )
 
-    def test_disjoint(self):
-        self.assertFalse(self.set1.isdisjoint(self.set2))
-        self.assertTrue({"xxx"}.isdisjoint(self.set2))
+    canvas.create_window(
+        cn.EXPR_ENTRY_X, 
+        cn.EXPR_ENTRY_Y_2, 
+        window=second_expression_entry, 
+        anchor="nw"
+    )
+    
+    canvas.create_window(
+        cn.EXPR_LABEL_X, 
+        cn.SELECTION_LABEL_Y, 
+        window=selection_label, 
+        anchor="nw"
+    )
 
-    def test_powerset(self):
-        example_set = {"A","B"}
-        powerset = []
+    canvas.create_window(
+        cn.RADIO_BUTTON_X_1, 
+        cn.RADIO_BUTTON_Y, 
+        window=radio1, 
+        anchor="nw"
+    )
 
-        for mask in range(2**len(example_set)):
-            subset = []
-            for i, element in enumerate(sorted(list(example_set))):
-                if mask & (1 << i):
-                    subset.append(element)
-            powerset.append(frozenset(subset))
+    canvas.create_window(
+        cn.RADIO_BUTTON_X_2, 
+        cn.RADIO_BUTTON_Y, 
+        window=radio2, 
+        anchor="nw"
+    )
+    
+    canvas.create_window(
+        cn.EXPR_LABEL_X, 
+        cn.VARIABLE_LABEL_Y, 
+        window=variable_label, 
+        anchor="nw"
+    )
 
-        self.assertEqual(len(powerset), 4)
-        self.assertIn(frozenset(), powerset)
-        self.assertIn(frozenset({"A","B"}), powerset)
+    canvas.create_window(
+        cn.EXPR_ENTRY_X, 
+        cn.VARIABLE_ENTRY_Y, 
+        window=variable_entry, 
+        anchor="nw"
+    )
+    
+    buttons = [
+        ("Simplification", gui_actions.simplify_expression),
+        ("Zhegalkin polynomial", gui_actions.zhegalkin_polynomial),
+        ("Property check", gui_actions.check_properties),
+        ("Minimize", gui_actions.minimize_expression),
+        ("Factoring in a variable", gui_actions.decompose_expression),
+        ("Generate a Karnaugh  map", gui_actions.generate_kmap),
+        ("Visualization of AST", gui_actions.visualize_ast),
+        ("Generate Circuit", gui_actions.generate_circuit),
+        ("Equivalence check", gui_actions.check_equivalence),
+    ]
+    
+    for index, (text, command) in enumerate(buttons):
+        row = index // cn.BUTTONS_PER_ROW
+        col = index % cn.BUTTONS_PER_ROW
+        x = cn.BUTTON_START_X + col * cn.BUTTON_SPACING_X
+        y = cn.BUTTON_START_Y + row * cn.BUTTON_SPACING_Y
 
-    def test_cartesian_product_empty(self):
-        example_set1 = {"x","y"}
-        example_set2 = set()
-        product_result = [(a,b) for a in example_set1 for b in example_set2]
-        self.assertEqual(len(product_result), 0)
-        
+        button = tk.Button(
+            root, 
+            text=text, 
+            width=cn.BUTTON_WIDTH_1,
+            command=command, 
+            font=cn.BUTTON_FONT, 
+            bg=cn.BUTTON_BG_COLOR
+        )
 
-class TestBooleanFunctionSet(unittest.TestCase):
-    def test_add_function_and_export(self):
-        boolean_function_set1 = BooleanFunctionSet()
-        boolean_function_set2 = BooleanFunction("A AND B")
-        boolean_function_set3 = BooleanFunction("A OR B")
-        boolean_function_set1.add_function(boolean_function_set2)
-        boolean_function_set1.add_function(boolean_function_set3)
-        info = boolean_function_set1.get_functions_info()
-        self.assertEqual(len(info), 2)
+        canvas.create_window(
+            x, 
+            y, 
+            window=button, 
+            anchor="nw"
+        )
+    
+    save_button = tk.Button(
+        root, 
+        text=cn.SAVE_TO_FILE_BUTTON_TEXT,
+        width=cn.BUTTON_WIDTH_2, 
+        command=gui_actions.save_to_file,
+        font=cn.BUTTON_FONT, bg=cn.BUTTON_BG_COLOR
+    )
 
-        for item in info:
-            self.assertIn("expression", item)
-            self.assertIn("simplified", item)
-            self.assertIn("zhegalkin", item)
-            self.assertIn("properties", item)
-            self.assertIn("minimized", item)
-            self.assertIn("number_of_variables", item)
-            self.assertIn("truth_table", item)
+    canvas.create_window(
+        cn.SAVE_BUTTON_X, 
+        cn.SAVE_BUTTON_Y, 
+        window=save_button, 
+        anchor="nw"
+    )
+    
+    canvas.create_window(
+        cn.RESULT_FRAME_X, 
+        cn.RESULT_FRAME_Y,
+        window=result_frame, 
+        anchor="nw"
+    )
 
+    help_button = tk.Button(
+        root, 
+        text=cn.HELP_BUTTON_TEXT, 
+        width=15,
+        command=open_help_window, 
+        font=cn.BUTTON_FONT,
+        bg=cn.BUTTON_BG_COLOR
+    )
 
-class TestFileExport(unittest.TestCase):
-    def test_export_json(self):
-        boolean_function = BooleanFunction("A AND B")
-        function_set.add_function(boolean_function)
+    canvas.create_window(
+        cn.HELP_BUTTON_X, 
+        cn.HELP_BUTTON_Y, 
+        window=help_button, 
+        anchor="nw")
 
-        with tempfile.TemporaryDirectory() as tmpdir:
-            test_file = os.path.join(tmpdir, "test.json")
-            info = function_set.get_functions_info()
+    sets_button = tk.Button(
+        root, 
+        text=cn.SETS_BUTTON_TEXT, 
+        width=cn.BUTTON_WIDTH_2,             
+        command=gui_sets.open_sets_window, 
+        font=cn.BUTTON_FONT,
+        bg=cn.BUTTON_BG_COLOR
+    )
 
-            with open(test_file, "w", encoding="utf-8") as f:
-                json.dump(info, f, ensure_ascii=False, indent=4)
+    canvas.create_window(
+        cn.SETS_BUTTON_X, 
+        cn.SETS_BUTTON_Y, 
+        window=sets_button, 
+        anchor="nw"
+    )
+    
+    if background_image:
+        root.bg_photo = frames 
+    
+    function_set = BooleanFunctionSet()
+    main_music_path = resource_path(MAIN_MUSIC)
 
-            self.assertTrue(os.path.exists(test_file))
+    if os.path.exists(main_music_path):
+        pygame.mixer.music.load(main_music_path)
+        pygame.mixer.music.play(loops=-1)
+        main_music_playing = True
+    else:
+        print(f"Main music {main_music_path} not found!")
+        main_music_playing = False
 
-            with open(test_file, "r", encoding="utf-8") as ff:
-                data = json.load(ff)
+    initial_text = "Music: ON" if main_music_playing else "Music: OFF"
 
-            self.assertIsInstance(data, list)
-            self.assertGreater(len(data), 0)
+    music_button = tk.Button(
+        root,
+        text=initial_text,
+        font=cn.BUTTON_FONT,
+        width=cn.BUTTON_WIDTH_2,
+        bg=cn.BUTTON_BG_COLOR,
+        command=lambda: toggle_main_music(music_button)
+    )
 
-    def test_save_and_reload(self):
-        boolean_function1 = BooleanFunction("A AND B")
-        boolean_function2 = BooleanFunction("NOT(A OR 0)")
+    canvas.create_window(
+        cn.MAIN_WINDOW_WIDTH - 10, 
+        cn.MAIN_WINDOW_HEIGHT - 10,
+        window=music_button,
+        anchor="se"
+    )
 
-        function_set.add_function(boolean_function1)
-        function_set.add_function(boolean_function2)
-
-        with tempfile.TemporaryDirectory() as tmpdir:
-            test_file = os.path.join(tmpdir, "test_export.json")
-            info = function_set.get_functions_info()
-
-            with open(test_file, "w", encoding="utf-8") as f:
-                json.dump(info, f, ensure_ascii=False, indent=4)
-
-            with open(test_file, "r", encoding="utf-8") as f:
-                data = json.load(f)
-
-        self.assertEqual(len(data), 2)
-
-        and_function_entry = next((item for item in data if item["expression"] == "A AND B"), None)
-        self.assertIsNotNone(and_function_entry)
-
-        not_or_function_entry = next((item for item in data if item["expression"] == "NOT(A OR 0)"), None)
-        self.assertIsNotNone(not_or_function_entry,)
-
-        self.assertTrue(and_function_entry["simplified"],)
-        self.assertTrue(and_function_entry["zhegalkin"],)
-        self.assertTrue(and_function_entry["minimized"])
-        self.assertIn("preserves_zero", and_function_entry["properties"])
-        self.assertIn("preserves_one", and_function_entry["properties"])
-        self.assertIn("is_self_dual", and_function_entry["properties"])
-        self.assertIn("is_monotonic", and_function_entry["properties"])
-        self.assertIn("is_linear", and_function_entry["properties"])
-        self.assertEqual(and_function_entry["number_of_variables"], 2)
-        self.assertEqual(len(and_function_entry["truth_table"]), 4)
-
-        self.assertTrue(not_or_function_entry["simplified"])
-        self.assertTrue(not_or_function_entry["zhegalkin"])
-        self.assertTrue(not_or_function_entry["minimized"])
-        self.assertIn("preserves_zero", not_or_function_entry["properties"])
-        self.assertIn("preserves_one", not_or_function_entry["properties"])
-        self.assertIn("is_self_dual", not_or_function_entry["properties"])
-        self.assertIn("is_monotonic", not_or_function_entry["properties"])
-        self.assertIn("is_linear", not_or_function_entry["properties"])
-        self.assertEqual(not_or_function_entry["number_of_variables"], 1)
-        self.assertEqual(len(not_or_function_entry["truth_table"]), 2)
-
-
-if __name__ == "__main__":
-    unittest.main()
+    root.mainloop()
