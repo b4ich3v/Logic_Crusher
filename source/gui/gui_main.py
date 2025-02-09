@@ -36,8 +36,8 @@ def open_help_window():
     current_dir = os.path.dirname(os.path.abspath(__file__))
 
     local_readme_path = os.path.join(
-        current_dir, '..', '..', 
-        'instructions', 'README.md'
+        current_dir, "..", "..", 
+        "instructions", "README.md"
     )
 
     try:
