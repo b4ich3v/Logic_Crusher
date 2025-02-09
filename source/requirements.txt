@@ -5,3 +5,4 @@ numpy
 matplotlib-venn
 pillow
 python-graphviz
+pygame
