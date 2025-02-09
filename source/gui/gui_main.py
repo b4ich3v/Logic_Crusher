@@ -138,7 +138,7 @@ def show_splash():
         pygame.mixer.music.load(splash_music_path)
         pygame.mixer.music.play(loops=0) 
     else:
-        print(f"Splash music '{splash_music_path}' not found!")
+        print(f"Splash music {splash_music_path} not found!")
 
     fade_text_in_out(
         canvas, 
@@ -410,7 +410,8 @@ def run():
         text=cn.SAVE_TO_FILE_BUTTON_TEXT,
         width=cn.BUTTON_WIDTH_2, 
         command=gui_actions.save_to_file,
-        font=cn.BUTTON_FONT, bg=cn.BUTTON_BG_COLOR
+        font=cn.BUTTON_FONT, 
+        bg=cn.BUTTON_BG_COLOR
     )
 
     canvas.create_window(
@@ -440,7 +441,8 @@ def run():
         cn.HELP_BUTTON_X, 
         cn.HELP_BUTTON_Y, 
         window=help_button, 
-        anchor="nw")
+        anchor="nw"
+    )
 
     sets_button = tk.Button(
         root, 
