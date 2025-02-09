@@ -111,6 +111,7 @@ class TestAST(unittest.TestCase):
     def test_evaluate_mixed_operators(self):
         expression = "((A AND B) XOR (NOT C OR 1)) NAND (D IMP (E NOR 0))"
         boolean_function = BooleanFunction(expression)
+
         for values in product([0,1], repeat=5):
             variables = dict(zip(["A","B","C","D","E"], values))
             result = boolean_function.evaluate(variables)
@@ -307,7 +308,6 @@ class TestSets(unittest.TestCase):
 
         for mask in range(2**len(example_set)):
             subset = []
-
             for i, element in enumerate(sorted(list(example_set))):
                 if mask & (1 << i):
                     subset.append(element)
@@ -357,6 +357,7 @@ class TestFileExport(unittest.TestCase):
                 json.dump(info, f, ensure_ascii=False, indent=4)
 
             self.assertTrue(os.path.exists(test_file))
+
             with open(test_file, "r", encoding="utf-8") as ff:
                 data = json.load(ff)
 
