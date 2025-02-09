@@ -11,6 +11,7 @@ from boolean_logic.gate_parser import parse_minimized_expression, gate_ast_to_gr
 from . import gui_main
 
 def get_active_expression():
+    """Return the text of the currently selected expression (1 or 2)."""
     if gui_main.active_expression.get() == 1:
         return gui_main.first_expression_entry.get()
     elif gui_main.active_expression.get() == 2:
@@ -18,6 +19,7 @@ def get_active_expression():
     return ""
 
 def simplify_expression():
+    """Validate, parse, and simplify the active Boolean expression."""
     expression_text = get_active_expression()
 
     if not expression_text:
@@ -42,6 +44,7 @@ def simplify_expression():
         messagebox.showerror("Error", str(e))
 
 def zhegalkin_polynomial():
+    """Compute the Zhegalkin polynomial of the active expression."""
     expression_text = get_active_expression()
 
     if not expression_text:
@@ -66,6 +69,7 @@ def zhegalkin_polynomial():
         messagebox.showerror("Eror", str(e))
 
 def check_properties():
+    """Check key Boolean function properties: 0/1 preservation, self-dual, monotonic, linear."""
     expression_text = get_active_expression()
 
     if not expression_text:
@@ -112,6 +116,7 @@ def check_properties():
         messagebox.showerror("Error.", str(e))
 
 def minimize_expression():
+    """Minimize the active expression via Quine-McCluskey."""
     expression_text = get_active_expression()
 
     if not expression_text:
@@ -136,6 +141,7 @@ def minimize_expression():
         messagebox.showerror("Error.", str(e))
 
 def decompose_expression():
+    """Decompose the active expression by a given variable (cofactor at var=0 and var=1)."""
     expression_text = get_active_expression()
     variable = gui_main.variable_entry.get()
 
@@ -163,6 +169,7 @@ def decompose_expression():
         messagebox.showerror("Error.", str(e))
 
 def generate_kmap():
+    """Plot a Karnaugh map (2-4 variables) for the active expression."""
     expression_text = get_active_expression()
 
     if not expression_text:
@@ -193,6 +200,7 @@ def generate_kmap():
         messagebox.showerror("Error.", str(e))
 
 def visualize_ast():
+    """Render the AST of the active expression using graphviz (PNG)."""
     expression_text = get_active_expression()
 
     if not expression_text:
@@ -218,6 +226,7 @@ def visualize_ast():
         messagebox.showerror("Error.", str(e))
 
 def generate_circuit():
+    """Minimize the active expression, parse it into a gate AST, and render the logic circuit (PNG)."""
     expression_text = get_active_expression()
 
     if not expression_text:
@@ -243,6 +252,7 @@ def generate_circuit():
         messagebox.showerror("Error.", str(e))
 
 def difference_measure(f1, f2):
+    """Count how many input assignments produce different outputs between f1 and f2."""
     expression_variables = sorted(list(set(f1.variables).union(set(f2.variables))))
     difference_count = 0
 
@@ -256,6 +266,7 @@ def difference_measure(f1, f2):
     return difference_count
 
 def check_equivalence():
+    """Check if two expressions are equivalent by comparing their Zhegalkin polynomials."""
     expression_text1 = gui_main.first_expression_entry.get()
     expression_text2 = gui_main.second_expression_entry.get()
 
@@ -303,6 +314,7 @@ def check_equivalence():
         messagebox.showerror("Error.", str(e))
 
 def save_to_file():
+    """Save all BooleanFunction info in JSON format to a user-selected file."""
     functions_info = gui_main.function_set.get_functions_info()
     
     if not functions_info:
