@@ -14,9 +14,6 @@ from boolean_logic.boolean_functions import BooleanFunctionSet
 from . import gui_actions
 from . import gui_sets
 
-SPLASH_MUSIC = "intro_music.mp3"
-MAIN_MUSIC = "main_music.mp3"
-
 function_set = BooleanFunctionSet()
 
 root = None
@@ -135,7 +132,7 @@ def show_splash():
     mysterious_font_path = cn.MYSTERIOUS_FONT_PATH
 
     pygame.mixer.init()
-    splash_music_path = resource_path(SPLASH_MUSIC)
+    splash_music_path = resource_path(cn.SPLASH_MUSIC)
 
     if os.path.exists(splash_music_path):
         pygame.mixer.music.load(splash_music_path)
@@ -465,7 +462,7 @@ def run():
         root.bg_photo = frames 
     
     function_set = BooleanFunctionSet()
-    main_music_path = resource_path(MAIN_MUSIC)
+    main_music_path = resource_path(cn.MAIN_MUSIC)
 
     if os.path.exists(main_music_path):
         pygame.mixer.music.load(main_music_path)
