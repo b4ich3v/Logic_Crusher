@@ -8,6 +8,7 @@ from gui import constants as cn
 from . import gui_main
 
 def open_sets_window():
+    """Open a new window for performing set operations and visualizations."""
     sets_window = tk.Toplevel(gui_main.root)
     sets_window.title(cn.SECONDARY_TITTLE)
     sets_window.geometry(f"{cn.SET_WINDOW_WIDTH}x{cn.SET_WINDOW_HEIGHT}")
@@ -17,7 +18,7 @@ def open_sets_window():
         background_image = Image.open(gui_main.resource_path(cn.SECONDARY_BG_IMAGE))
         background_image = background_image.resize(
             (cn.BACKGROUND_IM_WIDTH, cn.BACKGROUND_IM_HEIGHT), Image.LANCZOS
-            )  
+        )  
         background_photo = ImageTk.PhotoImage(background_image)
     except Exception as e:
         messagebox.showerror("Error", f"The background image was not loaded: {str(e)}")
@@ -29,6 +30,7 @@ def open_sets_window():
         height=cn.SET_WINDOW_HEIGHT, 
         highlightthickness=0
     )
+
     canvas.pack(fill="both", expand=True)
     
     if background_photo:
@@ -112,6 +114,8 @@ def open_sets_window():
     )
 
     def sets_to_bitmasks(set1, set2):
+        """Convert two sets into their bitmask representations 
+        and return both bitmasks along with the sorted list of all unique elements."""
         all_elements = sorted(set1.union(set2))
         index_map = {elm: i for i, elm in enumerate(all_elements)}
         
@@ -126,6 +130,7 @@ def open_sets_window():
         return bitmask1, bitmask2, all_elements
 
     def bitmask_to_set(bitmask, all_elements):
+        """Convert a bitmask back into a set of elements using the provided list of all elements."""
         result = set()
 
         for i, current in enumerate(all_elements):
@@ -134,6 +139,7 @@ def open_sets_window():
         return result
 
     def parse_set(entry):
+        """Parse the text from an Entry widget into a set of strings."""
         text = entry.get().strip()
 
         if not text:
@@ -141,6 +147,7 @@ def open_sets_window():
         return set(map(str.strip, text.split(',')))
 
     def perform_set_operation(entry1, entry2, operation):
+        """Perform a set operation (union, intersection, difference, or symmetric difference) on two sets."""
         try:
             set1 = parse_set(entry1)
             set2 = parse_set(entry2)
@@ -171,6 +178,8 @@ def open_sets_window():
             messagebox.showerror("Error", f"An error occurred: {str(e)}")
 
     def check_all_relations():
+        """Check and display various relational properties 
+        between set A and set B, such as subset, proper subset, equality, and superset."""
         try:
             set1 = parse_set(set1_entry)
             set2 = parse_set(set2_entry)
@@ -208,6 +217,7 @@ def open_sets_window():
             messagebox.showerror("Error", f"An error occurred: {str(e)}")
 
     def perform_set_relation(entry1, entry2, relation):
+        """Check a specific relation between two sets (currently supports checking if they are disjoint)."""
         try:
             set1 = parse_set(entry1)
             set2 = parse_set(entry2)
@@ -228,6 +238,7 @@ def open_sets_window():
             messagebox.showerror("Error", f"An error occurred: {str(e)}")
 
     def power_set_both():
+        """Calculate and display the power sets of both set A and set B."""
         try:
             set1 = parse_set(set1_entry)
             set2 = parse_set(set2_entry)
@@ -270,6 +281,7 @@ def open_sets_window():
             messagebox.showerror("Error", f"An error occurred: {str(e)}")
 
     def plot_venn():
+        """Generate and display a Venn diagram for sets A and B."""
         try:
             set1 = parse_set(set1_entry)
             set2 = parse_set(set2_entry)
@@ -303,9 +315,10 @@ def open_sets_window():
         except Exception as e:
             messagebox.showerror(
                 "Error", f"An error occurred while rendering the Venn diagram: {str(e)}"
-                )
+            )
 
     def cartesian_product(entry1, entry2):
+        """Calculate the Cartesian product of the two sets from the given Entry widgets."""
         try:
             set1 = parse_set(entry1)
             set2 = parse_set(entry2)
@@ -325,9 +338,10 @@ def open_sets_window():
         except Exception as e:
             messagebox.showerror(
                 "Error", f"An error occurred while calculating the Cartesian product: {str(e)}"
-                )
+            )
 
     def cardinality(entry1, entry2):
+        """Calculate and display the cardinality (number of elements) of set A and set B."""
         try:
             set1 = parse_set(entry1)
             set2 = parse_set(entry2)
@@ -341,7 +355,7 @@ def open_sets_window():
         except Exception as e:
             messagebox.showerror(
                 "Error", f"An error occurred while calculating the cardinality: {str(e)}"
-                )
+            )
 
     btn_union = tk.Button(
         sets_window, 
