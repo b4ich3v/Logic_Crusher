@@ -25,10 +25,12 @@ variable_entry = None
 main_music_playing = False
 
 def resource_path(relative_path):
+    """Return the absolute path to a resource."""
     base_path = getattr(sys, "_MEIPASS", os.path.dirname(__file__))
     return os.path.join(base_path, relative_path)
 
 def open_help_window():
+    """Open a help window that displays the README.md file rendered as HTML."""
     help_window = tk.Toplevel()
     help_window.title(cn.HELP_WINDOW_TITLE)
     help_window.geometry(f"{cn.HELP_WINDOW_WIDTH}x{cn.HELP_WINDOW_HEIGHT}")
@@ -53,9 +55,13 @@ def open_help_window():
             f"<h2 style='color:red'>Error while reading the file</h2><p>{e}</p>"
         )
 
-def create_text_image(width, height, text, alpha, font_path=None, font_size=cn.UPDATE_BACKGROUND_INTERVAL):
-    img = Image.new("RGBA", (width, height), (0, 0, 0, 0))
-    draw = ImageDraw.Draw(img)
+def create_text_image(
+        width, height, text, alpha, 
+        font_path=None, font_size=cn.UPDATE_BACKGROUND_INTERVAL
+):
+    """Create an image with transparent background and draw text with a specified alpha."""
+    image = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(image)
 
     if font_path and os.path.exists(font_path):
         font = ImageFont.truetype(font_path, font_size)
@@ -67,12 +73,13 @@ def create_text_image(width, height, text, alpha, font_path=None, font_size=cn.U
     text_color = (0, 0, 0, alpha)
     draw.text((x_offset, y_offset), text, font=font, fill=text_color)
 
-    return img
+    return image
 
 def fade_text_in_out(
     canvas, text_content, duration=cn.FADE_DURATION, 
     interval=cn.FADE_INTERVAL, font_path=None
 ):
+    """Apply a fade-in and fade-out effect to display text on a canvas."""
     width = canvas.winfo_reqwidth()
     height = canvas.winfo_reqheight()
 
@@ -104,6 +111,7 @@ def fade_text_in_out(
     do_step(0)
 
 def show_splash():
+    """Display a splash screen with a background image, fading text, and music."""
     splash_root = tk.Tk()
     splash_root.overrideredirect(True)
 
@@ -125,6 +133,7 @@ def show_splash():
         bd=0, 
         highlightthickness=0
     )
+
     canvas.pack(fill="both", expand=True)
     canvas.create_image(0, 0, anchor="nw", image=bg_photo)
 
@@ -152,11 +161,13 @@ def show_splash():
     splash_root.mainloop()
 
 def start_main_window(splash_root):
+    """Stop the splash music, close the splash screen, and start the main application window."""
     pygame.mixer.music.stop()  
     splash_root.destroy()
     run()
 
 def toggle_main_music(mbutton):
+    """Toggle the main background music on or off."""
     global main_music_playing
 
     if main_music_playing:
@@ -170,6 +181,7 @@ def toggle_main_music(mbutton):
 
 
 def run():
+    """Initialize and run the main application window with all GUI components."""
     global root, first_expression_entry, second_expression_entry
     global active_expression, expression_result_display, variable_entry
     global function_set, main_music_playing
