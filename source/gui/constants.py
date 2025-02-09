@@ -12,6 +12,10 @@ SET_WINDOW_HEIGHT = 600
 SPLASH_WIDTH = 735
 SPLASH_HEIGHT = 600
 
+# ========== SOUNDS ==========
+
+SPLASH_MUSIC = "intro_music.mp3"
+MAIN_MUSIC = "main_music.mp3"
 
 # ========== BACKGROUND & IMAGES ==========
 
