@@ -27,6 +27,7 @@ def simplify_expression():
         return
     
     is_valid, error_message = Validator.validate(expression_text)
+
     if not is_valid:
         messagebox.showerror("Syntax error.", error_message)
         return
@@ -50,6 +51,7 @@ def zhegalkin_polynomial():
         return
     
     is_valid, error_message = Validator.validate(expression_text)
+
     if not is_valid:
         messagebox.showerror("Syntax error.", error_message)
         return
@@ -73,6 +75,7 @@ def check_properties():
         return
     
     is_valid, error_message = Validator.validate(expression_text)
+
     if not is_valid:
         messagebox.showerror("Syntax error.", error_message)
         return
@@ -141,6 +144,7 @@ def decompose_expression():
             "Error", "Please enter the selected Boolean expression and decomposition variable."
             )
         return
+    
     is_valid, error_message = Validator.validate(expression_text)
 
     if not is_valid:
