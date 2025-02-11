@@ -65,7 +65,7 @@ class Lexer:
                 "NOT", "AND", "OR",
                 "XOR", "NAND", "NOR",
                 "IMP", "EQV", "LPAREN", "RPAREN"
-            }:
+                }:
                 tokens.append(Token(kind, value))
             elif kind == "SKIP":
                 continue
