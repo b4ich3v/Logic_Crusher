@@ -46,7 +46,7 @@ class Lexer:
         # Build a single regex that alternates named groups for each token type
         self.token_regex = "|".join(
             f"(?P<{pair[0]}>{pair[1]})" for pair in self.token_specification
-            )
+        )
 
     def tokenize(self):
         """
