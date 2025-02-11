@@ -1,0 +1,18 @@
+expr        ::= equiv_expr
+
+equiv_expr  ::= imp_expr { EQV imp_expr }
+
+imp_expr    ::= or_expr { IMP or_expr }
+
+or_expr     ::= xor_expr { (OR | NOR) xor_expr }
+
+xor_expr    ::= and_expr { XOR and_expr }
+
+and_expr    ::= nand_expr { AND nand_expr }
+
+nand_expr   ::= factor { NAND factor }
+
+factor      ::= NOT factor 
+              | IDENTIFIER 
+              | CONST 
+              | LPAREN expr RPAREN
