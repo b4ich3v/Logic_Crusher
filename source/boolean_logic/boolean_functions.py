@@ -204,7 +204,7 @@ class BooleanFunction:
         polynomial = self.ast.to_zhegalkin(self.variables)
 
         for monomial in polynomial:
-            if bin(monomial).count('1') > 1:
+            if bin(monomial).count("1") > 1:
                 self._properties_cache["is_linear"] = False
                 return False
             
