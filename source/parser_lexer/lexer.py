@@ -65,13 +65,14 @@ class Lexer:
                 "NOT", "AND", "OR",
                 "XOR", "NAND", "NOR",
                 "IMP", "EQV", "LPAREN", "RPAREN"
-                }:
+            }:
                 tokens.append(Token(kind, value))
             elif kind == "SKIP":
                 continue
             elif kind == "MISMATCH":
                 raise ValueError(
-                    f"Invalid character {value!r} at position {token_match.start() + 1}")
+                    f"Invalid character {value!r} at position {token_match.start() + 1}"
+                )
             
         tokens.append(Token("EOF", None))
         return tokens
