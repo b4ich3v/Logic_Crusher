@@ -1,4 +1,4 @@
-### **Полезни линкове**
+### **Useful links**
 
 1. https://bg.wikipedia.org/wiki/%D0%91%D1%83%D0%BB%D0%B5%D0%B2%D0%B0_%D0%B0%D0%BB%D0%B3%D0%B5%D0%B1%D1%80%D0%B0
 2. https://en.wikipedia.org/wiki/Quine%E2%80%93McCluskey_algorithm
