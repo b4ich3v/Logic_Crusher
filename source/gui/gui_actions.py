@@ -10,6 +10,7 @@ from boolean_logic.gate_parser import parse_minimized_expression, gate_ast_to_gr
 
 from . import gui_main
 
+
 def get_active_expression():
     """Return the text of the currently selected expression (1 or 2)."""
     if gui_main.active_expression.get() == 1:
