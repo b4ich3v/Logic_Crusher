@@ -8,6 +8,7 @@ from parser_lexer.parser import Parser
 from boolean_logic.boolean_functions import BooleanFunctionSet
 from boolean_logic.quine_mccluskey import quine_mccluskey
 
+
 class TestLexer(unittest.TestCase):
     def test_basic_tokens(self):
         expressions = [
