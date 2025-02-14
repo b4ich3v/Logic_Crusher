@@ -254,7 +254,7 @@ def open_sets_window():
                         subset.add(all_elements1[i])
                 power_set_a.add(frozenset(subset))
             
-            power_set_str_a = ', '.join(
+            power_set_str_a = ", ".join(
                 f"{{{', '.join(sorted(x))}}}" for x in power_set_a
             ) if power_set_a else "{}"
             
