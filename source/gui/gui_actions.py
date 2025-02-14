@@ -7,7 +7,6 @@ from boolean_logic.boolean_functions import BooleanFunction
 from boolean_logic.validator import Validator
 from boolean_logic.karnaugh import KarnaughMap
 from boolean_logic.gate_parser import parse_minimized_expression, gate_ast_to_graphviz
-
 from . import gui_main
 
 
