@@ -7,6 +7,7 @@ from PIL import Image, ImageTk
 from gui import constants as cn
 from . import gui_main
 
+
 def open_sets_window():
     """Open a new window for performing set operations and visualizations."""
     sets_window = tk.Toplevel(gui_main.root)
