@@ -1,0 +1,40 @@
+not_simplification ::=
+    NOT(NOT(x))  ->  x
+    NOT(True)    ->  False
+    NOT(False)   ->  True
+
+and_simplification ::=
+    AND(True,  y) -> y
+    AND(False, y) -> False
+    AND(x,  True) -> x
+    AND(x,  False)-> False
+    AND(x,  x)    -> x
+
+or_simplification ::=
+    OR(True,  y)  -> True
+    OR(False, y)  -> y
+    OR(x,  True)  -> True
+    OR(x,  False) -> x
+    OR(x,  x)     -> x
+
+xor_simplification ::=
+    XOR(False, y) -> y
+    XOR(True,  y) -> NOT(y)
+    XOR(x,  False)-> x
+    XOR(x,  True) -> NOT(x)
+    XOR(x,  x)    -> False
+
+imp_simplification ::=
+    (x -> y)       -> (NOT x) OR y
+
+eqv_simplification ::=
+    (x <-> y)      -> NOT( x XOR y )
+
+nand_simplification ::=
+    (x NAND y)     -> NOT( x AND y )
+
+nor_simplification ::=
+    (x NOR y)      -> NOT( x OR y )
+
+substitute_rule ::=
+    VariableNode(x) with known value v -> ConstNode(v)
