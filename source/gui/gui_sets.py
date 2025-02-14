@@ -255,7 +255,7 @@ def open_sets_window():
                 power_set_a.add(frozenset(subset))
             
             power_set_str_a = ", ".join(
-                f"{{{', '.join(sorted(x))}}}" for x in power_set_a
+                f"{{{", ".join(sorted(x))}}}" for x in power_set_a
             ) if power_set_a else "{}"
             
             all_elements2 = sorted(set2)
@@ -269,8 +269,8 @@ def open_sets_window():
                         subset.add(all_elements2[i])
                 power_set_b.add(frozenset(subset))
             
-            power_set_str_b = ', '.join(
-                f"{{{', '.join(sorted(x))}}}" for x in power_set_b
+            power_set_str_b = ", ".join(
+                f"{{{", ".join(sorted(x))}}}" for x in power_set_b
             ) if power_set_b else "{}"
             
             output = (f"Power Set for A:\n{power_set_str_a}\n\n"
