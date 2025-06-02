@@ -2,7 +2,7 @@ import re
 
 
 class Token:
-    ""
+    """
     A simple container for the type and value of a lexed token.
     For example: Token(AND, '&&') or Token(IDENTIFIER, 'A').
     """
